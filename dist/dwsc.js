@@ -2272,7 +2272,22 @@ let footer = dom.create("footer", {
             dom.create("div", {
               className: "nav-logo gradient-text",
               text: "DWSC",
-              styles: { fontSize: "1.3rem", marginBottom: "1rem" }
+              styles: { fontSize: "1.3rem", marginBottom: "1rem", cursor: "default", userSelect: "none" },
+              onClick: (() => {
+                let clicks = 0
+                let timer = null
+                return () => {
+                  clicks++
+                  if (clicks === 3) {
+                    clicks = 0
+                    clearTimeout(timer)
+                    window.location.hash = "portal"
+                  } else {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => { clicks = 0 }, 800)
+                  }
+                }
+              })()
             }),
             dom.create("p", {
               className: "footer-brand",
