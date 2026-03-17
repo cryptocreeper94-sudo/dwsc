@@ -776,44 +776,184 @@ let research_section = dom.create("section", {
 dom.mount(research_section, "#app")
 
 
-/// ─── ECOSYSTEM BENTO GRID ──────────────────────────────────
+/// ─── ECOSYSTEM (FOCUSED) ───────────────────────────────────
 
-let ecosystem_apps = [
-  { icon: "🛡️", name: "Trust Layer Hub", desc: "Central orchestration for the entire Trust Layer ecosystem. SSO, hallmarks, trust stamps, and cross-app authentication.", tag: "CORE", span: true },
-  { icon: "◈", name: "Lume IDE at TrustGen", desc: "Full Lume IDE embedded in TrustGen: REPL, Script Editor, Voice Direction with Adaptive Voice Profiles, Review Mode with human-in-the-loop approval, and Monaco Editor with lume syntax highlighting.", tag: "DEVELOPER", span: true },
-  { icon: "🔗", name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", tag: "COMMUNICATION" },
-  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D creation studio with cinematic pipeline, Lume English Mode scene direction, and blockchain provenance.", tag: "CREATIVE" },
-  { icon: "🔄", name: "Self-Healing Runtime", desc: "4-layer self-sustaining architecture: Monitor, Heal, Optimize, Evolve. The compiler that fixes itself — zero downtime, autonomous recovery.", tag: "CORE" },
-  { icon: "🎤", name: "Adaptive Voice Profiles", desc: "The compiler learns your dialect. Per-user filler word filtering, accent corrections, and vocabulary mapping. Confidence score increases with every session.", tag: "AI" },
-  { icon: "🎓", name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", tag: "EDUCATION" },
-  { icon: "💰", name: "TrustHome", desc: "Real estate agent super tool with blockchain-verified profiles, listings, and trust scores.", tag: "FINANCE", span: true },
-  { icon: "🏗️", name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", tag: "DEVELOPER" },
-  { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", tag: "GAMING" },
-  { icon: "🌿", name: "Verdara", desc: "AI-powered outdoor recreation super-app with species ID, trail explorer, and 170+ US locations.", tag: "OUTDOORS" },
-  { icon: "🎨", name: "PaintPros", desc: "Professional painting service management with AI estimation and scheduling.", tag: "SERVICE" }
-]
-
-let bento = dom.create("div", { className: "bento" })
-
-for each app in ecosystem_apps
-  let card = dom.create("div", {
-    className: "bento-card reveal" + (app.span ? " span-2" : ""),
-    children: [
-      dom.create("span", { className: "icon", text: app.icon }),
-      dom.create("h3", { text: app.name }),
-      dom.create("p", { text: app.desc }),
-      dom.create("span", { className: "tag", text: app.tag })
-    ]
-  })
-  dom.add_child(bento, card)
+dom.inject_css("
+  .eco-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .eco-stat {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  .eco-stat .eco-num {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 0.3rem;
+  }
+  .eco-stat .eco-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.06em;
+  }
+  .eco-flagships {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .eco-flagship {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+  }
+  .eco-flagship:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.25);
+  }
+  .eco-flagship .eco-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .eco-flagship h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .eco-flagship p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .eco-flagship .eco-tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    margin-top: 0.75rem;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+  }
+  .eco-cta-row {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .eco-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    border-radius: 2rem;
+    background: rgba(6, 182, 212, 0.06);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+  .eco-cta-link:hover {
+    background: rgba(6, 182, 212, 0.12);
+    border-color: rgba(6, 182, 212, 0.4);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 768px) {
+    .eco-stats { grid-template-columns: repeat(2, 1fr); }
+    .eco-flagships { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .eco-flagships { grid-template-columns: 1fr; }
+  }
+", "dwsc-eco-focused-styles")
 
 let ecosystem_section = dom.create("section", {
   id: "ecosystem",
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-    dom.create("p", { className: "section-desc reveal", text: "36 interconnected applications spanning communication, finance, gaming, education, automotive, health, and creative tools — all unified by Trust Layer SSO and powered by Lume." }),
-    bento
+    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 36+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
+
+    /// Stats row
+    dom.create("div", {
+      className: "eco-stats reveal",
+      children: [
+        dom.create("div", { className: "eco-stat", children: [
+          dom.create("div", { className: "eco-num gradient-text", text: "36+" }),
+          dom.create("div", { className: "eco-label", text: "Production Apps" })
+        ]}),
+        dom.create("div", { className: "eco-stat", children: [
+          dom.create("div", { className: "eco-num gradient-text", text: "8" }),
+          dom.create("div", { className: "eco-label", text: "Industry Verticals" })
+        ]}),
+        dom.create("div", { className: "eco-stat", children: [
+          dom.create("div", { className: "eco-num gradient-text", text: "1" }),
+          dom.create("div", { className: "eco-label", text: "Unified SSO" })
+        ]}),
+        dom.create("div", { className: "eco-stat", children: [
+          dom.create("div", { className: "eco-num gradient-text", text: "✦" }),
+          dom.create("div", { className: "eco-label", text: "Lume Powered" })
+        ]})
+      ]
+    }),
+
+    /// Flagship apps only
+    dom.create("div", {
+      className: "eco-flagships",
+      children: [
+        dom.create("div", { className: "eco-flagship reveal", children: [
+          dom.create("span", { className: "eco-icon", text: "🛡️" }),
+          dom.create("h3", { text: "Trust Layer Hub" }),
+          dom.create("p", { text: "Central SSO, hallmarks, and cross-app authentication." }),
+          dom.create("span", { className: "eco-tag", text: "CORE" })
+        ]}),
+        dom.create("div", { className: "eco-flagship reveal", children: [
+          dom.create("span", { className: "eco-icon", text: "◈" }),
+          dom.create("h3", { text: "TrustGen + Lume IDE" }),
+          dom.create("p", { text: "AI-powered 3D studio with built-in Lume editor and voice direction." }),
+          dom.create("span", { className: "eco-tag", text: "DEVELOPER" })
+        ]}),
+        dom.create("div", { className: "eco-flagship reveal", children: [
+          dom.create("span", { className: "eco-icon", text: "🔗" }),
+          dom.create("h3", { text: "Signal Chat" }),
+          dom.create("p", { text: "Real-time messaging with bot framework and WebSocket protocol." }),
+          dom.create("span", { className: "eco-tag", text: "COMMUNICATION" })
+        ]}),
+        dom.create("div", { className: "eco-flagship reveal", children: [
+          dom.create("span", { className: "eco-icon", text: "🏗️" }),
+          dom.create("h3", { text: "DarkWave Studio" }),
+          dom.create("p", { text: "Ecosystem IDE with Lume toolchain, debugging, and live preview." }),
+          dom.create("span", { className: "eco-tag", text: "DEVELOPER" })
+        ]})
+      ]
+    }),
+
+    /// CTA to full directory
+    dom.create("div", {
+      className: "eco-cta-row reveal",
+      children: [
+        dom.create("a", {
+          className: "eco-cta-link",
+          text: "View Full Ecosystem Directory →",
+          attrs: { href: "https://dwtl.io", target: "_blank" }
+        })
+      ]
+    })
   ]
 })
 dom.mount(ecosystem_section, "#app")
