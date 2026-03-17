@@ -410,6 +410,7 @@ const features_data = [
   { icon: "👁️", title: "Review Mode", desc: "Human-in-the-loop verification. The compiler explains its interpretation in plain English before emitting code. Trust through transparency." },
   { icon: "🎧", title: "Auditory Mode", desc: "Fully hands-free, eyes-free programming. Speak intent, hear compiler confirmation, confirm by voice. First PL usable with eyes closed." },
   { icon: "🔒", title: "Deterministic Resolution", desc: "lume-lock.json guarantees reproducible compilation of natural language input. Same input → same output, forever." },
+  { icon: "🧠", title: "Adaptive Voice Profiles", desc: "The compiler learns your dialect, colloquialisms, and accent patterns over time. Candidate mappings auto-promote after 5 consistent uses. The more you use Lume, the better it understands you." },
 ];
 
 let features_section = dom.create("section", { id: "features", children: [
