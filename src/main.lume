@@ -714,14 +714,17 @@ dom.mount(research_section, "#app")
 
 let ecosystem_apps = [
   { icon: "🛡️", name: "Trust Layer Hub", desc: "Central orchestration for the entire Trust Layer ecosystem. SSO, hallmarks, trust stamps, and cross-app authentication.", tag: "CORE", span: true },
+  { icon: "◈", name: "Lume IDE at TrustGen", desc: "Full Lume IDE embedded in TrustGen: REPL, Script Editor, Voice Direction with Adaptive Voice Profiles, Review Mode with human-in-the-loop approval, and Monaco Editor with lume syntax highlighting.", tag: "DEVELOPER", span: true },
   { icon: "🔗", name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", tag: "COMMUNICATION" },
-  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D asset generation with cinematic pipeline and blockchain provenance.", tag: "CREATIVE" },
+  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D creation studio with cinematic pipeline, Lume English Mode scene direction, and blockchain provenance.", tag: "CREATIVE" },
+  { icon: "🔄", name: "Self-Healing Runtime", desc: "4-layer self-sustaining architecture: Monitor, Heal, Optimize, Evolve. The compiler that fixes itself — zero downtime, autonomous recovery.", tag: "CORE" },
+  { icon: "🎤", name: "Adaptive Voice Profiles", desc: "The compiler learns your dialect. Per-user filler word filtering, accent corrections, and vocabulary mapping. Confidence score increases with every session.", tag: "AI" },
   { icon: "🎓", name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", tag: "EDUCATION" },
-  { icon: "💰", name: "TrustHome", desc: "Property management with trust-verified listings, smart contracts, and tenant scoring.", tag: "FINANCE", span: true },
+  { icon: "💰", name: "TrustHome", desc: "Real estate agent super tool with blockchain-verified profiles, listings, and trust scores.", tag: "FINANCE", span: true },
   { icon: "🏗️", name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", tag: "DEVELOPER" },
   { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", tag: "GAMING" },
-  { icon: "🌿", name: "Verdara", desc: "Smart agriculture platform with IoT integration and crop yield optimization.", tag: "AGRICULTURE" },
-  { icon: "🎨", name: "PaintPros", desc: "AI-assisted professional painting estimation with material calculation and scheduling.", tag: "SERVICE" }
+  { icon: "🌿", name: "Verdara", desc: "AI-powered outdoor recreation super-app with species ID, trail explorer, and 170+ US locations.", tag: "OUTDOORS" },
+  { icon: "🎨", name: "PaintPros", desc: "Professional painting service management with AI estimation and scheduling.", tag: "SERVICE" }
 ]
 
 let bento = dom.create("div", { className: "bento" })
@@ -743,7 +746,7 @@ let ecosystem_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-    dom.create("p", { className: "section-desc reveal", text: "Nine interconnected applications spanning communication, finance, gaming, education, and creative tools — all unified by Trust Layer SSO." }),
+    dom.create("p", { className: "section-desc reveal", text: "36 interconnected applications spanning communication, finance, gaming, education, automotive, health, and creative tools — all unified by Trust Layer SSO and powered by Lume." }),
     bento
   ]
 })
@@ -752,32 +755,163 @@ dom.mount(ecosystem_section, "#app")
 
 /// ─── PAPERS SECTION ────────────────────────────────────────
 
+dom.inject_css("
+  .paper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .paper-card {
+    position: relative;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--teal), var(--purple));
+    opacity: 0.7;
+  }
+  .paper-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(6, 182, 212, 0.25);
+    box-shadow: 0 16px 48px rgba(6, 182, 212, 0.08), var(--glass-shadow);
+  }
+  .paper-card .paper-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .paper-card .paper-type .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  .paper-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  .paper-card .paper-abstract {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .paper-card .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .paper-card .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+  }
+  .paper-card .paper-file {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .paper-card .paper-file:hover {
+    color: var(--cyan);
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .paper-card .paper-file .file-icon {
+    font-size: 1rem;
+  }
+  @media (max-width: 768px) {
+    .paper-grid { grid-template-columns: 1fr; }
+  }
+", "dwsc-papers-styles")
+
 let papers_section = dom.create("section", {
   id: "papers",
   children: [
     dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
-    dom.create("p", { className: "section-desc reveal", text: "Comprehensive research publications on Lume's theoretical foundations, security model, and experimental methodology." }),
+    dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable research publications on Lume's theoretical foundations, security model, cognitive distance framework, and experimental methodology." }),
     dom.create("div", {
-      className: "bento",
-      styles: { gridTemplateColumns: "1fr 1fr" },
+      className: "paper-grid",
       children: [
         dom.create("div", {
-          className: "bento-card reveal",
+          className: "paper-card reveal",
           children: [
-            dom.create("span", { className: "icon", text: "📄" }),
-            dom.create("h3", { text: "Full Academic Paper" }),
-            dom.create("p", { text: "LUME: Eliminating Cognitive Distance — An AI-Native Programming Language with Natural Language Compilation, Voice Input, and Certified Security. 15 sections, 1500+ lines." }),
-            dom.create("span", { className: "tag", text: "LUME-ACADEMIC-PAPER.md" })
+            dom.create("div", { className: "paper-type", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Full Paper" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Eliminating Cognitive Distance" }),
+            dom.create("p", { className: "paper-abstract", text: "An AI-Native Programming Language with Natural Language Compilation, Voice Input, and Certified Security. The complete theoretical framework, 7-layer Tolerance Chain specification, Guardian security model, and experimental evaluation plan." }),
+            dom.create("div", { className: "paper-meta", children: [
+              dom.create("span", { className: "meta-pill", text: "15 Sections" }),
+              dom.create("span", { className: "meta-pill", text: "1,500+ Lines" }),
+              dom.create("span", { className: "meta-pill", text: "86,000+ Words" }),
+              dom.create("span", { className: "meta-pill", text: "CHI / PLDI Target" })
+            ]}),
+            dom.create("div", { className: "paper-file", children: [
+              dom.create("span", { className: "file-icon", text: "📄" }),
+              dom.create("span", { text: "LUME-ACADEMIC-PAPER.md" })
+            ]})
           ]
         }),
         dom.create("div", {
-          className: "bento-card reveal",
+          className: "paper-card reveal",
           children: [
-            dom.create("span", { className: "icon", text: "📋" }),
-            dom.create("h3", { text: "Technical Brief" }),
-            dom.create("p", { text: "Complete technical blueprint for paper co-authorship. All code examples, formulas, tables, and experimental designs. The source of truth." }),
-            dom.create("span", { className: "tag", text: "LUME_ACADEMIC_BRIEF.md" })
+            dom.create("div", { className: "paper-type", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Technical Brief" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Complete Technical Blueprint" }),
+            dom.create("p", { className: "paper-abstract", text: "Source-of-truth blueprint for paper co-authorship. All code examples, mathematical formulas, CD scoring tables, experimental designs, and the full specification of Adaptive Voice Profiles and the TrustGen domain compiler." }),
+            dom.create("div", { className: "paper-meta", children: [
+              dom.create("span", { className: "meta-pill", text: "16 Subsections" }),
+              dom.create("span", { className: "meta-pill", text: "1,200+ Lines" }),
+              dom.create("span", { className: "meta-pill", text: "69,000+ Words" }),
+              dom.create("span", { className: "meta-pill", text: "§8.16 TrustGen" })
+            ]}),
+            dom.create("div", { className: "paper-file", children: [
+              dom.create("span", { className: "file-icon", text: "📋" }),
+              dom.create("span", { text: "LUME_ACADEMIC_BRIEF.md" })
+            ]})
           ]
         })
       ]
@@ -821,9 +955,9 @@ let footer = dom.create("footer", {
           children: [
             dom.create("h4", { text: "Ecosystem" }),
             dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
-            dom.create("a", { text: "Signal Chat", attrs: { href: "#" } }),
-            dom.create("a", { text: "TrustGen 3D", attrs: { href: "#" } }),
-            dom.create("a", { text: "DarkWave Academy", attrs: { href: "#" } })
+            dom.create("a", { text: "TrustGen 3D + Lume IDE", attrs: { href: "https://trustgen.tlid.io" } }),
+            dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io" } }),
+            dom.create("a", { text: "Trust Hub", attrs: { href: "https://trusthub.tlid.io" } })
           ]
         }),
         dom.create("div", {
@@ -838,7 +972,7 @@ let footer = dom.create("footer", {
     }),
     dom.create("div", {
       className: "footer-bottom",
-      html: "© 2025 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC"
+      html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:var(--cyan);text-decoration:none'>Try Lume IDE →</a>"
     })
   ]
 })
