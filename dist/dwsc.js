@@ -617,33 +617,53 @@ dom.mount(ecosystem_section, "#app");
 
 
 // ─── PAPERS SECTION ───
+dom.inject_css(`
+  .paper-card { position: relative; overflow: hidden; cursor: pointer; }
+  .paper-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--teal), var(--purple)); opacity: 0.7; }
+  .paper-card:hover { transform: translateY(-6px); border-color: rgba(6, 182, 212, 0.25); box-shadow: 0 16px 48px rgba(6, 182, 212, 0.08), var(--glass-shadow); }
+  .paper-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .meta-pill { display: inline-flex; padding: 0.25rem 0.7rem; border-radius: 2rem; font-family: var(--font-mono); font-size: 0.7rem; background: rgba(6, 182, 212, 0.08); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.15); }
+`, "dwsc-papers");
+
 let papers_section = dom.create("section", { id: "papers", children: [
   dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
   dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
-  dom.create("p", { className: "section-desc reveal", text: "Comprehensive research publications on Lume's theoretical foundations, security model, and experimental methodology." }),
+  dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable research publications on Lume's theoretical foundations, security model, cognitive distance framework, and experimental methodology." }),
   dom.create("div", { className: "bento", styles: { gridTemplateColumns: "1fr 1fr 1fr" }, children: [
-    dom.create("div", { className: "bento-card reveal", children: [
+    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/Trust-Layer-Hub/blob/main/LUME-ACADEMIC-PAPER.md", "_blank"), children: [
       dom.create("div", { className: "card-body", children: [
         dom.create("span", { className: "icon", text: "📄" }),
-        dom.create("h3", { text: "Full Academic Paper" }),
+        dom.create("h3", { className: "gradient-text", text: "Full Academic Paper" }),
         dom.create("p", { text: "LUME: Eliminating Cognitive Distance — comprehensive technical paper. 15 sections, 1500+ lines." }),
-        dom.create("span", { className: "tag", text: "LUME-ACADEMIC-PAPER.md" }),
+        dom.create("div", { className: "paper-meta", children: [
+          dom.create("span", { className: "meta-pill", text: "15 Sections" }),
+          dom.create("span", { className: "meta-pill", text: "1,500+ Lines" }),
+          dom.create("span", { className: "meta-pill", text: "CHI / PLDI" }),
+        ]}),
       ]}),
     ]}),
-    dom.create("div", { className: "bento-card reveal", children: [
+    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/lume/blob/main/LUME-CHI-PAPER.md", "_blank"), children: [
       dom.create("div", { className: "card-body", children: [
         dom.create("span", { className: "icon", text: "🧠" }),
-        dom.create("h3", { text: "CHI Paper" }),
+        dom.create("h3", { className: "gradient-text", text: "CHI Paper" }),
         dom.create("p", { text: "Human-centered framing for CHI proceedings. Cognitive distance, accessibility, NASA-TLX evaluation." }),
-        dom.create("span", { className: "tag", text: "LUME-CHI-PAPER.md" }),
+        dom.create("div", { className: "paper-meta", children: [
+          dom.create("span", { className: "meta-pill", text: "12 Sections" }),
+          dom.create("span", { className: "meta-pill", text: "500+ Lines" }),
+          dom.create("span", { className: "meta-pill", text: "ACM CHI" }),
+        ]}),
       ]}),
     ]}),
-    dom.create("div", { className: "bento-card reveal", children: [
+    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/lume/blob/main/LUME_ACADEMIC_BRIEF.md", "_blank"), children: [
       dom.create("div", { className: "card-body", children: [
         dom.create("span", { className: "icon", text: "📋" }),
-        dom.create("h3", { text: "Technical Brief" }),
-        dom.create("p", { text: "Complete technical blueprint for academic co-authorship. All code examples, formulas, and experimental designs." }),
-        dom.create("span", { className: "tag", text: "LUME_ACADEMIC_BRIEF.md" }),
+        dom.create("h3", { className: "gradient-text", text: "Technical Brief" }),
+        dom.create("p", { text: "Complete technical blueprint. All code examples, formulas, experimental designs, and §8.16 TrustGen domain compiler." }),
+        dom.create("div", { className: "paper-meta", children: [
+          dom.create("span", { className: "meta-pill", text: "16 Subsections" }),
+          dom.create("span", { className: "meta-pill", text: "1,200+ Lines" }),
+          dom.create("span", { className: "meta-pill", text: "§8.16 TrustGen" }),
+        ]}),
       ]}),
     ]}),
   ]}),
@@ -660,18 +680,18 @@ let footer = dom.create("footer", { className: "footer", children: [
     ]}),
     dom.create("div", { children: [
       dom.create("h4", { text: "Language" }),
-      dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com" } }),
-      dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground" } }),
-      dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org" } }),
-      dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume" } }),
+      dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com", target: "_blank" } }),
+      dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground", target: "_blank" } }),
+      dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org", target: "_blank" } }),
+      dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume", target: "_blank" } }),
     ]}),
     dom.create("div", { children: [
       dom.create("h4", { text: "Ecosystem" }),
-      dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
-      dom.create("a", { text: "Signal Chat", attrs: { href: "https://signalchat.tlid.io" } }),
-      dom.create("a", { text: "TrustGen 3D", attrs: { href: "https://trustgen.tlid.io" } }),
-      dom.create("a", { text: "DarkWave Academy", attrs: { href: "https://academy.tlid.io" } }),
-      dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io" } }),
+      dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io", target: "_blank" } }),
+      dom.create("a", { text: "TrustGen 3D + Lume IDE", attrs: { href: "https://trustgen.tlid.io", target: "_blank" } }),
+      dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io", target: "_blank" } }),
+      dom.create("a", { text: "Trust Hub", attrs: { href: "https://trusthub.tlid.io", target: "_blank" } }),
+      dom.create("a", { text: "Signal Chat", attrs: { href: "https://signalchat.tlid.io", target: "_blank" } }),
     ]}),
     dom.create("div", { children: [
       dom.create("h4", { text: "Legal" }),
@@ -680,7 +700,7 @@ let footer = dom.create("footer", { className: "footer", children: [
       dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } }),
     ]}),
   ]}),
-  dom.create("div", { className: "footer-bottom", html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:#06b6d4;text-decoration:none'>Try Lume IDE →</a>" }),
+  dom.create("div", { className: "footer-bottom", html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:#06b6d4;text-decoration:none' target='_blank'>Try Lume IDE →</a>" }),
 ]});
 dom.mount(footer, "#app");
 
