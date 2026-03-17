@@ -233,6 +233,50 @@ dom.inject_css(`
   .carousel-dot { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
   .carousel-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); transition: all 0.3s ease; }
   .carousel-dot.active::before { background: var(--cyan); box-shadow: 0 0 12px rgba(6, 182, 212, 0.5); width: 24px; border-radius: 4px; }
+  .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 2rem; }
+  .feature-card {
+    padding: 1.75rem; border-radius: 1rem; background: var(--glass-bg);
+    backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .feature-card:hover { transform: translateY(-3px); border-color: rgba(6, 182, 212, 0.2); }
+  .feature-card .feat-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+  .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .feature-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+  .cat-section { margin-bottom: 3rem; }
+  .cat-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .cat-header h3 { font-size: 1.3rem; font-weight: 700; }
+  .cat-header .cat-count { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); padding: 0.15rem 0.5rem; border-radius: 1rem; }
+  .cat-scroll-wrapper { position: relative; }
+  .cat-scroll {
+    display: flex; gap: 1.25rem; overflow-x: auto; scroll-behavior: smooth;
+    padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--cyan) transparent;
+  }
+  .cat-scroll::-webkit-scrollbar { height: 4px; }
+  .cat-scroll::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+  .cat-scroll::-webkit-scrollbar-track { background: transparent; }
+  .scroll-card {
+    min-width: 280px; max-width: 280px; flex-shrink: 0;
+    border-radius: 1rem; background: var(--glass-bg);
+    backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+    overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .scroll-card:hover { transform: translateY(-4px); border-color: rgba(6, 182, 212, 0.2); }
+  .scroll-card .card-img { height: 140px; }
+  .scroll-card .card-body { padding: 1.25rem; }
+  .scroll-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .scroll-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.75rem; }
+  .scroll-card .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 0.25rem; font-family: var(--font-mono); font-size: 0.65rem; background: rgba(6,182,212,0.1); color: var(--cyan); border: 1px solid rgba(6,182,212,0.2); }
+  .scroll-btn {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border);
+    background: rgba(6,6,10,0.9); color: var(--cyan); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    transition: background 0.2s; backdrop-filter: blur(10px);
+  }
+  .scroll-btn:hover { background: rgba(6,182,212,0.15); }
+  .scroll-btn.left { left: -12px; }
+  .scroll-btn.right { right: -12px; }
   .footer { background: var(--deep); border-top: 1px solid var(--glass-border); padding: 4rem 2rem 2rem; margin-top: 4rem; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto; }
   .footer h4 { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 1rem; }
@@ -244,6 +288,7 @@ dom.inject_css(`
     .bento { grid-template-columns: repeat(2, 1fr); }
     .bento-card.span-2 { grid-column: span 1; }
     .stats { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
@@ -256,8 +301,10 @@ dom.inject_css(`
   @media (max-width: 480px) {
     .bento { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 2rem; }
     .carousel-slide { padding: 2rem 1.5rem; }
+    .scroll-card { min-width: 240px; max-width: 240px; }
   }
 `, "dwsc-styles");
 
@@ -294,10 +341,10 @@ let nav = dom.create("nav", {
     dom.create("div", { className: "nav-logo gradient-text", text: "DWSC" }),
     dom.create("ul", { className: "nav-links", children: [
       dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
+      dom.create("li", { children: [dom.create("a", { text: "Features", attrs: { href: "#features" } })] }),
       dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
       dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
       dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
-      dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] }),
     ]}),
     hamburger
   ]
@@ -307,10 +354,10 @@ dom.mount(nav);
 const closeMobile = () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "☰"; };
 let mobile_menu = dom.create("div", { className: "mobile-menu", children: [
   dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: closeMobile }),
+  dom.create("a", { text: "Features", attrs: { href: "#features" }, onClick: closeMobile }),
   dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: closeMobile }),
   dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: closeMobile }),
   dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: closeMobile }),
-  dom.create("a", { text: "Contact", attrs: { href: "#contact" }, onClick: closeMobile }),
 ]});
 dom.mount(mobile_menu);
 
@@ -331,9 +378,9 @@ dom.mount(hero, "#app");
 // ─── STATS ───
 let stats_section = dom.create("section", { children: [
   dom.create("div", { className: "stats", children: [
+    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "36" }), dom.create("div", { className: "label", text: "Ecosystem Apps" }) ]}),
     dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "7" }), dom.create("div", { className: "label", text: "Tolerance Layers" }) ]}),
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "2,000+" }), dom.create("div", { className: "label", text: "Tests Passing" }) ]}),
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "3" }), dom.create("div", { className: "label", text: "Security Layers" }) ]}),
+    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "4" }), dom.create("div", { className: "label", text: "Self-Healing Layers" }) ]}),
     dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "0" }), dom.create("div", { className: "label", text: "CD Target Score" }) ]}),
   ]})
 ]});
@@ -353,14 +400,45 @@ let lume_section = dom.create("section", { id: "lume", children: [
 dom.mount(lume_section, "#app");
 
 
+// ─── KEY FEATURES ───
+const features_data = [
+  { icon: "🧬", title: "Self-Healing Runtime", desc: "4-layer architecture: Self-Monitoring → Self-Healing → Self-Optimizing → Self-Evolving. Circuit breakers, exponential backoff, fallback chains, and auto-rollback." },
+  { icon: "🎯", title: "Cognitive Distance = 0", desc: "Formal 6-dimension metric proving Lume eliminates the gap between human intent and code. Think it, type it, compile it." },
+  { icon: "🗣️", title: "Voice-to-Code", desc: "Speak your intent, compile from voice. The Tolerance Chain already handles imprecise input — voice is architecturally natural." },
+  { icon: "🔐", title: "Certified-at-Birth", desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. Tamper-evident, cryptographically provable integrity." },
+  { icon: "🔗", title: "7-Layer Tolerance Chain", desc: "Exact match → Fuzzy → Auto-correct → Context → Temporal → i18n → AI fallback. Absorbs human imprecision at the compiler level." },
+  { icon: "👁️", title: "Review Mode", desc: "Human-in-the-loop verification. The compiler explains its interpretation in plain English before emitting code. Trust through transparency." },
+  { icon: "🎧", title: "Auditory Mode", desc: "Fully hands-free, eyes-free programming. Speak intent, hear compiler confirmation, confirm by voice. First PL usable with eyes closed." },
+  { icon: "🔒", title: "Deterministic Resolution", desc: "lume-lock.json guarantees reproducible compilation of natural language input. Same input → same output, forever." },
+];
+
+let features_section = dom.create("section", { id: "features", children: [
+  dom.create("div", { className: "section-label reveal", text: "// CAPABILITIES" }),
+  dom.create("h2", { className: "section-title gradient-text reveal", text: "Key Features" }),
+  dom.create("p", { className: "section-desc reveal", text: "A self-healing, self-evolving language runtime with zero cognitive distance. Every feature is an architectural consequence, not a bolt-on." }),
+]});
+
+let feat_grid = dom.create("div", { className: "features-grid" });
+for (const f of features_data) {
+  let card = dom.create("div", { className: "feature-card reveal", children: [
+    dom.create("span", { className: "feat-icon", text: f.icon }),
+    dom.create("h4", { text: f.title }),
+    dom.create("p", { text: f.desc }),
+  ]});
+  dom.add_child(feat_grid, card);
+}
+dom.add_child(features_section, feat_grid);
+dom.mount(features_section, "#app");
+
+
 // ─── RESEARCH CAROUSEL ───
 let current_slide = state.reactive(0);
 const slide_count = 3;
 
 const slides_data = [
   { title: "Cognitive Distance Theory", desc: "A formal mathematical framework proving that programming difficulty is proportional to the gap between human intent and machine syntax. Lume's CD score approaches zero.", badge: "§8.1 — Theoretical Contribution" },
-  { title: "Certified-at-Birth Security", desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. The Semantic Invariant Test ensures intent-to-execution integrity is cryptographically provable.", badge: "§8.13 — Three-Layer Security" },
-  { title: "Auditory Mode", desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.", badge: "§8.14 — Accessibility as Architecture" },
+  { title: "Self-Healing Runtime Architecture", desc: "Four-layer self-sustaining runtime: Self-Monitoring with configurable alerts, Self-Healing with circuit breakers and fallback chains, Self-Optimizing with rollback, and Self-Evolving with pattern learning.", badge: "§11 — Runtime Architecture" },
+  { title: "Auditory Mode & Accessibility", desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.", badge: "§8.14 — Accessibility as Architecture" },
 ];
 
 let track = dom.create("div", { className: "carousel-track" });
@@ -413,43 +491,111 @@ let research_section = dom.create("section", { id: "research", children: [
 dom.mount(research_section, "#app");
 
 
-// ─── ECOSYSTEM BENTO GRID ───
-const ecosystem_apps = [
-  { icon: "🛡️", name: "Trust Layer Hub", desc: "Central orchestration for the entire Trust Layer ecosystem. SSO, hallmarks, trust stamps, and cross-app authentication.", tag: "CORE", span: true, img: "images/trust-layer-hub.png" },
-  { icon: "🔗", name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", tag: "COMMUNICATION", img: "images/signal-chat.png" },
-  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D asset generation with cinematic pipeline and blockchain provenance.", tag: "CREATIVE", img: "images/trustgen-3d.png" },
-  { icon: "🎓", name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", tag: "EDUCATION", img: "images/darkwave-academy.png" },
-  { icon: "💰", name: "TrustHome", desc: "Property management with trust-verified listings, smart contracts, and tenant scoring.", tag: "FINANCE", span: true, img: "images/trusthome.png" },
-  { icon: "🏗️", name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", tag: "DEVELOPER", img: "images/darkwave-studio.png" },
-  { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", tag: "GAMING", img: "images/bomber-3d.png" },
-  { icon: "🌿", name: "Verdara", desc: "Smart agriculture platform with IoT integration and crop yield optimization.", tag: "AGRICULTURE", img: "images/verdara.png" },
-  { icon: "🎨", name: "PaintPros", desc: "AI-assisted professional painting estimation with material calculation and scheduling.", tag: "SERVICE", img: "images/paintpros.png" },
+// ─── ECOSYSTEM — CATEGORIZED CAROUSELS ───
+const categories = [
+  { icon: "🔐", name: "Core Infrastructure", apps: [
+    { name: "Trust Layer", desc: "SSO & core authentication infrastructure. The identity backbone of the entire ecosystem.", img: "images/trust-layer-hub.png", url: "https://dwtl.io" },
+    { name: "TLID.io", desc: "Main infrastructure hub. All ecosystem subdomains route through this base.", img: "images/tlid-io.png", url: "https://tlid.io" },
+    { name: "Trust Hub", desc: "Ecosystem management dashboard. Monitor, configure, and orchestrate all connected apps.", img: "images/trust-hub.png", url: "https://trusthub.tlid.io" },
+    { name: "TrustVault", desc: "Encrypted secure storage with blockchain-backed provenance and access control.", img: "images/trust-vault.png", url: "https://trustvault.tlid.io" },
+    { name: "Guardian Shield", desc: "Security monitoring and threat detection. Real-time protection across the ecosystem.", img: "images/guardian-shield.png", url: "https://trustshield.tech" },
+  ]},
+  { icon: "💻", name: "Developer Tools", apps: [
+    { name: "Lume", desc: "AI-native programming language. Write in English, compile with voice, ship certified.", img: "images/lume-compiler.png", url: "https://lume-lang.com" },
+    { name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", img: "images/darkwave-studio.png", url: "https://studio.tlid.io" },
+    { name: "Guardian Scanner", desc: "AST-level security scanner. Detects vulnerabilities at the abstract syntax tree layer.", img: "images/guardian-scanner.png", url: "https://guardianscanner.tlid.io" },
+    { name: "Guardian Screener", desc: "Identity verification and trust profile screening for ecosystem participants.", img: "images/guardian-screener.png", url: "https://guardianscreener.tlid.io" },
+  ]},
+  { icon: "💬", name: "Communication & Social", apps: [
+    { name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", img: "images/signal-chat.png", url: "https://signalchat.tlid.io" },
+    { name: "Trust Book", desc: "Social platform for verified ecosystem profiles, connections, and trust-scored interactions.", img: "images/trust-book.png", url: "https://trustbook.tlid.io" },
+    { name: "Pulse", desc: "Real-time ecosystem activity feed and analytics dashboard.", img: "images/pulse.png", url: "https://darkwavepulse.com" },
+  ]},
+  { icon: "🎮", name: "Gaming & Entertainment", apps: [
+    { name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", img: "images/bomber-3d.png", url: "https://bomber.tlid.io" },
+    { name: "The Arcade", desc: "Multi-game arcade platform. Classic and modern games in the Trust Layer ecosystem.", img: "images/the-arcade.png", url: "https://darkwavegames.io" },
+    { name: "THE VOID", desc: "Immersive dark experience. Abstract, atmospheric, and mysterious.", img: "images/the-void.png", url: "https://intothevoid.app" },
+    { name: "Trust Golf", desc: "Premium golf platform with trust-verified scoring and competitive play.", img: "images/trust-golf.png", url: "https://trustgolf.app" },
+  ]},
+  { icon: "🎨", name: "Creative & Media", apps: [
+    { name: "TrustGen 3D", desc: "AI-powered 3D asset generation with cinematic pipeline and blockchain provenance.", img: "images/trustgen-3d.png", url: "https://trustgen.tlid.io" },
+    { name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", img: "images/darkwave-academy.png", url: "https://academy.tlid.io" },
+    { name: "Chronicles", desc: "Your legacy, preserved. Family heritage and generational storytelling platform.", img: "images/chronicles.png", url: "https://yourlegacy.io" },
+  ]},
+  { icon: "🏢", name: "Business & Professional", apps: [
+    { name: "PaintPros", desc: "AI-assisted professional painting estimation with material calculation and scheduling.", img: "images/paintpros.png", url: "https://paintpros.io" },
+    { name: "Nashville Painting", desc: "Nashville's premier painting professionals. Residential and commercial services.", img: "images/nashville-painting.png", url: "https://nashpaintpros.io" },
+    { name: "TradeWorks AI", desc: "AI-powered trading analysis and financial insights platform.", img: "images/tradeworks-ai.png", url: "https://tradeworksai.io" },
+    { name: "ORBIT Staffing", desc: "Next-gen staffing OS. Workforce management with AI-driven placement.", img: "images/orbit-staffing.png", url: "https://orbitstaffing.io" },
+    { name: "StrikeAgent", desc: "AI agent for task automation and intelligent workflow orchestration.", img: "images/strike-agent.png", url: "https://strikeagent.io" },
+    { name: "Lot Ops Pro", desc: "Auto dealership lot management. Inventory tracking, pricing, and operations.", img: "images/lot-ops-pro.png", url: "https://lotopspro.io" },
+    { name: "TORQUE", desc: "Automotive performance and diagnostics platform.", img: "images/torque.png", url: "https://torque.tlid.io" },
+  ]},
+  { icon: "🏠", name: "Home & Transport", apps: [
+    { name: "TrustHome", desc: "Property management with trust-verified listings, smart contracts, and tenant scoring.", img: "images/trusthome.png", url: "https://trusthome.tlid.io" },
+    { name: "TL Driver Connect", desc: "Connected vehicle platform. Driver profiles, fleet management, trip tracking.", img: "images/tl-driver-connect.png", url: "https://tldriverconnect.com" },
+  ]},
+  { icon: "🍽️", name: "Food & Lifestyle", apps: [
+    { name: "Happy Eats", desc: "Gourmet food discovery and delivery with trust-verified restaurant ratings.", img: "images/happy-eats.png", url: "https://happyeats.app" },
+    { name: "Brew & Board", desc: "Artisan craft coffee and board game café platform.", img: "images/brew-board.png", url: "https://brewandboard.coffee" },
+    { name: "Arbora", desc: "Digital growth and wellbeing platform rooted in nature-inspired design.", img: "images/arbora.png", url: "https://arbora.tlid.io" },
+    { name: "VedaSolus", desc: "Holistic wellness and mindfulness platform with data-driven insights.", img: "images/vedasolus.png", url: "https://vedasolus.io" },
+  ]},
+  { icon: "🤖", name: "AI & Automation", apps: [
+    { name: "Orby Commander", desc: "AI orb assistant with voice command interface and task delegation.", img: "images/orby-commander.png", url: "https://getorby.io" },
+    { name: "GarageBot", desc: "AI-powered automotive diagnostics and repair assistance.", img: "images/garagebot.png", url: "https://garagebot.io" },
+    { name: "Verdara", desc: "Smart agriculture platform with IoT integration and crop yield optimization.", img: "images/verdara.png", url: "https://verdara.tlid.io" },
+  ]},
+  { icon: "🔬", name: "Research & Engineering", apps: [
+    { name: "DWSC", desc: "DarkWave Systems Collective. This site — the R&D portal for the Trust Layer ecosystem.", img: "images/dwsc.png", url: "https://dwsc.io" },
+  ]},
 ];
-
-let bento = dom.create("div", { className: "bento" });
-
-for (const app of ecosystem_apps) {
-  let card = dom.create("div", {
-    className: "bento-card reveal" + (app.span ? " span-2" : ""),
-    children: [
-      dom.create("img", { className: "card-img", attrs: { src: app.img, alt: app.name, loading: "lazy" } }),
-      dom.create("div", { className: "card-body", children: [
-        dom.create("span", { className: "icon", text: app.icon }),
-        dom.create("h3", { text: app.name }),
-        dom.create("p", { text: app.desc }),
-        dom.create("span", { className: "tag", text: app.tag }),
-      ]}),
-    ]
-  });
-  dom.add_child(bento, card);
-}
 
 let ecosystem_section = dom.create("section", { id: "ecosystem", children: [
   dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
   dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-  dom.create("p", { className: "section-desc reveal", text: "Nine interconnected applications spanning communication, finance, gaming, education, and creative tools — all unified by Trust Layer SSO." }),
-  bento,
+  dom.create("p", { className: "section-desc reveal", text: "36 interconnected applications spanning infrastructure, developer tools, gaming, creative, business, and lifestyle — all unified by Trust Layer SSO." }),
 ]});
+
+for (const cat of categories) {
+  let cat_div = dom.create("div", { className: "cat-section reveal" });
+
+  let header = dom.create("div", { className: "cat-header", children: [
+    dom.create("span", { text: cat.icon, styles: { fontSize: "1.5rem" } }),
+    dom.create("h3", { text: cat.name }),
+    dom.create("span", { className: "cat-count", text: cat.apps.length + " apps" }),
+  ]});
+  dom.add_child(cat_div, header);
+
+  let scroll_wrapper = dom.create("div", { className: "cat-scroll-wrapper" });
+  let scroll_track = dom.create("div", { className: "cat-scroll" });
+
+  for (const app of cat.apps) {
+    let card = dom.create("div", { className: "scroll-card", children: [
+      dom.create("img", { className: "card-img", attrs: { src: app.img, alt: app.name, loading: "lazy" } }),
+      dom.create("div", { className: "card-body", children: [
+        dom.create("h4", { text: app.name }),
+        dom.create("p", { text: app.desc }),
+        dom.create("a", { className: "tag", text: app.url.replace("https://",""), attrs: { href: app.url, target: "_blank", rel: "noopener" }, styles: { textDecoration: "none" } }),
+      ]}),
+    ]});
+    dom.add_child(scroll_track, card);
+  }
+
+  dom.add_child(scroll_wrapper, scroll_track);
+
+  // Arrow buttons
+  if (cat.apps.length > 3) {
+    let btnL = dom.create("button", { className: "scroll-btn left", text: "‹", onClick: () => { scroll_track.scrollBy({ left: -300, behavior: "smooth" }); } });
+    let btnR = dom.create("button", { className: "scroll-btn right", text: "›", onClick: () => { scroll_track.scrollBy({ left: 300, behavior: "smooth" }); } });
+    dom.add_child(scroll_wrapper, btnL);
+    dom.add_child(scroll_wrapper, btnR);
+  }
+
+  dom.add_child(cat_div, scroll_wrapper);
+  dom.add_child(ecosystem_section, cat_div);
+}
+
 dom.mount(ecosystem_section, "#app");
 
 
@@ -458,18 +604,30 @@ let papers_section = dom.create("section", { id: "papers", children: [
   dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
   dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
   dom.create("p", { className: "section-desc reveal", text: "Comprehensive research publications on Lume's theoretical foundations, security model, and experimental methodology." }),
-  dom.create("div", { className: "bento", styles: { gridTemplateColumns: "1fr 1fr" }, children: [
+  dom.create("div", { className: "bento", styles: { gridTemplateColumns: "1fr 1fr 1fr" }, children: [
     dom.create("div", { className: "bento-card reveal", children: [
-      dom.create("span", { className: "icon", text: "📄" }),
-      dom.create("h3", { text: "Full Academic Paper" }),
-      dom.create("p", { text: "LUME: Eliminating Cognitive Distance — An AI-Native Programming Language with Natural Language Compilation, Voice Input, and Certified Security. 15 sections, 1500+ lines." }),
-      dom.create("span", { className: "tag", text: "LUME-ACADEMIC-PAPER.md" }),
+      dom.create("div", { className: "card-body", children: [
+        dom.create("span", { className: "icon", text: "📄" }),
+        dom.create("h3", { text: "Full Academic Paper" }),
+        dom.create("p", { text: "LUME: Eliminating Cognitive Distance — comprehensive technical paper. 15 sections, 1500+ lines." }),
+        dom.create("span", { className: "tag", text: "LUME-ACADEMIC-PAPER.md" }),
+      ]}),
     ]}),
     dom.create("div", { className: "bento-card reveal", children: [
-      dom.create("span", { className: "icon", text: "📋" }),
-      dom.create("h3", { text: "Technical Brief" }),
-      dom.create("p", { text: "Complete technical blueprint for paper co-authorship. All code examples, formulas, tables, and experimental designs. The source of truth." }),
-      dom.create("span", { className: "tag", text: "LUME_ACADEMIC_BRIEF.md" }),
+      dom.create("div", { className: "card-body", children: [
+        dom.create("span", { className: "icon", text: "🧠" }),
+        dom.create("h3", { text: "CHI Paper" }),
+        dom.create("p", { text: "Human-centered framing for CHI proceedings. Cognitive distance, accessibility, NASA-TLX evaluation." }),
+        dom.create("span", { className: "tag", text: "LUME-CHI-PAPER.md" }),
+      ]}),
+    ]}),
+    dom.create("div", { className: "bento-card reveal", children: [
+      dom.create("div", { className: "card-body", children: [
+        dom.create("span", { className: "icon", text: "📋" }),
+        dom.create("h3", { text: "Technical Brief" }),
+        dom.create("p", { text: "Complete technical blueprint for academic co-authorship. All code examples, formulas, and experimental designs." }),
+        dom.create("span", { className: "tag", text: "LUME_ACADEMIC_BRIEF.md" }),
+      ]}),
     ]}),
   ]}),
 ]});
@@ -481,7 +639,7 @@ let footer = dom.create("footer", { className: "footer", children: [
   dom.create("div", { className: "footer-grid", children: [
     dom.create("div", { children: [
       dom.create("div", { className: "nav-logo gradient-text", text: "DWSC", styles: { fontSize: "1.3rem", marginBottom: "1rem" } }),
-      dom.create("p", { className: "footer-brand", text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem." }),
+      dom.create("p", { className: "footer-brand", text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem. 36 apps, one vision." }),
     ]}),
     dom.create("div", { children: [
       dom.create("h4", { text: "Language" }),
@@ -493,9 +651,10 @@ let footer = dom.create("footer", { className: "footer", children: [
     dom.create("div", { children: [
       dom.create("h4", { text: "Ecosystem" }),
       dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
-      dom.create("a", { text: "Signal Chat", attrs: { href: "#" } }),
-      dom.create("a", { text: "TrustGen 3D", attrs: { href: "#" } }),
-      dom.create("a", { text: "DarkWave Academy", attrs: { href: "#" } }),
+      dom.create("a", { text: "Signal Chat", attrs: { href: "https://signalchat.tlid.io" } }),
+      dom.create("a", { text: "TrustGen 3D", attrs: { href: "https://trustgen.tlid.io" } }),
+      dom.create("a", { text: "DarkWave Academy", attrs: { href: "https://academy.tlid.io" } }),
+      dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io" } }),
     ]}),
     dom.create("div", { children: [
       dom.create("h4", { text: "Legal" }),
@@ -523,6 +682,6 @@ dom.ready(() => {
   for (const el of reveals) observer.observe(el);
 });
 
-console.log("✦ DWSC.io rendered — Built with Lume");
+console.log("✦ DWSC.io rendered — 36 apps, Built with Lume");
 
 })();
