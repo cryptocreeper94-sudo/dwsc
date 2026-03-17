@@ -1,0 +1,10 @@
+# DWSC.io — DarkWave Systems Collective
+# https://dwsc.io
+
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
+
+Sitemap: https://dwsc.io/sitemap.xml

@@ -526,6 +526,7 @@ let nav = dom.create("nav", {
         dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Blog", attrs: { href: "#blog" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
       ]
     }),
@@ -984,6 +985,473 @@ let papers_section = dom.create("section", {
   ]
 })
 dom.mount(papers_section, "#app")
+
+
+/// ─── BLOG ──────────────────────────────────────────────────
+
+dom.inject_css("
+  /* ── Blog Section ── */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .blog-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .blog-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.25);
+  }
+  .blog-card .blog-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .blog-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+  .blog-card:hover h3 { color: var(--cyan); }
+  .blog-card .blog-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-card .blog-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .blog-card .blog-meta span { display: flex; align-items: center; gap: 0.3rem; }
+  .blog-card.featured {
+    grid-column: span 2;
+    border-color: rgba(6, 182, 212, 0.2);
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04), rgba(168, 85, 247, 0.03));
+  }
+  .blog-card.featured h3 { font-size: 1.4rem; }
+
+  /* ── Blog Post View ── */
+  .blog-post-view {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+  }
+  .blog-post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .blog-post-back:hover { opacity: 0.7; }
+  .blog-post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .blog-post-header .blog-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .blog-post-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .blog-post-header .blog-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .blog-post-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-secondary);
+  }
+  .blog-post-body h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2.5rem 0 1rem;
+  }
+  .blog-post-body h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 0.75rem;
+  }
+  .blog-post-body p { margin-bottom: 1.25rem; }
+  .blog-post-body strong { color: var(--text-primary); }
+  .blog-post-body code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--cyan);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+  }
+  .blog-post-body pre {
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    color: var(--cyan);
+  }
+  .blog-post-body ul, .blog-post-body ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+  }
+  .blog-post-body li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+  .blog-post-body blockquote {
+    border-left: 3px solid var(--cyan);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: rgba(6, 182, 212, 0.04);
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid { grid-template-columns: 1fr; }
+    .blog-card.featured { grid-column: span 1; }
+  }
+", "dwsc-blog-styles")
+
+
+/// ─── BLOG DATA ─────────────────────────────────────────────
+
+let blog_posts = [
+  {
+    slug: "why-lume-exists",
+    category: "Vision",
+    title: "Why Lume Exists: The Cognitive Distance Problem",
+    excerpt: "Every developer translates between natural language thought and formal syntax hundreds of times per day. We built a language to eliminate that translation entirely.",
+    date: "March 17, 2026",
+    readTime: "8 min read",
+    featured: true,
+    body: `<h2>The Translation Tax</h2>
+<p>Think about the last time you wrote code. You had an idea — <strong>"get all the users who signed up this month"</strong> — and then you spent the next 30 seconds translating that thought into something like <code>const users = await db.query("SELECT * FROM users WHERE created_at >= DATE_TRUNC('month', NOW())")</code>.</p>
+<p>That translation is not programming. It's <strong>overhead</strong>. You already knew what you wanted. The only thing standing between your thought and the computer's execution was syntax — arbitrary syntax that varies between languages, frameworks, and APIs.</p>
+<p>We call this gap <strong>cognitive distance</strong>: the measurable effort required to translate human intent into code that a system will accept.</p>
+
+<h2>Six Dimensions of Cognitive Distance</h2>
+<p>Cognitive distance isn't a single thing — it's a composite of six distinct transformation dimensions:</p>
+<ul>
+<li><strong>Lexical (T₁):</strong> Mapping natural words to keywords — "show" becomes <code>console.log</code></li>
+<li><strong>Syntactic (T₂):</strong> Adding semicolons, brackets, indentation</li>
+<li><strong>Structural (T₃):</strong> Organizing into classes, modules, imports</li>
+<li><strong>Semantic (T₄):</strong> Choosing the correct API — <code>forEach</code> vs <code>map</code> vs <code>filter</code></li>
+<li><strong>Representational (T₅):</strong> Translating mental models to data structures</li>
+<li><strong>Meta-cognitive (T₆):</strong> "Am I doing this right?" — monitoring your own understanding</li>
+</ul>
+<p>Every programming language scores between 0 and 6 on this scale. Assembly scores 6/6 — every dimension requires explicit translation. Python scores 3/6. AI assistants like Copilot paradoxically score 4/6 — they add a new meta-cognitive burden (verifying AI-generated code).</p>
+
+<h2>Lume's Answer: CD → 0</h2>
+<p>Lume is designed to score as close to 0/6 as possible. In text mode, it scores 0.5/6 — only rare semantic edge cases require any translation at all. In voice mode, cognitive distance approaches zero entirely: you speak your intent, and the compiler resolves it.</p>
+<p>This isn't magic — it's engineering. The 7-layer Tolerance Chain absorbs the natural imprecision of human communication. The Resolution Manifest ensures deterministic reproducibility. Review Mode provides transparency through human-in-the-loop verification.</p>
+<p>We didn't build Lume because we wanted a new programming language. We built it because the translation tax is the single largest barrier to accessible, inclusive programming — and it's entirely unnecessary.</p>
+
+<blockquote>The distance has narrowed over 70 years of programming language evolution. Lume eliminates it.</blockquote>`
+  },
+  {
+    slug: "tolerance-chain",
+    category: "Architecture",
+    title: "The 7-Layer Tolerance Chain: How Lume Understands You",
+    excerpt: "A deep dive into the seven resolution layers that absorb human imprecision — from exact pattern matching to AI-powered intent resolution.",
+    date: "March 17, 2026",
+    readTime: "10 min read",
+    featured: false,
+    body: `<h2>The Core Innovation</h2>
+<p>Traditional compilers are rigid: if your input doesn't conform exactly to a context-free grammar, compilation fails. One missing semicolon, one misspelled keyword, one wrong bracket — rejected.</p>
+<p>Lume's Tolerance Chain takes the opposite approach. It <strong>absorbs imprecision</strong> through seven structured resolution layers, each one handling a different class of human communication noise.</p>
+
+<h2>The Seven Layers</h2>
+<h3>Layer 1 — Exact Pattern Match (Confidence: 1.0)</h3>
+<p>The pattern library contains 34+ regex-based patterns that map English phrases directly to AST nodes. When input matches exactly, confidence is 1.0 and resolution is instantaneous. Example: <code>"show hello world"</code> → <code>console.log("hello world")</code>.</p>
+
+<h3>Layer 2 — Fuzzy Pattern Match</h3>
+<p>Levenshtein distance ≤ 2 from a known pattern. This catches typos and minor phrasing variations: <code>"shwo hello"</code> → resolved as "show hello."</p>
+
+<h3>Layer 3 — Auto-Correct</h3>
+<p>A domain-specific dictionary of ~500 programming terms. <code>"functon"</code> → <code>"function"</code>, <code>"consle"</code> → <code>"console"</code>. This runs before the Tolerance Chain's main resolution.</p>
+
+<h3>Layer 4 — Context Engine</h3>
+<p>Uses surrounding instructions to resolve ambiguity. Maintains a Context Stack with <code>LastSubject</code> and <code>LastCollection</code> registers for pronoun resolution. When the developer says "show it," the Context Engine knows what "it" refers to.</p>
+
+<h3>Layer 5 — Temporal Resolver</h3>
+<p>Resolves time-relative references: "the previous result," "the last item," "what we just created." Maintains a bounded sliding window of 5 instructions.</p>
+
+<h3>Layer 6 — i18n Pattern Library</h3>
+<p>Multilingual patterns for 10 languages. A Spanish-speaking developer can write <code>"mostrar hola mundo"</code> and it compiles the same way as <code>"show hello world."</code></p>
+
+<h3>Layer 7 — AI Resolver</h3>
+<p>The only non-deterministic layer. Falls back to an LLM for intent classification when all deterministic layers fail. Results are cached in the Resolution Manifest to ensure reproducibility.</p>
+
+<h2>Why This Matters for HCI</h2>
+<p>The Tolerance Chain is not a compiler optimization — it's an <strong>HCI mechanism</strong>. It absorbs exactly the kind of imprecision that characterizes natural human communication: typos, ambiguity, informality, dialect variation, and run-on sentences.</p>
+<p>By making imprecise input first-class, the Tolerance Chain removes the extraneous cognitive load of syntactic conformity. You don't have to think about <em>how</em> to say something — you just say it.</p>`
+  },
+  {
+    slug: "voice-to-code",
+    category: "Research",
+    title: "Voice-to-Code Is Not a Feature — It's an Architectural Consequence",
+    excerpt: "How the Cleanup Layer and Tolerance Chain make voice input a mechanical consequence of a compiler that already handles imprecise input.",
+    date: "March 17, 2026",
+    readTime: "7 min read",
+    featured: false,
+    body: `<h2>The Insight</h2>
+<p>Voice input is inherently imprecise. Speech-to-text engines produce homophones ("write" vs. "right"), filler words ("um," "uh"), stuttering ("get get the name"), spoken punctuation ("period"), and run-on sentences with no line breaks.</p>
+<p>No traditional compiler can handle any of these. Voice coding tools like Talon and Serenade work around this by operating at the <strong>editor level</strong> — mapping voice commands to IDE actions. The compiler never sees voice input.</p>
+<p>But here's the thing: <strong>the Lume compiler already handles all of these.</strong> The Tolerance Chain was designed to absorb exactly this class of imprecision — from typed input. Voice input just happens to produce the same kinds of noise.</p>
+
+<h2>The Cleanup Layer</h2>
+<p>The Cleanup Layer preprocesses raw speech-to-text output through five stages:</p>
+<ol>
+<li><strong>Filler Removal:</strong> Strips "um," "uh," "like," "you know"</li>
+<li><strong>Stutter De-duplication:</strong> "get get the name" → "get the name"</li>
+<li><strong>Spoken Punctuation Conversion:</strong> "period" → ".", "open paren" → "("</li>
+<li><strong>Sentence Boundary Detection:</strong> Splits run-on input using pauses and conjunctions</li>
+<li><strong>Adaptive Profile Application:</strong> Per-user dialect and accent corrections</li>
+</ol>
+<p>After the Cleanup Layer, voice input looks like informal typed English — exactly what the Tolerance Chain was already designed to handle.</p>
+
+<h2>Why This Is Different</h2>
+<p>Every other voice coding system bolts voice onto a language that wasn't designed for it. Lume is the first language where voice input is a <strong>mechanical consequence of the architecture</strong>. The compiler already handles imprecise input. Voice is just another source of imprecision.</p>
+<p>This distinction matters because it means voice-to-code doesn't add complexity, doesn't require special syntax, and doesn't need a separate compilation path. The same Tolerance Chain processes both modalities.</p>`
+  },
+  {
+    slug: "adaptive-voice-profiles",
+    category: "Feature",
+    title: "Adaptive Voice Profiles: The Compiler That Learns You",
+    excerpt: "How Lume's per-user dialect mapping, accent correction, and filler word personalization make the compiler adapt to each individual developer.",
+    date: "March 17, 2026",
+    readTime: "6 min read",
+    featured: false,
+    body: `<h2>The Problem with One-Size-Fits-All</h2>
+<p>Speech-to-text accuracy varies dramatically across accents, dialects, and speech patterns. A Southern US accent, a non-native English speaker, a developer with a speech impediment — all produce systematically different transcription artifacts.</p>
+<p>Traditional voice tools require users to adapt to the system. Lume's Adaptive Voice Profile flips this: <strong>the system adapts to the user.</strong></p>
+
+<h2>Three Axes of Personalization</h2>
+<h3>Dialect Mapping</h3>
+<p>When a user consistently says "gimme" for "get" or "toss" for "delete," the system records these as candidate mappings. After 5 consistent uses (configurable threshold), the candidate is auto-promoted to a confirmed mapping with confidence ≥ 0.95. The compiler now understands that when <em>you</em> say "gimme the users," you mean "get the users."</p>
+
+<h3>Accent Correction</h3>
+<p>When a Southern US accent consistently produces "roit" for "right," or a non-native speaker produces "dat" for "that," the profile stores these corrections and applies them before the Tolerance Chain begins. Over time, transcription accuracy improves without requiring any change in how the user speaks.</p>
+
+<h3>Filler Word Personalization</h3>
+<p>Beyond generic fillers ("um," "uh"), the profile learns user-specific fillers. Some developers habitually say "basically," "y'know," or "right so" while thinking. The profile identifies these patterns and strips them automatically.</p>
+
+<h2>The Learning Curve</h2>
+<p>The profile's confidence follows this formula:</p>
+<pre>DC(u) = 1 - e^(-0.01 · Rᵤ - 0.1 · Cᵤ)</pre>
+<p>Where DC(u) is Dialect Confidence for user u, R is total resolutions, and C is confirmed mappings. As the system learns, cognitive distance for that specific user decreases further — the compiler becomes more attuned to <em>you</em> specifically.</p>
+
+<h2>Accessibility Impact</h2>
+<p>This has profound implications for accessibility. Users with speech impediments or non-standard accents experience <strong>improving accuracy over time</strong>. The system doesn't require them to change how they speak — it changes how it listens.</p>`
+  },
+  {
+    slug: "building-dwsc",
+    category: "Engineering",
+    title: "Building DWSC.io — A Site Written Entirely in Lume",
+    excerpt: "How we built the DarkWave Systems Collective website using Lume source code, compiled to browser-ready JavaScript. Zero frameworks. Zero dependencies.",
+    date: "March 17, 2026",
+    readTime: "5 min read",
+    featured: false,
+    body: `<h2>Eating Our Own Dog Food</h2>
+<p>DWSC.io is built entirely with Lume. The source code lives in <code>src/main.lume</code> and compiles to a single browser-ready JavaScript bundle (<code>dist/dwsc.js</code>) via the Lume browser bundler. No React. No Vue. No framework. Zero npm runtime dependencies.</p>
+
+<h2>The Architecture</h2>
+<p>The site uses Lume's built-in DOM standard library:</p>
+<ul>
+<li><code>dom.create(tag, opts)</code> — Creates elements with text, HTML, classes, styles, children</li>
+<li><code>dom.mount(element, selector)</code> — Appends to a container</li>
+<li><code>dom.inject_css(css)</code> — Injects scoped stylesheets</li>
+<li><code>dom.select(selector)</code> — Queries the DOM</li>
+<li><code>dom.ready(fn)</code> — Runs after DOMContentLoaded</li>
+</ul>
+<p>Every section — hero, bento grid, stats, carousel, ecosystem cards, academic papers, this blog, and the footer — is a Lume variable that creates DOM nodes and mounts them to <code>#app</code>.</p>
+
+<h2>The Build Process</h2>
+<p>The Lume browser bundler (<code>build.js</code>) transforms Lume syntax into valid browser JavaScript:</p>
+<ul>
+<li>Multi-line strings → template literals</li>
+<li><code>for each x in y</code> → <code>for (const x of y)</code></li>
+<li><code>define x = y</code> → <code>const x = y</code></li>
+<li><code>show x</code> → <code>console.log(x)</code></li>
+<li>Wraps everything in an IIFE with the Lume Standard Library</li>
+</ul>
+<p>The result is a single 40-50KB JavaScript file with zero external dependencies that renders the entire site client-side.</p>
+
+<h2>SEO Solution</h2>
+<p>Client-side rendering is hostile to search engines. Our solution: the <code>index.html</code> file contains comprehensive SEO — Open Graph tags, Twitter Cards, JSON-LD structured data (Organization, WebSite, SoftwareApplication, Blog), and a full <code>&lt;noscript&gt;</code> fallback with all page content in static HTML. Crawlers that can't execute JavaScript still see everything.</p>
+
+<h2>Why This Matters</h2>
+<p>DWSC.io is proof that Lume isn't just a research language — it's production-ready. A complete, responsive, SEO-optimized website with animations, carousels, blog, and glassmorphism effects, built from a single <code>.lume</code> source file and compiled to one JavaScript bundle. That's the power of zero cognitive distance applied to web development.</p>`
+  }
+]
+
+
+/// ─── BLOG SECTION RENDER ────────────────────────────────────
+
+let blog_section = dom.create("section", {
+  id: "blog",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ENGINEERING BLOG" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "From the Lab" }),
+    dom.create("p", { className: "section-desc reveal", text: "Research notes, engineering deep-dives, and behind-the-scenes from the team building the world's first intent-resolving programming language." }),
+    dom.create("div", {
+      className: "blog-grid",
+      id: "blog-grid"
+    })
+  ]
+})
+
+/// Populate blog cards
+dom.ready(() => {
+  let grid = dom.select("#blog-grid")
+  for (const post of blog_posts) {
+    let card = dom.create("div", {
+      className: post.featured ? "blog-card featured reveal" : "blog-card reveal",
+      children: [
+        dom.create("div", { className: "blog-category", text: post.category }),
+        dom.create("h3", { text: post.title }),
+        dom.create("p", { className: "blog-excerpt", text: post.excerpt }),
+        dom.create("div", {
+          className: "blog-meta",
+          children: [
+            dom.create("span", { html: "📅 " + post.date }),
+            dom.create("span", { html: "⏱ " + post.readTime }),
+            dom.create("span", { html: "✦ Lume" })
+          ]
+        })
+      ]
+    })
+    card.addEventListener("click", () => {
+      window.location.hash = "blog/" + post.slug
+    })
+    grid.appendChild(card)
+  }
+
+  /// ── Hash Router for Blog Posts ──
+  function renderBlogPost() {
+    let hash = window.location.hash.replace("#", "")
+    if (!hash.startsWith("blog/")) return
+
+    let slug = hash.replace("blog/", "")
+    let post = blog_posts.find(p => p.slug === slug)
+    if (!post) return
+
+    /// Hide main content, show post
+    let app = dom.select("#app")
+    let existing = dom.select("#blog-post-view")
+    if (existing) existing.remove()
+
+    /// Scroll to top
+    window.scrollTo(0, 0)
+
+    let postView = dom.create("div", {
+      id: "blog-post-view",
+      className: "blog-post-view",
+      children: [
+        dom.create("a", {
+          className: "blog-post-back",
+          html: "← Back to Blog",
+          onClick: () => {
+            window.location.hash = "blog"
+            postView.remove()
+            app.style.display = ""
+          }
+        }),
+        dom.create("div", {
+          className: "blog-post-header",
+          children: [
+            dom.create("span", { className: "blog-category", text: post.category }),
+            dom.create("h1", { className: "gradient-text", text: post.title }),
+            dom.create("div", {
+              className: "blog-meta",
+              children: [
+                dom.create("span", { text: "Jason Andrews" }),
+                dom.create("span", { text: post.date }),
+                dom.create("span", { text: post.readTime })
+              ]
+            })
+          ]
+        }),
+        dom.create("div", {
+          className: "blog-post-body",
+          html: post.body
+        })
+      ]
+    })
+
+    app.style.display = "none"
+    document.body.appendChild(postView)
+  }
+
+  window.addEventListener("hashchange", () => {
+    let hash = window.location.hash.replace("#", "")
+    if (!hash.startsWith("blog/")) {
+      let postView = dom.select("#blog-post-view")
+      if (postView) postView.remove()
+      let app = dom.select("#app")
+      if (app) app.style.display = ""
+    } else {
+      renderBlogPost()
+    }
+  })
+
+  /// Check on load
+  if (window.location.hash.startsWith("#blog/")) {
+    renderBlogPost()
+  }
+})
+
+dom.mount(blog_section, "#app")
 
 
 /// ─── FOOTER ────────────────────────────────────────────────

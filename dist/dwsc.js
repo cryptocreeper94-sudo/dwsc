@@ -93,7 +93,20 @@ const state = {
 
 // ═══ Application Code ═══
 
-// ─── GLOBAL STYLES ───
+// ═══════════════════════════════════════════════════════════
+//  DWSC.io — DarkWave Systems Collective
+//  Built with Lume — the AI-native programming language
+//  
+//  This is the Lume source file. It compiles to browser-ready
+//  JavaScript via: lume bundle src/main.lume --target=browser
+//
+//  Ultra-Premium Protocol: Void Black + Cyan/Teal/Purple palette,
+//  glassmorphism, floating orbs, skeleton reveals, bento grid,
+//  gradient wave text, responsive mobile-first design.
+// ═══════════════════════════════════════════════════════════
+
+// ─── GLOBAL STYLES ─────────────────────────────────────────
+
 dom.inject_css(`
   :root {
     --void: #06060a;
@@ -113,9 +126,13 @@ dom.inject_css(`
     --text-dim: rgba(255,255,255,0.35);
     --font-mono: 'JetBrains Mono', monospace;
   }
+
+  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--void); }
   ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ── Gradient Text ── */
   .gradient-text {
     background: linear-gradient(135deg, var(--cyan), var(--teal), var(--purple));
     -webkit-background-clip: text;
@@ -124,10 +141,13 @@ dom.inject_css(`
     background-size: 200% 200%;
     animation: gradient-shift 4s ease infinite;
   }
+
   @keyframes gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
   }
+
+  /* ── Glass Card ── */
   .glass {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -136,159 +156,397 @@ dom.inject_css(`
     border-radius: 1rem;
     box-shadow: var(--glass-shadow);
   }
+
+  /* ── Orbs ── */
   .orb {
-    position: fixed; border-radius: 50%; filter: blur(100px);
-    opacity: 0.12; pointer-events: none; z-index: 0;
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
   }
+
   @keyframes orb-float {
     0%, 100% { transform: translate(0, 0) scale(1); }
     25% { transform: translate(30px, -25px) scale(1.05); }
     50% { transform: translate(-15px, 20px) scale(0.95); }
     75% { transform: translate(20px, 10px) scale(1.02); }
   }
+
+  /* ── Reveal Animation ── */
   .reveal {
-    opacity: 0; transform: translateY(24px);
+    opacity: 0;
+    transform: translateY(24px);
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  section { position: relative; z-index: 1; padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Section Spacing ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Nav ── */
   .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
-    background: rgba(6, 6, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--glass-border); transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 6, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
   }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; letter-spacing: 0.02em; }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
   .nav-links a:hover { color: var(--cyan); }
-  .nav-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; }
-  .hamburger { display: none; background: none; border: none; color: var(--cyan); font-size: 1.5rem; cursor: pointer; }
+  .nav-logo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--cyan);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
   .mobile-menu {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;
-    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
-    background: rgba(6, 6, 10, 0.95); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background: rgba(6, 6, 10, 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
   }
   .mobile-menu.open { display: flex; }
-  .mobile-menu a { color: var(--text-primary); text-decoration: none; font-size: 1.5rem; font-weight: 600; }
-  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 5rem; }
-  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
-  .hero .subtitle { font-size: clamp(1rem, 2vw, 1.35rem); color: var(--text-secondary); max-width: 640px; line-height: 1.7; margin-bottom: 2.5rem; }
-  .hero .tagline { font-family: var(--font-mono); font-size: 0.85rem; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 3rem; opacity: 0.8; }
+  .mobile-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero .tagline {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+  }
+
+  /* ── Built With Badge ── */
   .built-with {
-    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.25rem;
-    border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 2rem;
-    font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan);
-    background: rgba(6, 182, 212, 0.06); margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--cyan);
+    background: rgba(6, 182, 212, 0.06);
+    margin-bottom: 2rem;
   }
-  .built-with .dot { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s ease infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.4); } 50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(6,182,212,0); } }
-  .section-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.7; }
-  .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
-  .section-desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; line-height: 1.7; margin-bottom: 3rem; }
-  .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
+  .built-with .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+  }
+
+  /* ── Section Headers ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── Bento Grid ── */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
   .bento-card {
-    padding: 0; border-radius: 1rem; background: var(--glass-bg);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-    transition: transform 0.3s ease, border-color 0.3s ease; cursor: default;
-    overflow: hidden;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: default;
   }
-  .bento-card:hover { transform: translateY(-4px); border-color: rgba(6, 182, 212, 0.2); }
+  .bento-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.2);
+  }
   .bento-card.span-2 { grid-column: span 2; }
-  .card-img {
-    width: 100%; height: 160px; object-fit: cover; display: block;
-    border-bottom: 1px solid var(--glass-border);
-    transition: transform 0.5s ease, filter 0.5s ease;
-    filter: brightness(0.7) saturate(1.2);
+  .bento-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
   }
-  .bento-card:hover .card-img { transform: scale(1.05); filter: brightness(0.85) saturate(1.3); }
-  .card-body { padding: 1.5rem; }
-  .bento-card .icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
-  .bento-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .bento-card p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; }
+  .bento-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .bento-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
   .bento-card .tag {
-    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 0.25rem;
-    font-family: var(--font-mono); font-size: 0.7rem; margin-top: 1rem;
-    background: rgba(6, 182, 212, 0.1); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.2);
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    margin-top: 1rem;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.2);
   }
+
+  /* ── Code Block ── */
   .code-block {
-    background: var(--primary); border: 1px solid var(--glass-border); border-radius: 0.75rem;
-    padding: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.7;
-    overflow-x: auto; color: var(--text-secondary); margin-top: 1rem; white-space: pre;
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    color: var(--text-secondary);
+    margin-top: 1rem;
   }
   .code-block .kw { color: var(--purple); }
   .code-block .fn { color: var(--cyan); }
   .code-block .str { color: var(--teal); }
   .code-block .cm { color: var(--text-dim); }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin: 4rem 0; }
-  .stat-card { text-align: center; padding: 2rem 1rem; }
-  .stat-card .number { font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
-  .stat-card .label { font-size: 0.85rem; color: var(--text-secondary); letter-spacing: 0.05em; }
-  .carousel { position: relative; overflow: hidden; border-radius: 1rem; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); }
-  .carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  .carousel-slide { min-width: 100%; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-  .carousel-slide .slide-content h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; }
-  .carousel-slide .slide-content p { color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem; }
-  .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; padding: 1.5rem; }
-  .carousel-dot { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
-  .carousel-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--text-dim); transition: all 0.3s ease; }
-  .carousel-dot.active::before { background: var(--cyan); box-shadow: 0 0 12px rgba(6, 182, 212, 0.5); width: 24px; border-radius: 4px; }
-  .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 2rem; }
-  .feature-card {
-    padding: 1.75rem; border-radius: 1rem; background: var(--glass-bg);
-    backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+
+  /* ── Stats Row ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 4rem 0;
   }
-  .feature-card:hover { transform: translateY(-3px); border-color: rgba(6, 182, 212, 0.2); }
-  .feature-card .feat-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
-  .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
-  .feature-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
-  .cat-section { margin-bottom: 3rem; }
-  .cat-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
-  .cat-header h3 { font-size: 1.3rem; font-weight: 700; }
-  .cat-header .cat-count { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); padding: 0.15rem 0.5rem; border-radius: 1rem; }
-  .cat-scroll-wrapper { position: relative; }
-  .cat-scroll {
-    display: flex; gap: 1.25rem; overflow-x: auto; scroll-behavior: smooth;
-    padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--cyan) transparent;
+  .stat-card {
+    text-align: center;
+    padding: 2rem 1rem;
   }
-  .cat-scroll::-webkit-scrollbar { height: 4px; }
-  .cat-scroll::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
-  .cat-scroll::-webkit-scrollbar-track { background: transparent; }
-  .scroll-card {
-    min-width: 280px; max-width: 280px; flex-shrink: 0;
-    border-radius: 1rem; background: var(--glass-bg);
-    backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-    overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease;
+  .stat-card .number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
   }
-  .scroll-card:hover { transform: translateY(-4px); border-color: rgba(6, 182, 212, 0.2); }
-  .scroll-card .card-img { height: 140px; }
-  .scroll-card .card-body { padding: 1.25rem; }
-  .scroll-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
-  .scroll-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.75rem; }
-  .scroll-card .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 0.25rem; font-family: var(--font-mono); font-size: 0.65rem; background: rgba(6,182,212,0.1); color: var(--cyan); border: 1px solid rgba(6,182,212,0.2); }
-  .scroll-btn {
-    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
-    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border);
-    background: rgba(6,6,10,0.9); color: var(--cyan); cursor: pointer;
-    display: flex; align-items: center; justify-content: center; font-size: 1rem;
-    transition: background 0.2s; backdrop-filter: blur(10px);
+  .stat-card .label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
   }
-  .scroll-btn:hover { background: rgba(6,182,212,0.15); }
-  .scroll-btn.left { left: -12px; }
-  .scroll-btn.right { right: -12px; }
-  .footer { background: var(--deep); border-top: 1px solid var(--glass-border); padding: 4rem 2rem 2rem; margin-top: 4rem; }
-  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto; }
-  .footer h4 { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 1rem; }
-  .footer a { display: block; color: var(--text-dim); text-decoration: none; font-size: 0.9rem; padding: 0.3rem 0; transition: color 0.2s; }
+
+  /* ── Carousel ── */
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .carousel-slide {
+    min-width: 100%;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .carousel-slide .slide-content h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .carousel-slide .slide-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+  }
+  .carousel-dot {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .carousel-dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: all 0.3s ease;
+  }
+  .carousel-dot.active::before {
+    background: var(--cyan);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: var(--deep);
+    border-top: 1px solid var(--glass-border);
+    padding: 4rem 2rem 2rem;
+    margin-top: 4rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer h4 {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .footer a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.3rem 0;
+    transition: color 0.2s;
+  }
   .footer a:hover { color: var(--cyan); }
-  .footer-brand { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
-  .footer-bottom { text-align: center; padding-top: 3rem; margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; color: var(--text-dim); max-width: 1200px; margin-left: auto; margin-right: auto; }
+  .footer-brand {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer-bottom {
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 1024px) {
     .bento { grid-template-columns: repeat(2, 1fr); }
     .bento-card.span-2 { grid-column: span 1; }
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .features-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
@@ -301,424 +559,1072 @@ dom.inject_css(`
   @media (max-width: 480px) {
     .bento { grid-template-columns: 1fr; }
     .stats { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 2rem; }
     .carousel-slide { padding: 2rem 1.5rem; }
-    .scroll-card { min-width: 240px; max-width: 240px; }
   }
-`, "dwsc-styles");
+`, "dwsc-styles")
 
 
-// ─── FLOATING ORBS ───
-let orb1 = dom.create("div", { className: "orb", styles: { width: "500px", height: "500px", background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)", top: "5%", left: "10%", animation: "orb-float 12s ease-in-out infinite" } });
-dom.mount(orb1);
+// ─── FLOATING ORBS ─────────────────────────────────────────
 
-let orb2 = dom.create("div", { className: "orb", styles: { width: "400px", height: "400px", background: "radial-gradient(circle, #a855f7 0%, transparent 70%)", top: "40%", right: "5%", animation: "orb-float 15s ease-in-out infinite reverse" } });
-dom.mount(orb2);
+let orb1 = dom.create("div", {
+  className: "orb",
+  styles: { width: "500px", height: "500px", background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)", top: "5%", left: "10%", animation: "orb-float 12s ease-in-out infinite" }
+})
+dom.mount(orb1)
 
-let orb3 = dom.create("div", { className: "orb", styles: { width: "350px", height: "350px", background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)", bottom: "10%", left: "30%", animation: "orb-float 10s ease-in-out infinite 2s" } });
-dom.mount(orb3);
+let orb2 = dom.create("div", {
+  className: "orb",
+  styles: { width: "400px", height: "400px", background: "radial-gradient(circle, #a855f7 0%, transparent 70%)", top: "40%", right: "5%", animation: "orb-float 15s ease-in-out infinite reverse" }
+})
+dom.mount(orb2)
+
+let orb3 = dom.create("div", {
+  className: "orb",
+  styles: { width: "350px", height: "350px", background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)", bottom: "10%", left: "30%", animation: "orb-float 10s ease-in-out infinite 2s" }
+})
+dom.mount(orb3)
 
 
-// ─── NAVIGATION ───
-let mobile_open = state.reactive(false);
+// ─── NAVIGATION ────────────────────────────────────────────
+
+let mobile_open = state.reactive(false)
 
 let hamburger = dom.create("button", {
   className: "hamburger",
   html: "&#9776;",
   attrs: { "aria-label": "Menu" },
   onClick: () => {
-    mobile_open.set(!mobile_open.get());
-    let menu = dom.select(".mobile-menu");
-    if (mobile_open.get()) { dom.add_class(menu, "open"); hamburger.innerHTML = "✕"; }
-    else { dom.remove_class(menu, "open"); hamburger.innerHTML = "☰"; }
+    mobile_open.set(!mobile_open.get())
+    let menu = dom.select(".mobile-menu")
+    if (mobile_open.get()) {
+      dom.add_class(menu, "open")
+      hamburger.innerHTML = "&#10005;"
+    } else {
+      dom.remove_class(menu, "open")
+      hamburger.innerHTML = "&#9776;"
+    }
   }
-});
+})
 
 let nav = dom.create("nav", {
   className: "nav",
   children: [
-    dom.create("div", { className: "nav-logo gradient-text", text: "DWSC" }),
-    dom.create("ul", { className: "nav-links", children: [
-      dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
-      dom.create("li", { children: [dom.create("a", { text: "Features", attrs: { href: "#features" } })] }),
-      dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
-      dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
-      dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
-    ]}),
+    dom.create("div", {
+      className: "nav-logo gradient-text",
+      text: "DWSC"
+    }),
+    dom.create("ul", {
+      className: "nav-links",
+      children: [
+        dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Blog", attrs: { href: "#blog" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
+      ]
+    }),
     hamburger
   ]
-});
-dom.mount(nav);
+})
+dom.mount(nav)
 
-const closeMobile = () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "☰"; };
-let mobile_menu = dom.create("div", { className: "mobile-menu", children: [
-  dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: closeMobile }),
-  dom.create("a", { text: "Features", attrs: { href: "#features" }, onClick: closeMobile }),
-  dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: closeMobile }),
-  dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: closeMobile }),
-  dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: closeMobile }),
-]});
-dom.mount(mobile_menu);
+let mobile_menu = dom.create("div", {
+  className: "mobile-menu",
+  children: [
+    dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Contact", attrs: { href: "#contact" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } })
+  ]
+})
+dom.mount(mobile_menu)
 
 
-// ─── HERO CTA STYLES ───
+// ─── HERO SECTION ──────────────────────────────────────────
+
 dom.inject_css(`
-  .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center; }
-  .hero-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 0.75rem; font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 0.02em; }
-  .hero-cta .cta-primary { background: linear-gradient(135deg, var(--cyan), var(--teal)); color: var(--void); box-shadow: 0 4px 24px rgba(6, 182, 212, 0.3); }
-  .hero-cta .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(6, 182, 212, 0.5); }
-  .hero-cta .cta-secondary { background: transparent; color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
-  .hero-cta .cta-secondary:hover { border-color: var(--cyan); background: rgba(6, 182, 212, 0.08); transform: translateY(-2px); }
-  @media (max-width: 480px) { .hero-cta { flex-direction: column; align-items: stretch; } .hero-cta a { justify-content: center; } }
-`, "dwsc-hero-cta");
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.02em;
+  }
+  .hero-cta .cta-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--teal));
+    color: var(--void);
+    box-shadow: 0 4px 24px rgba(6, 182, 212, 0.3);
+  }
+  .hero-cta .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.5);
+  }
+  .hero-cta .cta-secondary {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+  .hero-cta .cta-secondary:hover {
+    border-color: var(--cyan);
+    background: rgba(6, 182, 212, 0.08);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 480px) {
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-cta a { justify-content: center; }
+  }
+`, "dwsc-hero-cta-styles")
 
-// ─── HERO SECTION ───
-let hero = dom.create("section", { className: "hero", children: [
-  dom.create("div", { className: "built-with reveal", children: [
-    dom.create("span", { className: "dot" }),
-    dom.create("span", { text: "Built with Lume" })
-  ]}),
-  dom.create("h1", { className: "gradient-text reveal", text: "DarkWave Systems Collective" }),
-  dom.create("p", { className: "subtitle reveal", text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance." }),
-  dom.create("div", { className: "tagline reveal", text: "Intent → Code → Certified. Zero translation." }),
-  dom.create("div", { className: "hero-cta reveal", children: [
-    dom.create("a", { className: "cta-primary", text: "◈ Try Lume IDE at TrustGen", attrs: { href: "https://trustgen.tlid.io", target: "_blank" } }),
-    dom.create("a", { className: "cta-secondary", text: "📄 Read the Paper", attrs: { href: "#papers" } }),
-    dom.create("a", { className: "cta-secondary", text: "🔬 Explore Ecosystem", attrs: { href: "#ecosystem" } }),
-  ]}),
-]});
-dom.mount(hero, "#app");
+let hero = dom.create("section", {
+  className: "hero",
+  children: [
+    dom.create("div", {
+      className: "built-with reveal",
+      children: [
+        dom.create("span", { className: "dot" }),
+        dom.create("span", { text: "Built with Lume" })
+      ]
+    }),
+    dom.create("h1", {
+      className: "gradient-text reveal",
+      text: "DarkWave Systems Collective"
+    }),
+    dom.create("p", {
+      className: "subtitle reveal",
+      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance."
+    }),
+    dom.create("div", {
+      className: "tagline reveal",
+      text: "Intent → Code → Certified. Zero translation."
+    }),
+    dom.create("div", {
+      className: "hero-cta reveal",
+      children: [
+        dom.create("a", {
+          className: "cta-primary",
+          text: "◈ Try Lume IDE at TrustGen",
+          attrs: { href: "https://trustgen.tlid.io", target: "_blank" }
+        }),
+        dom.create("a", {
+          className: "cta-secondary",
+          text: "📄 Read the Paper",
+          attrs: { href: "#papers" }
+        }),
+        dom.create("a", {
+          className: "cta-secondary",
+          text: "🔬 Explore Ecosystem",
+          attrs: { href: "#ecosystem" }
+        })
+      ]
+    })
+  ]
+})
+dom.mount(hero, "#app")
 
 
-// ─── STATS ───
-let stats_section = dom.create("section", { children: [
-  dom.create("div", { className: "stats", children: [
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "36" }), dom.create("div", { className: "label", text: "Ecosystem Apps" }) ]}),
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "7" }), dom.create("div", { className: "label", text: "Tolerance Layers" }) ]}),
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "4" }), dom.create("div", { className: "label", text: "Self-Healing Layers" }) ]}),
-    dom.create("div", { className: "stat-card glass reveal", children: [ dom.create("div", { className: "number gradient-text", text: "0" }), dom.create("div", { className: "label", text: "CD Target Score" }) ]}),
-  ]})
-]});
-dom.mount(stats_section, "#app");
+// ─── STATS ─────────────────────────────────────────────────
+
+let stats_section = dom.create("section", {
+  children: [
+    dom.create("div", {
+      className: "stats",
+      children: [
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "7" }),
+          dom.create("div", { className: "label", text: "Tolerance Layers" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "2,000+" }),
+          dom.create("div", { className: "label", text: "Tests Passing" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "3" }),
+          dom.create("div", { className: "label", text: "Security Layers" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "0" }),
+          dom.create("div", { className: "label", text: "CD Target Score" })
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(stats_section, "#app")
 
 
-// ─── LUME SECTION ───
-let lume_section = dom.create("section", { id: "lume", children: [
-  dom.create("div", { className: "section-label reveal", text: "// FLAGSHIP" }),
-  dom.create("h2", { className: "section-title gradient-text reveal", text: "Lume Programming Language" }),
-  dom.create("p", { className: "section-desc reveal", text: "The world's first AI-native programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
-  dom.create("div", {
-    className: "code-block glass reveal",
-    html: '<span class="cm">// English Mode — zero cognitive distance</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">show</span> their names and emails\n<span class="kw">sort</span> them by signup date descending\n\n<span class="cm">// Compiles to certified JavaScript:</span>\n<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">db.query</span>(<span class="str">\'SELECT name, email FROM users\n  WHERE created_at >= DATE_TRUNC(month, CURRENT_DATE)\n  ORDER BY created_at DESC\'</span>);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY | Risk: LOW</span>'
-  })
-]});
-dom.mount(lume_section, "#app");
+// ─── LUME SECTION ──────────────────────────────────────────
+
+let lume_section = dom.create("section", {
+  id: "lume",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// FLAGSHIP" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Lume Programming Language" }),
+    dom.create("p", { className: "section-desc reveal", text: "The world's first AI-native programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
+    dom.create("div", {
+      className: "code-block glass reveal",
+      html: '<span class="cm">// English Mode — zero cognitive distance</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">show</span> their names and emails\n<span class="kw">sort</span> them by signup date descending\n\n<span class="cm">// Compiles to certified JavaScript:</span>\n<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">db.query</span>(<span class="str">\'SELECT name, email FROM users\n  WHERE created_at >= DATE_TRUNC(month, CURRENT_DATE)\n  ORDER BY created_at DESC\'</span>);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY | Risk: LOW</span>'
+    })
+  ]
+})
+dom.mount(lume_section, "#app")
 
 
-// ─── KEY FEATURES ───
-const features_data = [
-  { icon: "🧬", title: "Self-Healing Runtime", desc: "4-layer architecture: Self-Monitoring → Self-Healing → Self-Optimizing → Self-Evolving. Circuit breakers, exponential backoff, fallback chains, and auto-rollback." },
-  { icon: "🎯", title: "Cognitive Distance = 0", desc: "Formal 6-dimension metric proving Lume eliminates the gap between human intent and code. Think it, type it, compile it." },
-  { icon: "🗣️", title: "Voice-to-Code", desc: "Speak your intent, compile from voice. The Tolerance Chain already handles imprecise input — voice is architecturally natural." },
-  { icon: "🔐", title: "Certified-at-Birth", desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. Tamper-evident, cryptographically provable integrity." },
-  { icon: "🔗", title: "7-Layer Tolerance Chain", desc: "Exact match → Fuzzy → Auto-correct → Context → Temporal → i18n → AI fallback. Absorbs human imprecision at the compiler level." },
-  { icon: "👁️", title: "Review Mode", desc: "Human-in-the-loop verification. The compiler explains its interpretation in plain English before emitting code. Trust through transparency." },
-  { icon: "🎧", title: "Auditory Mode", desc: "Fully hands-free, eyes-free programming. Speak intent, hear compiler confirmation, confirm by voice. First PL usable with eyes closed." },
-  { icon: "🔒", title: "Deterministic Resolution", desc: "lume-lock.json guarantees reproducible compilation of natural language input. Same input → same output, forever." },
-  { icon: "🧠", title: "Adaptive Voice Profiles", desc: "The compiler learns your dialect, colloquialisms, and accent patterns over time. Candidate mappings auto-promote after 5 consistent uses. The more you use Lume, the better it understands you." },
-];
+// ─── RESEARCH CAROUSEL ─────────────────────────────────────
 
-let features_section = dom.create("section", { id: "features", children: [
-  dom.create("div", { className: "section-label reveal", text: "// CAPABILITIES" }),
-  dom.create("h2", { className: "section-title gradient-text reveal", text: "Key Features" }),
-  dom.create("p", { className: "section-desc reveal", text: "A self-healing, self-evolving language runtime with zero cognitive distance. Every feature is an architectural consequence, not a bolt-on." }),
-]});
+let current_slide = state.reactive(0)
+const slide_count = 3
 
-let feat_grid = dom.create("div", { className: "features-grid" });
-for (const f of features_data) {
-  let card = dom.create("div", { className: "feature-card reveal", children: [
-    dom.create("span", { className: "feat-icon", text: f.icon }),
-    dom.create("h4", { text: f.title }),
-    dom.create("p", { text: f.desc }),
-  ]});
-  dom.add_child(feat_grid, card);
-}
-dom.add_child(features_section, feat_grid);
-dom.mount(features_section, "#app");
+let slides_data = [
+  {
+    title: "Cognitive Distance Theory",
+    desc: "A formal mathematical framework proving that programming difficulty is proportional to the gap between human intent and machine syntax. Lume's CD score approaches zero.",
+    badge: "§8.1 — Theoretical Contribution"
+  },
+  {
+    title: "Certified-at-Birth Security",
+    desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. The Semantic Invariant Test ensures intent-to-execution integrity is cryptographically provable.",
+    badge: "§8.13 — Three-Layer Security"
+  },
+  {
+    title: "Auditory Mode",
+    desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.",
+    badge: "§8.14 — Accessibility as Architecture"
+  }
+]
 
-
-// ─── RESEARCH CAROUSEL ───
-let current_slide = state.reactive(0);
-const slide_count = 3;
-
-const slides_data = [
-  { title: "Cognitive Distance Theory", desc: "A formal mathematical framework proving that programming difficulty is proportional to the gap between human intent and machine syntax. Lume's CD score approaches zero.", badge: "§8.1 — Theoretical Contribution" },
-  { title: "Self-Healing Runtime Architecture", desc: "Four-layer self-sustaining runtime: Self-Monitoring with configurable alerts, Self-Healing with circuit breakers and fallback chains, Self-Optimizing with rollback, and Self-Evolving with pattern learning.", badge: "§11 — Runtime Architecture" },
-  { title: "Auditory Mode & Accessibility", desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.", badge: "§8.14 — Accessibility as Architecture" },
-];
-
-let track = dom.create("div", { className: "carousel-track" });
+let track = dom.create("div", { className: "carousel-track" })
 
 for (const slide of slides_data) {
-  let slide_el = dom.create("div", { className: "carousel-slide", children: [
-    dom.create("div", { className: "slide-content", children: [
-      dom.create("h3", { className: "gradient-text", text: slide.title }),
-      dom.create("p", { text: slide.desc }),
-      dom.create("span", { className: "tag", text: slide.badge }),
-    ]}),
-    dom.create("div", {
-      className: "code-block",
-      styles: { fontSize: "0.8rem" },
-      html: '<span class="cm">// Research paper section reference</span>\n<span class="kw">define</span> contribution = <span class="str">"' + slide.title + '"</span>\n<span class="kw">show</span> contribution.impact'
-    }),
-  ]});
-  dom.add_child(track, slide_el);
+  let slide_el = dom.create("div", {
+    className: "carousel-slide",
+    children: [
+      dom.create("div", {
+        className: "slide-content",
+        children: [
+          dom.create("h3", { className: "gradient-text", text: slide.title }),
+          dom.create("p", { text: slide.desc }),
+          dom.create("span", { className: "tag", text: slide.badge })
+        ]
+      }),
+      dom.create("div", {
+        className: "code-block",
+        styles: { fontSize: "0.8rem" },
+        html: '<span class="cm">// Research paper section reference</span>\n<span class="kw">define</span> contribution = <span class="str">"' + slide.title + '"</span>\n<span class="kw">show</span> contribution.impact'
+      })
+    ]
+  })
+  dom.add_child(track, slide_el)
 }
-
-let dots_container = dom.create("div", { className: "carousel-dots" });
+let dots_container = dom.create("div", { className: "carousel-dots" })
 
 for (let i = 0; i < slide_count; i++) {
   let dot = dom.create("button", {
     className: "carousel-dot" + (i === 0 ? " active" : ""),
-    attrs: { "aria-label": "Slide " + (i + 1) },
-  });
-  dom.on(dot, "click", ((idx) => () => { current_slide.set(idx); })(i));
-  dom.add_child(dots_container, dot);
+    attrs: { "aria-label": "Slide " + (i + 1) }
+  })
+  dom.on(dot, "click", () => {
+    current_slide.set(i)
+  })
+  dom.add_child(dots_container, dot)
 }
-
 current_slide.on_change((val) => {
-  track.style.transform = "translateX(-" + (val * 100) + "%)";
-  let dots = dom.select_all(".carousel-dot");
-  for (const d of dots) dom.remove_class(d, "active");
-  dom.add_class(dots[val], "active");
-});
-
-setInterval(() => {
-  let next = (current_slide.get() + 1) % slide_count;
-  current_slide.set(next);
-}, 6000);
-
-let research_section = dom.create("section", { id: "research", children: [
-  dom.create("div", { className: "section-label reveal", text: "// RESEARCH" }),
-  dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Contributions" }),
-  dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable theoretical frameworks, experimental designs, and novel paradigms in programming language design." }),
-  dom.create("div", { className: "carousel reveal", children: [track, dots_container] }),
-]});
-dom.mount(research_section, "#app");
-
-
-// ─── ECOSYSTEM — CATEGORIZED CAROUSELS ───
-const categories = [
-  { icon: "🔐", name: "Core Infrastructure", apps: [
-    { name: "Trust Layer", desc: "SSO & core authentication infrastructure. The identity backbone of the entire ecosystem.", img: "images/trust-layer-hub.png", url: "https://dwtl.io" },
-    { name: "TLID.io", desc: "Main infrastructure hub. All ecosystem subdomains route through this base.", img: "images/tlid-io.png", url: "https://tlid.io" },
-    { name: "Trust Hub", desc: "Ecosystem management dashboard. Monitor, configure, and orchestrate all connected apps.", img: "images/trust-hub.png", url: "https://trusthub.tlid.io" },
-    { name: "TrustVault", desc: "Encrypted secure storage with blockchain-backed provenance and access control.", img: "images/trust-vault.png", url: "https://trustvault.tlid.io" },
-    { name: "Guardian Shield", desc: "Security monitoring and threat detection. Real-time protection across the ecosystem.", img: "images/guardian-shield.png", url: "https://trustshield.tech" },
-  ]},
-  { icon: "💻", name: "Developer Tools", apps: [
-    { name: "Lume", desc: "AI-native programming language. Write in English, compile with voice, ship certified.", img: "images/lume-compiler.png", url: "https://lume-lang.com" },
-    { name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", img: "images/darkwave-studio.png", url: "https://studio.tlid.io" },
-    { name: "Guardian Scanner", desc: "AST-level security scanner. Detects vulnerabilities at the abstract syntax tree layer.", img: "images/guardian-scanner.png", url: "https://guardianscanner.tlid.io" },
-    { name: "Guardian Screener", desc: "Identity verification and trust profile screening for ecosystem participants.", img: "images/guardian-screener.png", url: "https://guardianscreener.tlid.io" },
-  ]},
-  { icon: "💬", name: "Communication & Social", apps: [
-    { name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", img: "images/signal-chat.png", url: "https://signalchat.tlid.io" },
-    { name: "Trust Book", desc: "Social platform for verified ecosystem profiles, connections, and trust-scored interactions.", img: "images/trust-book.png", url: "https://trustbook.tlid.io" },
-    { name: "Pulse", desc: "Real-time ecosystem activity feed and analytics dashboard.", img: "images/pulse.png", url: "https://darkwavepulse.com" },
-  ]},
-  { icon: "🎮", name: "Gaming & Entertainment", apps: [
-    { name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", img: "images/bomber-3d.png", url: "https://bomber.tlid.io" },
-    { name: "The Arcade", desc: "Multi-game arcade platform. Classic and modern games in the Trust Layer ecosystem.", img: "images/the-arcade.png", url: "https://darkwavegames.io" },
-    { name: "THE VOID", desc: "Immersive dark experience. Abstract, atmospheric, and mysterious.", img: "images/the-void.png", url: "https://intothevoid.app" },
-    { name: "Trust Golf", desc: "Premium golf platform with trust-verified scoring and competitive play.", img: "images/trust-golf.png", url: "https://trustgolf.app" },
-  ]},
-  { icon: "🎨", name: "Creative & Media", apps: [
-    { name: "TrustGen 3D", desc: "AI-powered 3D asset generation with cinematic pipeline and blockchain provenance.", img: "images/trustgen-3d.png", url: "https://trustgen.tlid.io" },
-    { name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", img: "images/darkwave-academy.png", url: "https://academy.tlid.io" },
-    { name: "Chronicles", desc: "Your legacy, preserved. Family heritage and generational storytelling platform.", img: "images/chronicles.png", url: "https://yourlegacy.io" },
-  ]},
-  { icon: "🏢", name: "Business & Professional", apps: [
-    { name: "PaintPros", desc: "AI-assisted professional painting estimation with material calculation and scheduling.", img: "images/paintpros.png", url: "https://paintpros.io" },
-    { name: "Nashville Painting", desc: "Nashville's premier painting professionals. Residential and commercial services.", img: "images/nashville-painting.png", url: "https://nashpaintpros.io" },
-    { name: "TradeWorks AI", desc: "AI-powered trading analysis and financial insights platform.", img: "images/tradeworks-ai.png", url: "https://tradeworksai.io" },
-    { name: "ORBIT Staffing", desc: "Next-gen staffing OS. Workforce management with AI-driven placement.", img: "images/orbit-staffing.png", url: "https://orbitstaffing.io" },
-    { name: "StrikeAgent", desc: "AI agent for task automation and intelligent workflow orchestration.", img: "images/strike-agent.png", url: "https://strikeagent.io" },
-    { name: "Lot Ops Pro", desc: "Auto dealership lot management. Inventory tracking, pricing, and operations.", img: "images/lot-ops-pro.png", url: "https://lotopspro.io" },
-    { name: "TORQUE", desc: "Automotive performance and diagnostics platform.", img: "images/torque.png", url: "https://torque.tlid.io" },
-  ]},
-  { icon: "🏠", name: "Home & Transport", apps: [
-    { name: "TrustHome", desc: "Property management with trust-verified listings, smart contracts, and tenant scoring.", img: "images/trusthome.png", url: "https://trusthome.tlid.io" },
-    { name: "TL Driver Connect", desc: "Connected vehicle platform. Driver profiles, fleet management, trip tracking.", img: "images/tl-driver-connect.png", url: "https://tldriverconnect.com" },
-  ]},
-  { icon: "🍽️", name: "Food & Lifestyle", apps: [
-    { name: "Happy Eats", desc: "Gourmet food discovery and delivery with trust-verified restaurant ratings.", img: "images/happy-eats.png", url: "https://happyeats.app" },
-    { name: "Brew & Board", desc: "Artisan craft coffee and board game café platform.", img: "images/brew-board.png", url: "https://brewandboard.coffee" },
-    { name: "Arbora", desc: "Digital growth and wellbeing platform rooted in nature-inspired design.", img: "images/arbora.png", url: "https://arbora.tlid.io" },
-    { name: "VedaSolus", desc: "Holistic wellness and mindfulness platform with data-driven insights.", img: "images/vedasolus.png", url: "https://vedasolus.io" },
-  ]},
-  { icon: "🤖", name: "AI & Automation", apps: [
-    { name: "Orby Commander", desc: "AI orb assistant with voice command interface and task delegation.", img: "images/orby-commander.png", url: "https://getorby.io" },
-    { name: "GarageBot", desc: "AI-powered automotive diagnostics and repair assistance.", img: "images/garagebot.png", url: "https://garagebot.io" },
-    { name: "Verdara", desc: "Smart agriculture platform with IoT integration and crop yield optimization.", img: "images/verdara.png", url: "https://verdara.tlid.io" },
-  ]},
-  { icon: "🔬", name: "Research & Engineering", apps: [
-    { name: "DWSC", desc: "DarkWave Systems Collective. This site — the R&D portal for the Trust Layer ecosystem.", img: "images/dwsc.png", url: "https://dwsc.io" },
-  ]},
-];
-
-let ecosystem_section = dom.create("section", { id: "ecosystem", children: [
-  dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
-  dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-  dom.create("p", { className: "section-desc reveal", text: "36 interconnected applications spanning infrastructure, developer tools, gaming, creative, business, and lifestyle — all unified by Trust Layer SSO." }),
-]});
-
-for (const cat of categories) {
-  let cat_div = dom.create("div", { className: "cat-section reveal" });
-
-  let header = dom.create("div", { className: "cat-header", children: [
-    dom.create("span", { text: cat.icon, styles: { fontSize: "1.5rem" } }),
-    dom.create("h3", { text: cat.name }),
-    dom.create("span", { className: "cat-count", text: cat.apps.length + " apps" }),
-  ]});
-  dom.add_child(cat_div, header);
-
-  let scroll_wrapper = dom.create("div", { className: "cat-scroll-wrapper" });
-  let scroll_track = dom.create("div", { className: "cat-scroll" });
-
-  for (const app of cat.apps) {
-    let card = dom.create("div", { className: "scroll-card", children: [
-      dom.create("img", { className: "card-img", attrs: { src: app.img, alt: app.name, loading: "lazy" } }),
-      dom.create("div", { className: "card-body", children: [
-        dom.create("h4", { text: app.name }),
-        dom.create("p", { text: app.desc }),
-        dom.create("a", { className: "tag", text: app.url.replace("https://",""), attrs: { href: app.url, target: "_blank", rel: "noopener" }, styles: { textDecoration: "none" } }),
-      ]}),
-    ]});
-    dom.add_child(scroll_track, card);
+  track.style.transform = "translateX(-" + (val * 100) + "%)"
+  let dots = dom.select_all(".carousel-dot")
+  for (const d of dots) {
+    dom.remove_class(d, "active")
   }
+  dom.add_class(dots[val], "active")
+})
 
-  dom.add_child(scroll_wrapper, scroll_track);
+// Auto-rotate
+let auto_rotate = setInterval(() => {
+  let next = (current_slide.get() + 1) % slide_count
+  current_slide.set(next)
+}, 6000)
 
-  // Arrow buttons
-  if (cat.apps.length > 3) {
-    let btnL = dom.create("button", { className: "scroll-btn left", text: "‹", onClick: () => { scroll_track.scrollBy({ left: -300, behavior: "smooth" }); } });
-    let btnR = dom.create("button", { className: "scroll-btn right", text: "›", onClick: () => { scroll_track.scrollBy({ left: 300, behavior: "smooth" }); } });
-    dom.add_child(scroll_wrapper, btnL);
-    dom.add_child(scroll_wrapper, btnR);
-  }
+let research_section = dom.create("section", {
+  id: "research",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// RESEARCH" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Contributions" }),
+    dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable theoretical frameworks, experimental designs, and novel paradigms in programming language design." }),
+    dom.create("div", {
+      className: "carousel reveal",
+      children: [track, dots_container]
+    })
+  ]
+})
+dom.mount(research_section, "#app")
 
-  dom.add_child(cat_div, scroll_wrapper);
-  dom.add_child(ecosystem_section, cat_div);
+
+// ─── ECOSYSTEM BENTO GRID ──────────────────────────────────
+
+let ecosystem_apps = [
+  { icon: "🛡️", name: "Trust Layer Hub", desc: "Central orchestration for the entire Trust Layer ecosystem. SSO, hallmarks, trust stamps, and cross-app authentication.", tag: "CORE", span: true },
+  { icon: "◈", name: "Lume IDE at TrustGen", desc: "Full Lume IDE embedded in TrustGen: REPL, Script Editor, Voice Direction with Adaptive Voice Profiles, Review Mode with human-in-the-loop approval, and Monaco Editor with lume syntax highlighting.", tag: "DEVELOPER", span: true },
+  { icon: "🔗", name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", tag: "COMMUNICATION" },
+  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D creation studio with cinematic pipeline, Lume English Mode scene direction, and blockchain provenance.", tag: "CREATIVE" },
+  { icon: "🔄", name: "Self-Healing Runtime", desc: "4-layer self-sustaining architecture: Monitor, Heal, Optimize, Evolve. The compiler that fixes itself — zero downtime, autonomous recovery.", tag: "CORE" },
+  { icon: "🎤", name: "Adaptive Voice Profiles", desc: "The compiler learns your dialect. Per-user filler word filtering, accent corrections, and vocabulary mapping. Confidence score increases with every session.", tag: "AI" },
+  { icon: "🎓", name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", tag: "EDUCATION" },
+  { icon: "💰", name: "TrustHome", desc: "Real estate agent super tool with blockchain-verified profiles, listings, and trust scores.", tag: "FINANCE", span: true },
+  { icon: "🏗️", name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", tag: "DEVELOPER" },
+  { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", tag: "GAMING" },
+  { icon: "🌿", name: "Verdara", desc: "AI-powered outdoor recreation super-app with species ID, trail explorer, and 170+ US locations.", tag: "OUTDOORS" },
+  { icon: "🎨", name: "PaintPros", desc: "Professional painting service management with AI estimation and scheduling.", tag: "SERVICE" }
+]
+
+let bento = dom.create("div", { className: "bento" })
+
+for (const app of ecosystem_apps) {
+  let card = dom.create("div", {
+    className: "bento-card reveal" + (app.span ? " span-2" : ""),
+    children: [
+      dom.create("span", { className: "icon", text: app.icon }),
+      dom.create("h3", { text: app.name }),
+      dom.create("p", { text: app.desc }),
+      dom.create("span", { className: "tag", text: app.tag })
+    ]
+  })
+  dom.add_child(bento, card)
 }
+let ecosystem_section = dom.create("section", {
+  id: "ecosystem",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
+    dom.create("p", { className: "section-desc reveal", text: "36 interconnected applications spanning communication, finance, gaming, education, automotive, health, and creative tools — all unified by Trust Layer SSO and powered by Lume." }),
+    bento
+  ]
+})
+dom.mount(ecosystem_section, "#app")
 
-dom.mount(ecosystem_section, "#app");
 
+// ─── PAPERS SECTION ────────────────────────────────────────
 
-// ─── PAPERS SECTION ───
 dom.inject_css(`
-  .paper-card { position: relative; overflow: hidden; cursor: pointer; }
-  .paper-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--teal), var(--purple)); opacity: 0.7; }
-  .paper-card:hover { transform: translateY(-6px); border-color: rgba(6, 182, 212, 0.25); box-shadow: 0 16px 48px rgba(6, 182, 212, 0.08), var(--glass-shadow); }
-  .paper-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-  .meta-pill { display: inline-flex; padding: 0.25rem 0.7rem; border-radius: 2rem; font-family: var(--font-mono); font-size: 0.7rem; background: rgba(6, 182, 212, 0.08); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.15); }
-`, "dwsc-papers");
+  .paper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .paper-card {
+    position: relative;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan), var(--teal), var(--purple));
+    opacity: 0.7;
+  }
+  .paper-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(6, 182, 212, 0.25);
+    box-shadow: 0 16px 48px rgba(6, 182, 212, 0.08), var(--glass-shadow);
+  }
+  .paper-card .paper-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .paper-card .paper-type .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  .paper-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  .paper-card .paper-abstract {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .paper-card .paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .paper-card .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+  }
+  .paper-card .paper-file {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .paper-card .paper-file:hover {
+    color: var(--cyan);
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .paper-card .paper-file .file-icon {
+    font-size: 1rem;
+  }
+  @media (max-width: 768px) {
+    .paper-grid { grid-template-columns: 1fr; }
+  }
+`, "dwsc-papers-styles")
 
-let papers_section = dom.create("section", { id: "papers", children: [
-  dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
-  dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
-  dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable research publications on Lume's theoretical foundations, security model, cognitive distance framework, and experimental methodology." }),
-  dom.create("div", { className: "bento", styles: { gridTemplateColumns: "1fr 1fr 1fr" }, children: [
-    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/Trust-Layer-Hub/blob/main/LUME-ACADEMIC-PAPER.md", "_blank"), children: [
-      dom.create("div", { className: "card-body", children: [
-        dom.create("span", { className: "icon", text: "📄" }),
-        dom.create("h3", { className: "gradient-text", text: "Full Academic Paper" }),
-        dom.create("p", { text: "LUME: Eliminating Cognitive Distance — comprehensive technical paper. 15 sections, 1500+ lines." }),
-        dom.create("div", { className: "paper-meta", children: [
-          dom.create("span", { className: "meta-pill", text: "15 Sections" }),
-          dom.create("span", { className: "meta-pill", text: "1,500+ Lines" }),
-          dom.create("span", { className: "meta-pill", text: "CHI / PLDI" }),
-        ]}),
-      ]}),
-    ]}),
-    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/lume/blob/main/LUME-CHI-PAPER.md", "_blank"), children: [
-      dom.create("div", { className: "card-body", children: [
-        dom.create("span", { className: "icon", text: "🧠" }),
-        dom.create("h3", { className: "gradient-text", text: "CHI Paper" }),
-        dom.create("p", { text: "Human-centered framing for CHI proceedings. Cognitive distance, accessibility, NASA-TLX evaluation." }),
-        dom.create("div", { className: "paper-meta", children: [
-          dom.create("span", { className: "meta-pill", text: "12 Sections" }),
-          dom.create("span", { className: "meta-pill", text: "500+ Lines" }),
-          dom.create("span", { className: "meta-pill", text: "ACM CHI" }),
-        ]}),
-      ]}),
-    ]}),
-    dom.create("div", { className: "bento-card paper-card reveal", onClick: () => window.open("https://github.com/cryptocreeper94-sudo/lume/blob/main/LUME_ACADEMIC_BRIEF.md", "_blank"), children: [
-      dom.create("div", { className: "card-body", children: [
-        dom.create("span", { className: "icon", text: "📋" }),
-        dom.create("h3", { className: "gradient-text", text: "Technical Brief" }),
-        dom.create("p", { text: "Complete technical blueprint. All code examples, formulas, experimental designs, and §8.16 TrustGen domain compiler." }),
-        dom.create("div", { className: "paper-meta", children: [
-          dom.create("span", { className: "meta-pill", text: "16 Subsections" }),
-          dom.create("span", { className: "meta-pill", text: "1,200+ Lines" }),
-          dom.create("span", { className: "meta-pill", text: "§8.16 TrustGen" }),
-        ]}),
-      ]}),
-    ]}),
-  ]}),
-]});
-dom.mount(papers_section, "#app");
+let papers_section = dom.create("section", {
+  id: "papers",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
+    dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable research publications on Lume's theoretical foundations, security model, cognitive distance framework, and experimental methodology." }),
+    dom.create("div", {
+      className: "paper-grid",
+      children: [
+        dom.create("div", {
+          className: "paper-card reveal",
+          children: [
+            dom.create("div", { className: "paper-type", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Full Paper" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Eliminating Cognitive Distance" }),
+            dom.create("p", { className: "paper-abstract", text: "An AI-Native Programming Language with Natural Language Compilation, Voice Input, and Certified Security. The complete theoretical framework, 7-layer Tolerance Chain specification, Guardian security model, and experimental evaluation plan." }),
+            dom.create("div", { className: "paper-meta", children: [
+              dom.create("span", { className: "meta-pill", text: "15 Sections" }),
+              dom.create("span", { className: "meta-pill", text: "1,500+ Lines" }),
+              dom.create("span", { className: "meta-pill", text: "86,000+ Words" }),
+              dom.create("span", { className: "meta-pill", text: "CHI / PLDI Target" })
+            ]}),
+            dom.create("div", { className: "paper-file", children: [
+              dom.create("span", { className: "file-icon", text: "📄" }),
+              dom.create("span", { text: "LUME-ACADEMIC-PAPER.md" })
+            ]})
+          ]
+        }),
+        dom.create("div", {
+          className: "paper-card reveal",
+          children: [
+            dom.create("div", { className: "paper-type", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Technical Brief" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Complete Technical Blueprint" }),
+            dom.create("p", { className: "paper-abstract", text: "Source-of-truth blueprint for paper co-authorship. All code examples, mathematical formulas, CD scoring tables, experimental designs, and the full specification of Adaptive Voice Profiles and the TrustGen domain compiler." }),
+            dom.create("div", { className: "paper-meta", children: [
+              dom.create("span", { className: "meta-pill", text: "16 Subsections" }),
+              dom.create("span", { className: "meta-pill", text: "1,200+ Lines" }),
+              dom.create("span", { className: "meta-pill", text: "69,000+ Words" }),
+              dom.create("span", { className: "meta-pill", text: "§8.16 TrustGen" })
+            ]}),
+            dom.create("div", { className: "paper-file", children: [
+              dom.create("span", { className: "file-icon", text: "📋" }),
+              dom.create("span", { text: "LUME_ACADEMIC_BRIEF.md" })
+            ]})
+          ]
+        })
+      ]
+    })
+  ]
+})
+dom.mount(papers_section, "#app")
 
 
-// ─── FOOTER ───
-let footer = dom.create("footer", { className: "footer", children: [
-  dom.create("div", { className: "footer-grid", children: [
-    dom.create("div", { children: [
-      dom.create("div", { className: "nav-logo gradient-text", text: "DWSC", styles: { fontSize: "1.3rem", marginBottom: "1rem" } }),
-      dom.create("p", { className: "footer-brand", text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem. 36 apps, one vision." }),
-    ]}),
-    dom.create("div", { children: [
-      dom.create("h4", { text: "Language" }),
-      dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com", target: "_blank" } }),
-      dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground", target: "_blank" } }),
-      dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org", target: "_blank" } }),
-      dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume", target: "_blank" } }),
-    ]}),
-    dom.create("div", { children: [
-      dom.create("h4", { text: "Ecosystem" }),
-      dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io", target: "_blank" } }),
-      dom.create("a", { text: "TrustGen 3D + Lume IDE", attrs: { href: "https://trustgen.tlid.io", target: "_blank" } }),
-      dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io", target: "_blank" } }),
-      dom.create("a", { text: "Trust Hub", attrs: { href: "https://trusthub.tlid.io", target: "_blank" } }),
-      dom.create("a", { text: "Signal Chat", attrs: { href: "https://signalchat.tlid.io", target: "_blank" } }),
-    ]}),
-    dom.create("div", { children: [
-      dom.create("h4", { text: "Legal" }),
-      dom.create("a", { text: "Privacy Policy", attrs: { href: "#" } }),
-      dom.create("a", { text: "Terms of Service", attrs: { href: "#" } }),
-      dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } }),
-    ]}),
-  ]}),
-  dom.create("div", { className: "footer-bottom", html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:#06b6d4;text-decoration:none' target='_blank'>Try Lume IDE →</a>" }),
-]});
-dom.mount(footer, "#app");
+// ─── BLOG ──────────────────────────────────────────────────
+
+dom.inject_css(`
+  /* ── Blog Section ── */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .blog-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .blog-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.25);
+  }
+  .blog-card .blog-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .blog-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+  .blog-card:hover h3 { color: var(--cyan); }
+  .blog-card .blog-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .blog-card .blog-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .blog-card .blog-meta span { display: flex; align-items: center; gap: 0.3rem; }
+  .blog-card.featured {
+    grid-column: span 2;
+    border-color: rgba(6, 182, 212, 0.2);
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04), rgba(168, 85, 247, 0.03));
+  }
+  .blog-card.featured h3 { font-size: 1.4rem; }
+
+  /* ── Blog Post View ── */
+  .blog-post-view {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+  }
+  .blog-post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .blog-post-back:hover { opacity: 0.7; }
+  .blog-post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .blog-post-header .blog-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .blog-post-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .blog-post-header .blog-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .blog-post-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-secondary);
+  }
+  .blog-post-body h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2.5rem 0 1rem;
+  }
+  .blog-post-body h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 2rem 0 0.75rem;
+  }
+  .blog-post-body p { margin-bottom: 1.25rem; }
+  .blog-post-body strong { color: var(--text-primary); }
+  .blog-post-body code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: rgba(6, 182, 212, 0.08);
+    color: var(--cyan);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+  }
+  .blog-post-body pre {
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    color: var(--cyan);
+  }
+  .blog-post-body ul, .blog-post-body ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+  }
+  .blog-post-body li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+  .blog-post-body blockquote {
+    border-left: 3px solid var(--cyan);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: rgba(6, 182, 212, 0.04);
+    border-radius: 0 0.5rem 0.5rem 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid { grid-template-columns: 1fr; }
+    .blog-card.featured { grid-column: span 1; }
+  }
+`, "dwsc-blog-styles")
 
 
-// ─── SKELETON REVEAL ───
+// ─── BLOG DATA ─────────────────────────────────────────────
+
+let blog_posts = [
+  {
+    slug: "why-lume-exists",
+    category: "Vision",
+    title: "Why Lume Exists: The Cognitive Distance Problem",
+    excerpt: "Every developer translates between natural language thought and formal syntax hundreds of times per day. We built a language to eliminate that translation entirely.",
+    date: "March 17, 2026",
+    readTime: "8 min read",
+    featured: true,
+    body: `<h2>The Translation Tax</h2>
+<p>Think about the last time you wrote code. You had an idea — <strong>"get all the users who signed up this month"</strong> — and then you spent the next 30 seconds translating that thought into something like <code>const users = await db.query("SELECT * FROM users WHERE created_at >= DATE_TRUNC('month', NOW())")</code>.</p>
+<p>That translation is not programming. It's <strong>overhead</strong>. You already knew what you wanted. The only thing standing between your thought and the computer's execution was syntax — arbitrary syntax that varies between languages, frameworks, and APIs.</p>
+<p>We call this gap <strong>cognitive distance</strong>: the measurable effort required to translate human intent into code that a system will accept.</p>
+
+<h2>Six Dimensions of Cognitive Distance</h2>
+<p>Cognitive distance isn't a single thing — it's a composite of six distinct transformation dimensions:</p>
+<ul>
+<li><strong>Lexical (T₁):</strong> Mapping natural words to keywords — "show" becomes <code>console.log</code></li>
+<li><strong>Syntactic (T₂):</strong> Adding semicolons, brackets, indentation</li>
+<li><strong>Structural (T₃):</strong> Organizing into classes, modules, imports</li>
+<li><strong>Semantic (T₄):</strong> Choosing the correct API — <code>forEach</code> vs <code>map</code> vs <code>filter</code></li>
+<li><strong>Representational (T₅):</strong> Translating mental models to data structures</li>
+<li><strong>Meta-cognitive (T₆):</strong> "Am I doing this right?" — monitoring your own understanding</li>
+</ul>
+<p>Every programming language scores between 0 and 6 on this scale. Assembly scores 6/6 — every dimension requires explicit translation. Python scores 3/6. AI assistants like Copilot paradoxically score 4/6 — they add a new meta-cognitive burden (verifying AI-generated code).</p>
+
+<h2>Lume's Answer: CD → 0</h2>
+<p>Lume is designed to score as close to 0/6 as possible. In text mode, it scores 0.5/6 — only rare semantic edge cases require any translation at all. In voice mode, cognitive distance approaches zero entirely: you speak your intent, and the compiler resolves it.</p>
+<p>This isn't magic — it's engineering. The 7-layer Tolerance Chain absorbs the natural imprecision of human communication. The Resolution Manifest ensures deterministic reproducibility. Review Mode provides transparency through human-in-the-loop verification.</p>
+<p>We didn't build Lume because we wanted a new programming language. We built it because the translation tax is the single largest barrier to accessible, inclusive programming — and it's entirely unnecessary.</p>
+
+<blockquote>The distance has narrowed over 70 years of programming language evolution. Lume eliminates it.</blockquote>`
+  },
+  {
+    slug: "tolerance-chain",
+    category: "Architecture",
+    title: "The 7-Layer Tolerance Chain: How Lume Understands You",
+    excerpt: "A deep dive into the seven resolution layers that absorb human imprecision — from exact pattern matching to AI-powered intent resolution.",
+    date: "March 17, 2026",
+    readTime: "10 min read",
+    featured: false,
+    body: `<h2>The Core Innovation</h2>
+<p>Traditional compilers are rigid: if your input doesn't conform exactly to a context-free grammar, compilation fails. One missing semicolon, one misspelled keyword, one wrong bracket — rejected.</p>
+<p>Lume's Tolerance Chain takes the opposite approach. It <strong>absorbs imprecision</strong> through seven structured resolution layers, each one handling a different class of human communication noise.</p>
+
+<h2>The Seven Layers</h2>
+<h3>Layer 1 — Exact Pattern Match (Confidence: 1.0)</h3>
+<p>The pattern library contains 34+ regex-based patterns that map English phrases directly to AST nodes. When input matches exactly, confidence is 1.0 and resolution is instantaneous. Example: <code>"show hello world"</code> → <code>console.log("hello world")</code>.</p>
+
+<h3>Layer 2 — Fuzzy Pattern Match</h3>
+<p>Levenshtein distance ≤ 2 from a known pattern. This catches typos and minor phrasing variations: <code>"shwo hello"</code> → resolved as "show hello."</p>
+
+<h3>Layer 3 — Auto-Correct</h3>
+<p>A domain-specific dictionary of ~500 programming terms. <code>"functon"</code> → <code>"function"</code>, <code>"consle"</code> → <code>"console"</code>. This runs before the Tolerance Chain's main resolution.</p>
+
+<h3>Layer 4 — Context Engine</h3>
+<p>Uses surrounding instructions to resolve ambiguity. Maintains a Context Stack with <code>LastSubject</code> and <code>LastCollection</code> registers for pronoun resolution. When the developer says "show it," the Context Engine knows what "it" refers to.</p>
+
+<h3>Layer 5 — Temporal Resolver</h3>
+<p>Resolves time-relative references: "the previous result," "the last item," "what we just created." Maintains a bounded sliding window of 5 instructions.</p>
+
+<h3>Layer 6 — i18n Pattern Library</h3>
+<p>Multilingual patterns for 10 languages. A Spanish-speaking developer can write <code>"mostrar hola mundo"</code> and it compiles the same way as <code>"show hello world."</code></p>
+
+<h3>Layer 7 — AI Resolver</h3>
+<p>The only non-deterministic layer. Falls back to an LLM for intent classification when all deterministic layers fail. Results are cached in the Resolution Manifest to ensure reproducibility.</p>
+
+<h2>Why This Matters for HCI</h2>
+<p>The Tolerance Chain is not a compiler optimization — it's an <strong>HCI mechanism</strong>. It absorbs exactly the kind of imprecision that characterizes natural human communication: typos, ambiguity, informality, dialect variation, and run-on sentences.</p>
+<p>By making imprecise input first-class, the Tolerance Chain removes the extraneous cognitive load of syntactic conformity. You don't have to think about <em>how</em> to say something — you just say it.</p>`
+  },
+  {
+    slug: "voice-to-code",
+    category: "Research",
+    title: "Voice-to-Code Is Not a Feature — It's an Architectural Consequence",
+    excerpt: "How the Cleanup Layer and Tolerance Chain make voice input a mechanical consequence of a compiler that already handles imprecise input.",
+    date: "March 17, 2026",
+    readTime: "7 min read",
+    featured: false,
+    body: `<h2>The Insight</h2>
+<p>Voice input is inherently imprecise. Speech-to-text engines produce homophones ("write" vs. "right"), filler words ("um," "uh"), stuttering ("get get the name"), spoken punctuation ("period"), and run-on sentences with no line breaks.</p>
+<p>No traditional compiler can handle any of these. Voice coding tools like Talon and Serenade work around this by operating at the <strong>editor level</strong> — mapping voice commands to IDE actions. The compiler never sees voice input.</p>
+<p>But here's the thing: <strong>the Lume compiler already handles all of these.</strong> The Tolerance Chain was designed to absorb exactly this class of imprecision — from typed input. Voice input just happens to produce the same kinds of noise.</p>
+
+<h2>The Cleanup Layer</h2>
+<p>The Cleanup Layer preprocesses raw speech-to-text output through five stages:</p>
+<ol>
+<li><strong>Filler Removal:</strong> Strips "um," "uh," "like," "you know"</li>
+<li><strong>Stutter De-duplication:</strong> "get get the name" → "get the name"</li>
+<li><strong>Spoken Punctuation Conversion:</strong> "period" → ".", "open paren" → "("</li>
+<li><strong>Sentence Boundary Detection:</strong> Splits run-on input using pauses and conjunctions</li>
+<li><strong>Adaptive Profile Application:</strong> Per-user dialect and accent corrections</li>
+</ol>
+<p>After the Cleanup Layer, voice input looks like informal typed English — exactly what the Tolerance Chain was already designed to handle.</p>
+
+<h2>Why This Is Different</h2>
+<p>Every other voice coding system bolts voice onto a language that wasn't designed for it. Lume is the first language where voice input is a <strong>mechanical consequence of the architecture</strong>. The compiler already handles imprecise input. Voice is just another source of imprecision.</p>
+<p>This distinction matters because it means voice-to-code doesn't add complexity, doesn't require special syntax, and doesn't need a separate compilation path. The same Tolerance Chain processes both modalities.</p>`
+  },
+  {
+    slug: "adaptive-voice-profiles",
+    category: "Feature",
+    title: "Adaptive Voice Profiles: The Compiler That Learns You",
+    excerpt: "How Lume's per-user dialect mapping, accent correction, and filler word personalization make the compiler adapt to each individual developer.",
+    date: "March 17, 2026",
+    readTime: "6 min read",
+    featured: false,
+    body: `<h2>The Problem with One-Size-Fits-All</h2>
+<p>Speech-to-text accuracy varies dramatically across accents, dialects, and speech patterns. A Southern US accent, a non-native English speaker, a developer with a speech impediment — all produce systematically different transcription artifacts.</p>
+<p>Traditional voice tools require users to adapt to the system. Lume's Adaptive Voice Profile flips this: <strong>the system adapts to the user.</strong></p>
+
+<h2>Three Axes of Personalization</h2>
+<h3>Dialect Mapping</h3>
+<p>When a user consistently says "gimme" for "get" or "toss" for "delete," the system records these as candidate mappings. After 5 consistent uses (configurable threshold), the candidate is auto-promoted to a confirmed mapping with confidence ≥ 0.95. The compiler now understands that when <em>you</em> say "gimme the users," you mean "get the users."</p>
+
+<h3>Accent Correction</h3>
+<p>When a Southern US accent consistently produces "roit" for "right," or a non-native speaker produces "dat" for "that," the profile stores these corrections and applies them before the Tolerance Chain begins. Over time, transcription accuracy improves without requiring any change in how the user speaks.</p>
+
+<h3>Filler Word Personalization</h3>
+<p>Beyond generic fillers ("um," "uh"), the profile learns user-specific fillers. Some developers habitually say "basically," "y'know," or "right so" while thinking. The profile identifies these patterns and strips them automatically.</p>
+
+<h2>The Learning Curve</h2>
+<p>The profile's confidence follows this formula:</p>
+<pre>DC(u) = 1 - e^(-0.01 · Rᵤ - 0.1 · Cᵤ)</pre>
+<p>Where DC(u) is Dialect Confidence for user u, R is total resolutions, and C is confirmed mappings. As the system learns, cognitive distance for that specific user decreases further — the compiler becomes more attuned to <em>you</em> specifically.</p>
+
+<h2>Accessibility Impact</h2>
+<p>This has profound implications for accessibility. Users with speech impediments or non-standard accents experience <strong>improving accuracy over time</strong>. The system doesn't require them to change how they speak — it changes how it listens.</p>`
+  },
+  {
+    slug: "building-dwsc",
+    category: "Engineering",
+    title: "Building DWSC.io — A Site Written Entirely in Lume",
+    excerpt: "How we built the DarkWave Systems Collective website using Lume source code, compiled to browser-ready JavaScript. Zero frameworks. Zero dependencies.",
+    date: "March 17, 2026",
+    readTime: "5 min read",
+    featured: false,
+    body: `<h2>Eating Our Own Dog Food</h2>
+<p>DWSC.io is built entirely with Lume. The source code lives in <code>src/main.lume</code> and compiles to a single browser-ready JavaScript bundle (<code>dist/dwsc.js</code>) via the Lume browser bundler. No React. No Vue. No framework. Zero npm runtime dependencies.</p>
+
+<h2>The Architecture</h2>
+<p>The site uses Lume's built-in DOM standard library:</p>
+<ul>
+<li><code>dom.create(tag, opts)</code> — Creates elements with text, HTML, classes, styles, children</li>
+<li><code>dom.mount(element, selector)</code> — Appends to a container</li>
+<li><code>dom.inject_css(css)</code> — Injects scoped stylesheets</li>
+<li><code>dom.select(selector)</code> — Queries the DOM</li>
+<li><code>dom.ready(fn)</code> — Runs after DOMContentLoaded</li>
+</ul>
+<p>Every section — hero, bento grid, stats, carousel, ecosystem cards, academic papers, this blog, and the footer — is a Lume variable that creates DOM nodes and mounts them to <code>#app</code>.</p>
+
+<h2>The Build Process</h2>
+<p>The Lume browser bundler (<code>build.js</code>) transforms Lume syntax into valid browser JavaScript:</p>
+<ul>
+<li>Multi-line strings → template literals</li>
+<li><code>for each x in y</code> → <code>for (const x of y)</code></li>
+<li><code>define x = y</code> → <code>const x = y</code></li>
+<li><code>show x</code> → <code>console.log(x)</code></li>
+<li>Wraps everything in an IIFE with the Lume Standard Library</li>
+</ul>
+<p>The result is a single 40-50KB JavaScript file with zero external dependencies that renders the entire site client-side.</p>
+
+<h2>SEO Solution</h2>
+<p>Client-side rendering is hostile to search engines. Our solution: the <code>index.html</code> file contains comprehensive SEO — Open Graph tags, Twitter Cards, JSON-LD structured data (Organization, WebSite, SoftwareApplication, Blog), and a full <code>&lt;noscript&gt;</code> fallback with all page content in static HTML. Crawlers that can't execute JavaScript still see everything.</p>
+
+<h2>Why This Matters</h2>
+<p>DWSC.io is proof that Lume isn't just a research language — it's production-ready. A complete, responsive, SEO-optimized website with animations, carousels, blog, and glassmorphism effects, built from a single <code>.lume</code> source file and compiled to one JavaScript bundle. That's the power of zero cognitive distance applied to web development.</p>`
+  }
+]
+
+
+// ─── BLOG SECTION RENDER ────────────────────────────────────
+
+let blog_section = dom.create("section", {
+  id: "blog",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ENGINEERING BLOG" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "From the Lab" }),
+    dom.create("p", { className: "section-desc reveal", text: "Research notes, engineering deep-dives, and behind-the-scenes from the team building the world's first intent-resolving programming language." }),
+    dom.create("div", {
+      className: "blog-grid",
+      id: "blog-grid"
+    })
+  ]
+})
+
+// Populate blog cards
 dom.ready(() => {
-  const reveals = dom.select_all(".reveal");
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        dom.add_class(entry.target, "visible");
-        observer.unobserve(entry.target);
-      }
-    }
-  }, { threshold: 0.1 });
-  for (const el of reveals) observer.observe(el);
-});
+  let grid = dom.select("#blog-grid")
+  for (const post of blog_posts) {
+    let card = dom.create("div", {
+      className: post.featured ? "blog-card featured reveal" : "blog-card reveal",
+      children: [
+        dom.create("div", { className: "blog-category", text: post.category }),
+        dom.create("h3", { text: post.title }),
+        dom.create("p", { className: "blog-excerpt", text: post.excerpt }),
+        dom.create("div", {
+          className: "blog-meta",
+          children: [
+            dom.create("span", { html: "📅 " + post.date }),
+            dom.create("span", { html: "⏱ " + post.readTime }),
+            dom.create("span", { html: "✦ Lume" })
+          ]
+        })
+      ]
+    })
+    card.addEventListener("click", () => {
+      window.location.hash = "blog/" + post.slug
+    })
+    grid.appendChild(card)
+  }
 
-console.log("✦ DWSC.io rendered — 36 apps, Built with Lume");
+  // ── Hash Router for Blog Posts ──
+  function renderBlogPost() {
+    let hash = window.location.hash.replace("#", "")
+    if ((!hash.startsWith("blog/")) return) {
+
+    let slug = hash.replace("blog/", "")
+    let post = blog_posts.find(p => p.slug === slug)
+    if ((!post) return) {
+
+    // Hide main content, show post
+    let app = dom.select("#app")
+    let existing = dom.select("#blog-post-view")
+    if ((existing) existing.remove()) {
+
+    // Scroll to top
+    window.scrollTo(0, 0)
+
+    let postView = dom.create("div", {
+      id: "blog-post-view",
+      className: "blog-post-view",
+      children: [
+        dom.create("a", {
+          className: "blog-post-back",
+          html: "← Back to Blog",
+          onClick: () => {
+            window.location.hash = "blog"
+            postView.remove()
+            app.style.display = ""
+          }
+        }),
+        dom.create("div", {
+          className: "blog-post-header",
+          children: [
+            dom.create("span", { className: "blog-category", text: post.category }),
+            dom.create("h1", { className: "gradient-text", text: post.title }),
+            dom.create("div", {
+              className: "blog-meta",
+              children: [
+                dom.create("span", { text: "Jason Andrews" }),
+                dom.create("span", { text: post.date }),
+                dom.create("span", { text: post.readTime })
+              ]
+            })
+          ]
+        }),
+        dom.create("div", {
+          className: "blog-post-body",
+          html: post.body
+        })
+      ]
+    })
+
+    app.style.display = "none"
+    document.body.appendChild(postView)
+  }
+
+  window.addEventListener("hashchange", () => {
+    let hash = window.location.hash.replace("#", "")
+    if (!hash.startsWith("blog/")) {
+      let postView = dom.select("#blog-post-view")
+      if ((postView) postView.remove()) {
+      let app = dom.select("#app")
+      if ((app) app.style.display = "") {
+    } else {
+      renderBlogPost()
+    }
+  })
+
+  // Check on load
+  if (window.location.hash.startsWith("#blog/")) {
+    renderBlogPost()
+  }
+})
+
+dom.mount(blog_section, "#app")
+
+
+// ─── FOOTER ────────────────────────────────────────────────
+
+let footer = dom.create("footer", {
+  className: "footer",
+  children: [
+    dom.create("div", {
+      className: "footer-grid",
+      children: [
+        dom.create("div", {
+          children: [
+            dom.create("div", {
+              className: "nav-logo gradient-text",
+              text: "DWSC",
+              styles: { fontSize: "1.3rem", marginBottom: "1rem" }
+            }),
+            dom.create("p", {
+              className: "footer-brand",
+              text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem."
+            })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Language" }),
+            dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com" } }),
+            dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground" } }),
+            dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org" } }),
+            dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Ecosystem" }),
+            dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
+            dom.create("a", { text: "TrustGen 3D + Lume IDE", attrs: { href: "https://trustgen.tlid.io" } }),
+            dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io" } }),
+            dom.create("a", { text: "Trust Hub", attrs: { href: "https://trusthub.tlid.io" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Legal" }),
+            dom.create("a", { text: "Privacy Policy", attrs: { href: "#" } }),
+            dom.create("a", { text: "Terms of Service", attrs: { href: "#" } }),
+            dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } })
+          ]
+        })
+      ]
+    }),
+    dom.create("div", {
+      className: "footer-bottom",
+      html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:var(--cyan);text-decoration:none'>Try Lume IDE →</a>"
+    })
+  ]
+})
+dom.mount(footer, "#app")
+
+
+// ─── SKELETON REVEAL ───────────────────────────────────────
+
+dom.ready(() => {
+  let reveals = dom.select_all(".reveal")
+  let observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if entry.isIntersecting
+        dom.add_class(entry.target, "visible")
+        observer.unobserve(entry.target)
+    }
+  }, { threshold: 0.1 })
+  
+  for (const el of reveals) {
+    observer.observe(el)
+  }
+})
+
+console.log("✦ DWSC.io rendered — Built with Lume")
 
 })();

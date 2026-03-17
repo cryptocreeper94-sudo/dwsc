@@ -1,13 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DWSC.io — DarkWave Systems Collective</title>
-    <meta name="description" content="Research & Engineering Division of DarkWave Studios LLC. Home of the Trust Layer ecosystem and Lume — the AI-native programming language." />
+
+    <!-- ═══ Primary SEO ═══ -->
+    <title>DWSC.io — DarkWave Systems Collective | Home of Lume & Trust Layer</title>
+    <meta name="description" content="DarkWave Systems Collective (DWSC) is the research & engineering division of DarkWave Studios LLC. Home of Lume — the AI-native programming language with natural English compilation, voice-to-code, and zero cognitive distance. Creator of the Trust Layer ecosystem with 36+ apps." />
+    <meta name="keywords" content="Lume, programming language, AI-native, natural language programming, voice to code, cognitive distance, Trust Layer, TrustGen, DarkWave Studios, DWSC, intent-resolving compiler, Tolerance Chain, English Mode" />
+    <meta name="author" content="DarkWave Studios LLC" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://dwsc.io/" />
+
+    <!-- ═══ Open Graph (Facebook, LinkedIn, ChatGPT, etc.) ═══ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DWSC.io — DarkWave Systems Collective" />
+    <meta property="og:title" content="DWSC.io — Home of Lume & the Trust Layer Ecosystem" />
+    <meta property="og:description" content="Research & engineering division of DarkWave Studios LLC. Home of Lume — the first programming language with natural English compilation, voice-to-code, and zero cognitive distance. 36+ ecosystem apps. Built entirely with Lume." />
+    <meta property="og:url" content="https://dwsc.io/" />
+    <meta property="og:image" content="https://dwsc.io/images/dwsc-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="DWSC.io — DarkWave Systems Collective — Home of Lume" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ═══ Twitter / X Card ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DWSC.io — Home of Lume & the Trust Layer Ecosystem" />
+    <meta name="twitter:description" content="The first programming language with natural English compilation, voice-to-code, and zero cognitive distance. 36+ ecosystem apps." />
+    <meta name="twitter:image" content="https://dwsc.io/images/dwsc-og.png" />
+    <meta name="twitter:image:alt" content="DWSC.io — DarkWave Systems Collective" />
+
+    <!-- ═══ JSON-LD Structured Data ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://dwsc.io/#organization",
+          "name": "DarkWave Systems Collective (DWSC)",
+          "alternateName": "DWSC",
+          "url": "https://dwsc.io",
+          "logo": "https://dwsc.io/images/dwsc-logo.png",
+          "description": "Research & engineering division of DarkWave Studios LLC. Home of Lume programming language and the Trust Layer ecosystem.",
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "DarkWave Studios LLC"
+          },
+          "sameAs": [
+            "https://github.com/cryptocreeper94-sudo",
+            "https://darkwavestudios.io",
+            "https://dwtl.io",
+            "https://lume-lang.com"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "team@dwsc.io",
+            "contactType": "technical support"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://dwsc.io/#website",
+          "name": "DWSC.io",
+          "url": "https://dwsc.io",
+          "description": "Home of the Lume programming language and Trust Layer ecosystem",
+          "publisher": { "@id": "https://dwsc.io/#organization" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://dwsc.io/#lume",
+          "name": "Lume",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Cross-platform",
+          "description": "AI-native programming language with natural English compilation, voice-to-code via the 7-layer Tolerance Chain, and zero cognitive distance. Compiles to JavaScript.",
+          "url": "https://lume-lang.com",
+          "author": { "@id": "https://dwsc.io/#organization" },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "softwareVersion": "0.8.0",
+          "programmingLanguage": "Lume"
+        },
+        {
+          "@type": "Blog",
+          "@id": "https://dwsc.io/#blog",
+          "name": "DWSC Engineering Blog",
+          "url": "https://dwsc.io/#blog",
+          "description": "Research and engineering insights from the DarkWave Systems Collective. Lume language design, cognitive distance theory, Tolerance Chain internals, and Trust Layer ecosystem updates.",
+          "publisher": { "@id": "https://dwsc.io/#organization" },
+          "blogPost": [
+            {
+              "@type": "BlogPosting",
+              "headline": "Why Lume Exists: The Cognitive Distance Problem",
+              "description": "Every developer translates between natural language thought and formal syntax hundreds of times per day. We built a language to eliminate that translation entirely.",
+              "datePublished": "2026-03-17",
+              "author": { "@type": "Person", "name": "Jason Andrews" },
+              "url": "https://dwsc.io/#blog/why-lume-exists"
+            },
+            {
+              "@type": "BlogPosting",
+              "headline": "The 7-Layer Tolerance Chain: How Lume Understands You",
+              "description": "A deep dive into the seven resolution layers that absorb human imprecision — from exact pattern matching to AI-powered intent resolution.",
+              "datePublished": "2026-03-17",
+              "author": { "@type": "Person", "name": "Jason Andrews" },
+              "url": "https://dwsc.io/#blog/tolerance-chain"
+            },
+            {
+              "@type": "BlogPosting",
+              "headline": "Voice-to-Code Is Not a Feature — It's an Architectural Consequence",
+              "description": "How the Cleanup Layer and Tolerance Chain make voice input a mechanical consequence of a compiler that already handles imprecise input.",
+              "datePublished": "2026-03-17",
+              "author": { "@type": "Person", "name": "Jason Andrews" },
+              "url": "https://dwsc.io/#blog/voice-to-code"
+            },
+            {
+              "@type": "BlogPosting",
+              "headline": "Adaptive Voice Profiles: The Compiler That Learns You",
+              "description": "How Lume's per-user dialect mapping, accent correction, and filler word personalization transform the compiler into a personalized interaction partner.",
+              "datePublished": "2026-03-17",
+              "author": { "@type": "Person", "name": "Jason Andrews" },
+              "url": "https://dwsc.io/#blog/adaptive-voice-profiles"
+            },
+            {
+              "@type": "BlogPosting",
+              "headline": "Building DWSC.io — A Site Written Entirely in Lume",
+              "description": "How we built the DarkWave Systems Collective website using Lume source code, compiled to browser-ready JavaScript. Zero frameworks. Zero dependencies.",
+              "datePublished": "2026-03-17",
+              "author": { "@type": "Person", "name": "Jason Andrews" },
+              "url": "https://dwsc.io/#blog/building-dwsc"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══ Fonts ═══ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- ═══ Favicon ═══ -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>" />
+    <meta name="theme-color" content="#06060a" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html { scroll-behavior: smooth; }
@@ -17,5 +158,57 @@
   <body>
     <div id="app"></div>
     <script src="dist/dwsc.js"></script>
+
+    <!-- ═══ Noscript SEO Fallback ═══ -->
+    <noscript>
+      <div style="max-width:900px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;color:#e2e8f0;">
+        <h1>DWSC.io — DarkWave Systems Collective</h1>
+        <p>Research & Engineering Division of DarkWave Studios LLC</p>
+        <p>Home of <strong>Lume</strong> — the AI-native programming language with natural English compilation and voice-to-code capabilities.</p>
+
+        <h2>About Lume</h2>
+        <p>Lume is the first programming language designed to eliminate cognitive distance — the gap between how developers think and how they must write code. Lume accepts natural English as valid source code, compiles it deterministically to JavaScript through a 7-layer Tolerance Chain, and supports voice input as an architectural consequence of its imprecision-tolerant design.</p>
+
+        <h3>Key Features</h3>
+        <ul>
+          <li>Natural English as valid source code — no formal syntax required</li>
+          <li>7-layer Tolerance Chain: exact match, fuzzy match, auto-correct, context engine, temporal resolver, i18n, AI resolver</li>
+          <li>Voice-to-code via Cleanup Layer and Adaptive Voice Profiles</li>
+          <li>Review Mode: human-in-the-loop verification before code emission</li>
+          <li>Resolution Manifest (lume-lock.json) for deterministic reproducibility</li>
+          <li>Semantic Invariant Certificates for tamper-evident compilation</li>
+          <li>Supports 10 languages via i18n pattern library</li>
+          <li>2,000+ tests, 86,000+ words of academic research</li>
+        </ul>
+
+        <h2>Trust Layer Ecosystem</h2>
+        <p>DWSC oversees the Trust Layer ecosystem — 36+ interconnected applications spanning 3D creation (TrustGen), education (DarkWave Academy), social (Signal Chat), and professional services. All powered by Lume.</p>
+
+        <h2>Research & Publications</h2>
+        <ul>
+          <li>"Eliminating Cognitive Distance" — CHI 2027 submission targeting Interaction Techniques, Devices, and Modalities</li>
+          <li>Complete Technical Blueprint — source-of-truth for Lume's theoretical foundations</li>
+        </ul>
+
+        <h2>Blog</h2>
+        <ul>
+          <li><a href="#blog/why-lume-exists">Why Lume Exists: The Cognitive Distance Problem</a></li>
+          <li><a href="#blog/tolerance-chain">The 7-Layer Tolerance Chain: How Lume Understands You</a></li>
+          <li><a href="#blog/voice-to-code">Voice-to-Code Is Not a Feature — It's an Architectural Consequence</a></li>
+          <li><a href="#blog/adaptive-voice-profiles">Adaptive Voice Profiles: The Compiler That Learns You</a></li>
+          <li><a href="#blog/building-dwsc">Building DWSC.io — A Site Written Entirely in Lume</a></li>
+        </ul>
+
+        <h2>Links</h2>
+        <ul>
+          <li><a href="https://lume-lang.com">Lume Language</a></li>
+          <li><a href="https://dwtl.io">Trust Layer Hub</a></li>
+          <li><a href="https://trustgen.tlid.io">TrustGen 3D + Lume IDE</a></li>
+          <li><a href="https://github.com/cryptocreeper94-sudo/lume">GitHub</a></li>
+        </ul>
+
+        <p>© 2026 DarkWave Studios LLC. All rights reserved.</p>
+      </div>
+    </noscript>
   </body>
 </html>
