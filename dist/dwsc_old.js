@@ -362,17 +362,6 @@ let mobile_menu = dom.create("div", { className: "mobile-menu", children: [
 dom.mount(mobile_menu);
 
 
-// ─── HERO CTA STYLES ───
-dom.inject_css(`
-  .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center; }
-  .hero-cta a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 0.75rem; font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 0.02em; }
-  .hero-cta .cta-primary { background: linear-gradient(135deg, var(--cyan), var(--teal)); color: var(--void); box-shadow: 0 4px 24px rgba(6, 182, 212, 0.3); }
-  .hero-cta .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(6, 182, 212, 0.5); }
-  .hero-cta .cta-secondary { background: transparent; color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
-  .hero-cta .cta-secondary:hover { border-color: var(--cyan); background: rgba(6, 182, 212, 0.08); transform: translateY(-2px); }
-  @media (max-width: 480px) { .hero-cta { flex-direction: column; align-items: stretch; } .hero-cta a { justify-content: center; } }
-`, "dwsc-hero-cta");
-
 // ─── HERO SECTION ───
 let hero = dom.create("section", { className: "hero", children: [
   dom.create("div", { className: "built-with reveal", children: [
@@ -382,11 +371,6 @@ let hero = dom.create("section", { className: "hero", children: [
   dom.create("h1", { className: "gradient-text reveal", text: "DarkWave Systems Collective" }),
   dom.create("p", { className: "subtitle reveal", text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance." }),
   dom.create("div", { className: "tagline reveal", text: "Intent → Code → Certified. Zero translation." }),
-  dom.create("div", { className: "hero-cta reveal", children: [
-    dom.create("a", { className: "cta-primary", text: "◈ Try Lume IDE at TrustGen", attrs: { href: "https://trustgen.tlid.io", target: "_blank" } }),
-    dom.create("a", { className: "cta-secondary", text: "📄 Read the Paper", attrs: { href: "#papers" } }),
-    dom.create("a", { className: "cta-secondary", text: "🔬 Explore Ecosystem", attrs: { href: "#ecosystem" } }),
-  ]}),
 ]});
 dom.mount(hero, "#app");
 
@@ -680,7 +664,7 @@ let footer = dom.create("footer", { className: "footer", children: [
       dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } }),
     ]}),
   ]}),
-  dom.create("div", { className: "footer-bottom", html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:#06b6d4;text-decoration:none'>Try Lume IDE →</a>" }),
+  dom.create("div", { className: "footer-bottom", html: "© 2025 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC" }),
 ]});
 dom.mount(footer, "#app");
 
