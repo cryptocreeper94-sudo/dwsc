@@ -1,0 +1,863 @@
+/// ═══════════════════════════════════════════════════════════
+///  DWSC.io — DarkWave Systems Collective
+///  Built with Lume — the AI-native programming language
+///  
+///  This is the Lume source file. It compiles to browser-ready
+///  JavaScript via: lume bundle src/main.lume --target=browser
+///
+///  Ultra-Premium Protocol: Void Black + Cyan/Teal/Purple palette,
+///  glassmorphism, floating orbs, skeleton reveals, bento grid,
+///  gradient wave text, responsive mobile-first design.
+/// ═══════════════════════════════════════════════════════════
+
+/// ─── GLOBAL STYLES ─────────────────────────────────────────
+
+dom.inject_css("
+  :root {
+    --void: #06060a;
+    --primary: #0a0a10;
+    --secondary: #10101a;
+    --deep: #000000;
+    --cyan: #06b6d4;
+    --teal: #14b8a6;
+    --blue: #38bdf8;
+    --purple: #a855f7;
+    --indigo: #7c3aed;
+    --glass-bg: rgba(16, 16, 26, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255,255,255,0.6);
+    --text-dim: rgba(255,255,255,0.35);
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--void); }
+  ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+  /* ── Gradient Text ── */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--cyan), var(--teal), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* ── Glass Card ── */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* ── Orbs ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes orb-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(30px, -25px) scale(1.05); }
+    50% { transform: translate(-15px, 20px) scale(0.95); }
+    75% { transform: translate(20px, 10px) scale(1.02); }
+  }
+
+  /* ── Reveal Animation ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Section Spacing ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 6, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-logo {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--cyan);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background: rgba(6, 6, 10, 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--text-secondary);
+    max-width: 640px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .hero .tagline {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+  }
+
+  /* ── Built With Badge ── */
+  .built-with {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--cyan);
+    background: rgba(6, 182, 212, 0.06);
+    margin-bottom: 2rem;
+  }
+  .built-with .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(6,182,212,0); }
+  }
+
+  /* ── Section Headers ── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── Bento Grid ── */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .bento-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: default;
+  }
+  .bento-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.2);
+  }
+  .bento-card.span-2 { grid-column: span 2; }
+  .bento-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .bento-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .bento-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .bento-card .tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    margin-top: 1rem;
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+  }
+
+  /* ── Code Block ── */
+  .code-block {
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+  }
+  .code-block .kw { color: var(--purple); }
+  .code-block .fn { color: var(--cyan); }
+  .code-block .str { color: var(--teal); }
+  .code-block .cm { color: var(--text-dim); }
+
+  /* ── Stats Row ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 4rem 0;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .stat-card .number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+  }
+  .stat-card .label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Carousel ── */
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .carousel-slide {
+    min-width: 100%;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .carousel-slide .slide-content h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .carousel-slide .slide-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+  }
+  .carousel-dot {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .carousel-dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: all 0.3s ease;
+  }
+  .carousel-dot.active::before {
+    background: var(--cyan);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    background: var(--deep);
+    border-top: 1px solid var(--glass-border);
+    padding: 4rem 2rem 2rem;
+    margin-top: 4rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer h4 {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .footer a {
+    display: block;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.3rem 0;
+    transition: color 0.2s;
+  }
+  .footer a:hover { color: var(--cyan); }
+  .footer-brand {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer-bottom {
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .bento { grid-template-columns: repeat(2, 1fr); }
+    .bento-card.span-2 { grid-column: span 1; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 4rem 1.25rem; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .carousel-slide { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  @media (max-width: 480px) {
+    .bento { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .carousel-slide { padding: 2rem 1.5rem; }
+  }
+", "dwsc-styles")
+
+
+/// ─── FLOATING ORBS ─────────────────────────────────────────
+
+let orb1 = dom.create("div", {
+  className: "orb",
+  styles: { width: "500px", height: "500px", background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)", top: "5%", left: "10%", animation: "orb-float 12s ease-in-out infinite" }
+})
+dom.mount(orb1)
+
+let orb2 = dom.create("div", {
+  className: "orb",
+  styles: { width: "400px", height: "400px", background: "radial-gradient(circle, #a855f7 0%, transparent 70%)", top: "40%", right: "5%", animation: "orb-float 15s ease-in-out infinite reverse" }
+})
+dom.mount(orb2)
+
+let orb3 = dom.create("div", {
+  className: "orb",
+  styles: { width: "350px", height: "350px", background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)", bottom: "10%", left: "30%", animation: "orb-float 10s ease-in-out infinite 2s" }
+})
+dom.mount(orb3)
+
+
+/// ─── NAVIGATION ────────────────────────────────────────────
+
+let mobile_open = state.reactive(false)
+
+let hamburger = dom.create("button", {
+  className: "hamburger",
+  html: "&#9776;",
+  attrs: { "aria-label": "Menu" },
+  onClick: () => {
+    mobile_open.set(!mobile_open.get())
+    let menu = dom.select(".mobile-menu")
+    if (mobile_open.get()) {
+      dom.add_class(menu, "open")
+      hamburger.innerHTML = "&#10005;"
+    } else {
+      dom.remove_class(menu, "open")
+      hamburger.innerHTML = "&#9776;"
+    }
+  }
+})
+
+let nav = dom.create("nav", {
+  className: "nav",
+  children: [
+    dom.create("div", {
+      className: "nav-logo gradient-text",
+      text: "DWSC"
+    }),
+    dom.create("ul", {
+      className: "nav-links",
+      children: [
+        dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
+      ]
+    }),
+    hamburger
+  ]
+})
+dom.mount(nav)
+
+let mobile_menu = dom.create("div", {
+  className: "mobile-menu",
+  children: [
+    dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Contact", attrs: { href: "#contact" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } })
+  ]
+})
+dom.mount(mobile_menu)
+
+
+/// ─── HERO SECTION ──────────────────────────────────────────
+
+let hero = dom.create("section", {
+  className: "hero",
+  children: [
+    dom.create("div", {
+      className: "built-with reveal",
+      children: [
+        dom.create("span", { className: "dot" }),
+        dom.create("span", { text: "Built with Lume" })
+      ]
+    }),
+    dom.create("h1", {
+      className: "gradient-text reveal",
+      text: "DarkWave Systems Collective"
+    }),
+    dom.create("p", {
+      className: "subtitle reveal",
+      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance."
+    }),
+    dom.create("div", {
+      className: "tagline reveal",
+      text: "Intent → Code → Certified. Zero translation."
+    })
+  ]
+})
+dom.mount(hero, "#app")
+
+
+/// ─── STATS ─────────────────────────────────────────────────
+
+let stats_section = dom.create("section", {
+  children: [
+    dom.create("div", {
+      className: "stats",
+      children: [
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "7" }),
+          dom.create("div", { className: "label", text: "Tolerance Layers" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "2,000+" }),
+          dom.create("div", { className: "label", text: "Tests Passing" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "3" }),
+          dom.create("div", { className: "label", text: "Security Layers" })
+        ]}),
+        dom.create("div", { className: "stat-card glass reveal", children: [
+          dom.create("div", { className: "number gradient-text", text: "0" }),
+          dom.create("div", { className: "label", text: "CD Target Score" })
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(stats_section, "#app")
+
+
+/// ─── LUME SECTION ──────────────────────────────────────────
+
+let lume_section = dom.create("section", {
+  id: "lume",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// FLAGSHIP" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Lume Programming Language" }),
+    dom.create("p", { className: "section-desc reveal", text: "The world's first AI-native programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
+    dom.create("div", {
+      className: "code-block glass reveal",
+      html: '<span class="cm">// English Mode — zero cognitive distance</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">show</span> their names and emails\n<span class="kw">sort</span> them by signup date descending\n\n<span class="cm">// Compiles to certified JavaScript:</span>\n<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">db.query</span>(<span class="str">\'SELECT name, email FROM users\n  WHERE created_at >= DATE_TRUNC(month, CURRENT_DATE)\n  ORDER BY created_at DESC\'</span>);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY | Risk: LOW</span>'
+    })
+  ]
+})
+dom.mount(lume_section, "#app")
+
+
+/// ─── RESEARCH CAROUSEL ─────────────────────────────────────
+
+let current_slide = state.reactive(0)
+define slide_count = 3
+
+let slides_data = [
+  {
+    title: "Cognitive Distance Theory",
+    desc: "A formal mathematical framework proving that programming difficulty is proportional to the gap between human intent and machine syntax. Lume's CD score approaches zero.",
+    badge: "§8.1 — Theoretical Contribution"
+  },
+  {
+    title: "Certified-at-Birth Security",
+    desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. The Semantic Invariant Test ensures intent-to-execution integrity is cryptographically provable.",
+    badge: "§8.13 — Three-Layer Security"
+  },
+  {
+    title: "Auditory Mode",
+    desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.",
+    badge: "§8.14 — Accessibility as Architecture"
+  }
+]
+
+let track = dom.create("div", { className: "carousel-track" })
+
+for each slide in slides_data
+  let slide_el = dom.create("div", {
+    className: "carousel-slide",
+    children: [
+      dom.create("div", {
+        className: "slide-content",
+        children: [
+          dom.create("h3", { className: "gradient-text", text: slide.title }),
+          dom.create("p", { text: slide.desc }),
+          dom.create("span", { className: "tag", text: slide.badge })
+        ]
+      }),
+      dom.create("div", {
+        className: "code-block",
+        styles: { fontSize: "0.8rem" },
+        html: '<span class="cm">// Research paper section reference</span>\n<span class="kw">define</span> contribution = <span class="str">"' + slide.title + '"</span>\n<span class="kw">show</span> contribution.impact'
+      })
+    ]
+  })
+  dom.add_child(track, slide_el)
+
+let dots_container = dom.create("div", { className: "carousel-dots" })
+
+for i in range(0, slide_count)
+  let dot = dom.create("button", {
+    className: "carousel-dot" + (i === 0 ? " active" : ""),
+    attrs: { "aria-label": "Slide " + (i + 1) }
+  })
+  dom.on(dot, "click", () => {
+    current_slide.set(i)
+  })
+  dom.add_child(dots_container, dot)
+
+current_slide.on_change((val) => {
+  track.style.transform = "translateX(-" + (val * 100) + "%)"
+  let dots = dom.select_all(".carousel-dot")
+  for each d in dots
+    dom.remove_class(d, "active")
+  dom.add_class(dots[val], "active")
+})
+
+/// Auto-rotate
+let auto_rotate = setInterval(() => {
+  let next = (current_slide.get() + 1) % slide_count
+  current_slide.set(next)
+}, 6000)
+
+let research_section = dom.create("section", {
+  id: "research",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// RESEARCH" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Contributions" }),
+    dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable theoretical frameworks, experimental designs, and novel paradigms in programming language design." }),
+    dom.create("div", {
+      className: "carousel reveal",
+      children: [track, dots_container]
+    })
+  ]
+})
+dom.mount(research_section, "#app")
+
+
+/// ─── ECOSYSTEM BENTO GRID ──────────────────────────────────
+
+let ecosystem_apps = [
+  { icon: "🛡️", name: "Trust Layer Hub", desc: "Central orchestration for the entire Trust Layer ecosystem. SSO, hallmarks, trust stamps, and cross-app authentication.", tag: "CORE", span: true },
+  { icon: "🔗", name: "Signal Chat", desc: "Real-time encrypted messaging with bot framework and ecosystem-wide WebSocket protocol.", tag: "COMMUNICATION" },
+  { icon: "🎨", name: "TrustGen 3D", desc: "AI-powered 3D asset generation with cinematic pipeline and blockchain provenance.", tag: "CREATIVE" },
+  { icon: "🎓", name: "DarkWave Academy", desc: "Developer education platform with tutorials, guides, and hands-on Lume workshops.", tag: "EDUCATION" },
+  { icon: "💰", name: "TrustHome", desc: "Property management with trust-verified listings, smart contracts, and tenant scoring.", tag: "FINANCE", span: true },
+  { icon: "🏗️", name: "DarkWave Studio", desc: "The ecosystem IDE. Full Lume toolchain integration with visual debugging and live preview.", tag: "DEVELOPER" },
+  { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game built with Three.js. Physics engine, procedural venues, Mixamo avatars.", tag: "GAMING" },
+  { icon: "🌿", name: "Verdara", desc: "Smart agriculture platform with IoT integration and crop yield optimization.", tag: "AGRICULTURE" },
+  { icon: "🎨", name: "PaintPros", desc: "AI-assisted professional painting estimation with material calculation and scheduling.", tag: "SERVICE" }
+]
+
+let bento = dom.create("div", { className: "bento" })
+
+for each app in ecosystem_apps
+  let card = dom.create("div", {
+    className: "bento-card reveal" + (app.span ? " span-2" : ""),
+    children: [
+      dom.create("span", { className: "icon", text: app.icon }),
+      dom.create("h3", { text: app.name }),
+      dom.create("p", { text: app.desc }),
+      dom.create("span", { className: "tag", text: app.tag })
+    ]
+  })
+  dom.add_child(bento, card)
+
+let ecosystem_section = dom.create("section", {
+  id: "ecosystem",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
+    dom.create("p", { className: "section-desc reveal", text: "Nine interconnected applications spanning communication, finance, gaming, education, and creative tools — all unified by Trust Layer SSO." }),
+    bento
+  ]
+})
+dom.mount(ecosystem_section, "#app")
+
+
+/// ─── PAPERS SECTION ────────────────────────────────────────
+
+let papers_section = dom.create("section", {
+  id: "papers",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Papers" }),
+    dom.create("p", { className: "section-desc reveal", text: "Comprehensive research publications on Lume's theoretical foundations, security model, and experimental methodology." }),
+    dom.create("div", {
+      className: "bento",
+      styles: { gridTemplateColumns: "1fr 1fr" },
+      children: [
+        dom.create("div", {
+          className: "bento-card reveal",
+          children: [
+            dom.create("span", { className: "icon", text: "📄" }),
+            dom.create("h3", { text: "Full Academic Paper" }),
+            dom.create("p", { text: "LUME: Eliminating Cognitive Distance — An AI-Native Programming Language with Natural Language Compilation, Voice Input, and Certified Security. 15 sections, 1500+ lines." }),
+            dom.create("span", { className: "tag", text: "LUME-ACADEMIC-PAPER.md" })
+          ]
+        }),
+        dom.create("div", {
+          className: "bento-card reveal",
+          children: [
+            dom.create("span", { className: "icon", text: "📋" }),
+            dom.create("h3", { text: "Technical Brief" }),
+            dom.create("p", { text: "Complete technical blueprint for paper co-authorship. All code examples, formulas, tables, and experimental designs. The source of truth." }),
+            dom.create("span", { className: "tag", text: "LUME_ACADEMIC_BRIEF.md" })
+          ]
+        })
+      ]
+    })
+  ]
+})
+dom.mount(papers_section, "#app")
+
+
+/// ─── FOOTER ────────────────────────────────────────────────
+
+let footer = dom.create("footer", {
+  className: "footer",
+  children: [
+    dom.create("div", {
+      className: "footer-grid",
+      children: [
+        dom.create("div", {
+          children: [
+            dom.create("div", {
+              className: "nav-logo gradient-text",
+              text: "DWSC",
+              styles: { fontSize: "1.3rem", marginBottom: "1rem" }
+            }),
+            dom.create("p", {
+              className: "footer-brand",
+              text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem."
+            })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Language" }),
+            dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com" } }),
+            dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground" } }),
+            dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org" } }),
+            dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Ecosystem" }),
+            dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
+            dom.create("a", { text: "Signal Chat", attrs: { href: "#" } }),
+            dom.create("a", { text: "TrustGen 3D", attrs: { href: "#" } }),
+            dom.create("a", { text: "DarkWave Academy", attrs: { href: "#" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Legal" }),
+            dom.create("a", { text: "Privacy Policy", attrs: { href: "#" } }),
+            dom.create("a", { text: "Terms of Service", attrs: { href: "#" } }),
+            dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } })
+          ]
+        })
+      ]
+    }),
+    dom.create("div", {
+      className: "footer-bottom",
+      html: "© 2025 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC"
+    })
+  ]
+})
+dom.mount(footer, "#app")
+
+
+/// ─── SKELETON REVEAL ───────────────────────────────────────
+
+dom.ready(() => {
+  let reveals = dom.select_all(".reveal")
+  let observer = new IntersectionObserver((entries) => {
+    for each entry in entries
+      if entry.isIntersecting
+        dom.add_class(entry.target, "visible")
+        observer.unobserve(entry.target)
+  }, { threshold: 0.1 })
+  
+  for each el in reveals
+    observer.observe(el)
+})
+
+show "✦ DWSC.io rendered — Built with Lume"
