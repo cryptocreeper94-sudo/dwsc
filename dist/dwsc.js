@@ -830,6 +830,7 @@ for (const slide of slides_data) {
   })
   dom.add_child(track, slide_el)
 }
+
 let dots_container = dom.create("div", { className: "carousel-dots" })
 
 for (let i = 0; i < slide_count; i++) {
@@ -842,13 +843,14 @@ for (let i = 0; i < slide_count; i++) {
   })
   dom.add_child(dots_container, dot)
 }
+
 current_slide.on_change((val) => {
   track.style.transform = "translateX(-" + (val * 100) + "%)"
   let dots = dom.select_all(".carousel-dot")
   for (const d of dots) {
     dom.remove_class(d, "active")
-  }
   dom.add_class(dots[val], "active")
+  }
 })
 
 // Auto-rotate
@@ -1556,9 +1558,9 @@ let blog_posts = [
 <p>The Lume browser bundler (<code>build.js</code>) transforms Lume syntax into valid browser JavaScript:</p>
 <ul>
 <li>Multi-line strings → template literals</li>
-<li><code>for each x in y</code> → <code>for (const x of y)</code></li>
-<li><code>define x = y</code> → <code>const x = y</code></li>
-<li><code>show x</code> → <code>console.log(x)</code></li>
+<li><code>for&nbsp;each x in y</code> → <code>for (const x of y)</code></li>
+<li><code>def&#105;ne x = y</code> → <code>const x = y</code></li>
+<li><code>sh&#111;w x</code> → <code>console.log(x)</code></li>
 <li>Wraps everything in an IIFE with the Lume Standard Library</li>
 </ul>
 <p>The result is a single 40-50KB JavaScript file with zero external dependencies that renders the entire site client-side.</p>
@@ -2126,7 +2128,7 @@ dom.ready(() => {
       ? topRefs.map(r => dom.create("div", { className: "health-item", children: [
           dom.create("span", { className: "health-name", text: r[0] }),
           dom.create("span", { className: "health-status up", text: r[1] + " visits" })
-        ]})
+        ]}))
       : [dom.create("div", { className: "health-item", children: [
           dom.create("span", { className: "health-name", text: "No referrers tracked yet" })
         ]})]

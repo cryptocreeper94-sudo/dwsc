@@ -106,21 +106,34 @@ function transformLume(src) {
                 continue
             }
 
-            // Convert if/else blocks with indentation
-            // Only transform lines that don't already have JS-style if (...)
+            // Convert if blocks with indentation (Lume-style if without parens)
             const ifMatch = line.match(/^(\s*)if\s+(.+)$/)
             if (ifMatch && !line.includes('{') && !ifMatch[2].startsWith('(')) {
-                // Check if the next line is indented (block body) vs inline action
                 const baseIndent = ifMatch[1].length
                 const nextLine = i + 1 < lines.length ? lines[i + 1] : ''
                 const nextTrimmed = nextLine.trim()
                 const nextIndent = nextLine.match(/^(\s*)/)?.[1]?.length || 0
 
                 if (nextTrimmed && nextIndent > baseIndent) {
-                    // Block if — condition only, body follows on indented lines
+                    // Block if — scan ahead for indented body, add closing }
                     output.push(`${ifMatch[1]}if (${ifMatch[2]}) {`)
+                    let j = i + 1
+                    while (j < lines.length) {
+                        const bodyLine = lines[j]
+                        const bodyTrimmed = bodyLine.trim()
+                        if (bodyTrimmed === '') { output.push(bodyLine); j++; continue }
+                        const bodyIndent = bodyLine.match(/^(\s*)/)[1].length
+                        if (bodyIndent <= baseIndent) break
+                        let transformed = bodyLine
+                        transformed = transformed.replace(/^(\s*)define\s+/, '$1const ')
+                        transformed = transformed.replace(/^(\s*)show\s+(.+)$/, '$1console.log($2)')
+                        output.push(transformed)
+                        j++
+                    }
+                    output.push(`${ifMatch[1]}}`)
+                    i = j - 1
                 } else {
-                    // Inline if — pass through as-is (it's already valid JS or a simple statement)
+                    // Inline if — pass through as-is
                     output.push(line)
                 }
                 continue
