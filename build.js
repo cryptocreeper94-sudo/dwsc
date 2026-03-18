@@ -262,6 +262,18 @@ const state = {
 `
 
 const FOOTER = `
+
+// ═══ Lume Health Beacon ═══
+// Signals that the IIFE executed without fatal errors
+// Detectable by lume-heal.js monitor, external health checks, and browser console
+window.__LUME_HEALTH__ = {
+  status: 'ok',
+  rendered: Date.now(),
+  version: '0.8.0',
+  bundle: 'dwsc',
+  stages: { syntax: true, structure: true, execution: true }
+};
+
 })();
 `
 
