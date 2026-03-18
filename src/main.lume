@@ -525,8 +525,7 @@ let nav = dom.create("nav", {
         dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
-        dom.create("li", { children: [dom.create("a", { text: "Playground", attrs: { href: "#playground" } })] }),
-        dom.create("li", { children: [dom.create("a", { text: "Verticals", attrs: { href: "#verticals" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Roadmap", attrs: { href: "#roadmap" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Blog", attrs: { href: "#blog" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
@@ -1082,7 +1081,728 @@ let ecosystem_section = dom.create("section", {
 dom.mount(ecosystem_section, "#app")
 
 
-/// ─── VERTICAL APPLICATIONS ─────────────────────────────────
+/// ─── ECOSYSTEM ARCHITECTURE DIAGRAM ────────────────────────
+
+dom.inject_css("
+  .arch-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+  }
+  .arch-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(6,182,212,0.15), rgba(168,85,247,0.1));
+    border: 2px solid rgba(6,182,212,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 10;
+    box-shadow: 0 0 40px rgba(6,182,212,0.15);
+  }
+  .arch-hub-icon { font-size: 1.5rem; margin-bottom: 0.25rem; }
+  .arch-hub-label { font-size: 0.65rem; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.1em; text-align: center; }
+  .arch-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid rgba(6,182,212,0.08);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .arch-node {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+  }
+  .arch-node:hover {
+    border-color: rgba(6,182,212,0.4);
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(6,182,212,0.2);
+  }
+  .arch-node .arch-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    background: var(--primary);
+    border: 1px solid rgba(6,182,212,0.2);
+    white-space: nowrap;
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .arch-node:hover .arch-tooltip { opacity: 1; }
+  @keyframes orbit-pulse {
+    0%, 100% { opacity: 0.08; }
+    50% { opacity: 0.15; }
+  }
+  @media (max-width: 768px) {
+    .arch-container { max-width: 360px; }
+    .arch-hub { width: 80px; height: 80px; }
+    .arch-hub-icon { font-size: 1.1rem; }
+    .arch-hub-label { font-size: 0.5rem; }
+    .arch-node { width: 36px; height: 36px; font-size: 0.8rem; }
+  }
+  @media (max-width: 480px) {
+    .arch-container { max-width: 280px; }
+    .arch-hub { width: 64px; height: 64px; }
+    .arch-node { width: 30px; height: 30px; font-size: 0.7rem; }
+  }
+", "dwsc-arch-styles")
+
+/// Build the hub-and-spoke nodes
+let arch_apps = [
+  { icon: "🔐", name: "Trust Layer SSO", cat: "core" },
+  { icon: "◈", name: "TrustGen 3D", cat: "dev" },
+  { icon: "🎵", name: "DarkWave Studio", cat: "dev" },
+  { icon: "💬", name: "Signal Chat", cat: "social" },
+  { icon: "🏗️", name: "DW Studio IDE", cat: "dev" },
+  { icon: "🎓", name: "DarkWave Academy", cat: "edu" },
+  { icon: "💎", name: "Lume Lang", cat: "dev" },
+  { icon: "🎮", name: "Bomber 3D", cat: "game" },
+  { icon: "🌳", name: "Arbora", cat: "social" },
+  { icon: "🎲", name: "Chronicles", cat: "game" },
+  { icon: "🍺", name: "BrewBoard", cat: "comm" },
+  { icon: "🎨", name: "PaintPros", cat: "comm" },
+  { icon: "🏠", name: "TrustHome", cat: "comm" },
+  { icon: "📊", name: "Verdara", cat: "ent" },
+  { icon: "🌿", name: "Bloom", cat: "social" },
+  { icon: "📰", name: "Newsroom", cat: "social" },
+  { icon: "🔧", name: "Deploy Engine", cat: "infra" },
+  { icon: "✅", name: "Verify Keyword", cat: "infra" },
+  { icon: "🔗", name: "Hallmarks", cat: "core" },
+  { icon: "📝", name: "Trust Stamps", cat: "core" }
+]
+
+let arch_container = dom.create("div", { className: "arch-container" })
+
+/// Hub
+dom.add_child(arch_container, dom.create("div", {
+  className: "arch-hub",
+  children: [
+    dom.create("div", { className: "arch-hub-icon", text: "🛡️" }),
+    dom.create("div", { className: "arch-hub-label", text: "Trust Layer" })
+  ]
+}))
+
+/// Rings
+let ring_sizes = [240, 340, 440]
+for (const size of ring_sizes) {
+  dom.add_child(arch_container, dom.create("div", {
+    className: "arch-ring",
+    styles: { width: size + "px", height: size + "px", animation: "orbit-pulse 4s ease infinite " + (size / 100) + "s" }
+  }))
+}
+
+/// Position nodes around rings
+for (let i = 0; i < arch_apps.length; i++) {
+  let app = arch_apps[i]
+  let ring = i < 6 ? 0 : (i < 13 ? 1 : 2)
+  let ring_radius = ring_sizes[ring] / 2
+  let items_on_ring = ring === 0 ? 6 : (ring === 1 ? 7 : 7)
+  let idx_on_ring = ring === 0 ? i : (ring === 1 ? i - 6 : i - 13)
+  let angle = (idx_on_ring / items_on_ring) * 2 * 3.14159 - 1.5708
+  let cx = 50 + (ring_radius / 3.5) * Math.cos(angle)
+  let cy = 50 + (ring_radius / 3.5) * Math.sin(angle)
+
+  let node = dom.create("div", {
+    className: "arch-node",
+    styles: { left: cx + "%", top: cy + "%", transform: "translate(-50%, -50%)" },
+    children: [
+      dom.create("span", { text: app.icon }),
+      dom.create("span", { className: "arch-tooltip", text: app.name })
+    ]
+  })
+  dom.add_child(arch_container, node)
+}
+
+let arch_section = dom.create("section", {
+  id: "architecture",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ARCHITECTURE" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Ecosystem Architecture" }),
+    dom.create("p", { className: "section-desc reveal", text: "All applications connect through Trust Layer SSO — one identity, one authentication, one ecosystem." }),
+    dom.create("div", { className: "reveal", children: [arch_container] })
+  ]
+})
+dom.mount(arch_section, "#app")
+
+
+/// ─── CATEGORIZED ECOSYSTEM CAROUSELS ───────────────────────
+
+dom.inject_css("
+  .cat-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  .cat-tab {
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.02em;
+  }
+  .cat-tab:hover { border-color: rgba(6,182,212,0.3); color: var(--cyan); }
+  .cat-tab.active {
+    background: rgba(6,182,212,0.1);
+    border-color: rgba(6,182,212,0.3);
+    color: var(--cyan);
+  }
+  .cat-carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  .cat-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cat-card {
+    min-width: 50%;
+    padding: 2rem;
+    box-sizing: border-box;
+    border-right: 1px solid var(--glass-border);
+  }
+  .cat-card-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .cat-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .cat-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.75rem; }
+  .cat-card .cat-link {
+    font-size: 0.75rem;
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .cat-card .cat-link:hover { text-decoration: underline; }
+  .cat-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .cat-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--cyan);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .cat-arrow:hover { border-color: var(--cyan); background: rgba(6,182,212,0.08); }
+  .cat-dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .cat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  .cat-dot.active {
+    background: var(--cyan);
+    box-shadow: 0 0 10px rgba(6,182,212,0.5);
+    width: 20px;
+    border-radius: 4px;
+  }
+  @media (max-width: 768px) {
+    .cat-card { min-width: 100%; }
+    .cat-tabs { justify-content: center; }
+  }
+", "dwsc-category-styles")
+
+let categories = [
+  {
+    name: "Developer Tools",
+    apps: [
+      { icon: "💎", name: "Lume Language", desc: "AI-native language with voice-to-code and certified security.", url: "https://lume-lang.com" },
+      { icon: "◈", name: "TrustGen 3D", desc: "AI-powered 3D generation with built-in Lume IDE.", url: "https://trustgen.tlid.io" },
+      { icon: "🏗️", name: "DarkWave Studio", desc: "Ecosystem IDE with Lume toolchain integration.", url: "https://darkwavestudio.tlid.io" },
+      { icon: "🔧", name: "Deploy Engine", desc: "One-command deployment with Lume integration.", url: "#" },
+      { icon: "✅", name: "Verify Keyword", desc: "Domain verification and security certification.", url: "#" }
+    ]
+  },
+  {
+    name: "Security & Identity",
+    apps: [
+      { icon: "🔐", name: "Trust Layer Hub", desc: "Central SSO, hallmarks, and blockchain identity.", url: "https://dwtl.io" },
+      { icon: "🔗", name: "Hallmarks", desc: "Blockchain-verified digital identity badges.", url: "#" },
+      { icon: "📝", name: "Trust Stamps", desc: "Tamper-evident certification for digital content.", url: "#" }
+    ]
+  },
+  {
+    name: "Commerce & Services",
+    apps: [
+      { icon: "🎨", name: "PaintPros", desc: "Professional painting service marketplace.", url: "https://paintpros.tlid.io" },
+      { icon: "🏠", name: "TrustHome", desc: "Real estate and property management platform.", url: "https://trusthome.tlid.io" },
+      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" },
+      { icon: "🛒", name: "Marketplace", desc: "Trust Layer verified e-commerce ecosystem.", url: "#" },
+      { icon: "📋", name: "ServiceHub", desc: "Service provider directory and booking.", url: "#" }
+    ]
+  },
+  {
+    name: "Gaming & Entertainment",
+    apps: [
+      { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game with Three.js physics.", url: "https://bomber3d.tlid.io" },
+      { icon: "🎲", name: "Chronicles", desc: "Collaborative storytelling RPG platform.", url: "https://chronicles.tlid.io" },
+      { icon: "🎵", name: "DarkWave Studio", desc: "Music production and audio engineering.", url: "https://darkwavestudio.tlid.io" },
+      { icon: "🎯", name: "GameForge", desc: "Game development toolkit and engine.", url: "#" }
+    ]
+  },
+  {
+    name: "Enterprise Operations",
+    apps: [
+      { icon: "📊", name: "Verdara", desc: "Enterprise analytics and reporting dashboard.", url: "https://verdara.tlid.io" },
+      { icon: "📈", name: "MetricFlow", desc: "Business metrics and KPI tracking.", url: "#" },
+      { icon: "🏢", name: "OpsCenter", desc: "Infrastructure monitoring and management.", url: "#" },
+      { icon: "📑", name: "DocForge", desc: "Enterprise document management system.", url: "#" },
+      { icon: "🔍", name: "AuditTrail", desc: "Compliance and audit trail management.", url: "#" }
+    ]
+  },
+  {
+    name: "Community & Social",
+    apps: [
+      { icon: "💬", name: "Signal Chat", desc: "Real-time messaging with bot framework.", url: "https://signalchat.tlid.io" },
+      { icon: "🌳", name: "Arbora", desc: "Community tree planting and sustainability.", url: "https://arbora.tlid.io" },
+      { icon: "🌿", name: "Bloom", desc: "Social wellness and habit tracking.", url: "#" },
+      { icon: "📰", name: "Newsroom", desc: "Community news and content curation.", url: "#" },
+      { icon: "🎓", name: "DarkWave Academy", desc: "Educational platform with tutorials.", url: "https://darkwaveacademy.tlid.io" },
+      { icon: "🤝", name: "ConnectHub", desc: "Professional networking ecosystem.", url: "#" }
+    ]
+  },
+  {
+    name: "Infrastructure",
+    apps: [
+      { icon: "📧", name: "Resend (Email)", desc: "Unified email service across all apps.", url: "#" },
+      { icon: "📱", name: "Twilio (SMS)", desc: "SMS and voice communication backbone.", url: "#" },
+      { icon: "💳", name: "Stripe (Payments)", desc: "Payment processing for all commerce.", url: "#" },
+      { icon: "🗄️", name: "Neon (PostgreSQL)", desc: "Serverless database infrastructure.", url: "#" },
+      { icon: "🌐", name: "Vercel (Hosting)", desc: "Frontend deployment and CDN.", url: "#" },
+      { icon: "🚀", name: "Render (Backend)", desc: "Backend services and API hosting.", url: "#" },
+      { icon: "🔄", name: "CI/CD Pipeline", desc: "Automated build, test, and deploy.", url: "#" }
+    ]
+  }
+]
+
+let active_cat = state.reactive(0)
+let cat_positions = []
+
+/// Build tab buttons
+let tab_container = dom.create("div", { className: "cat-tabs" })
+for (let c = 0; c < categories.length; c++) {
+  let tab_btn = dom.create("button", {
+    className: "cat-tab" + (c === 0 ? " active" : ""),
+    text: categories[c].name,
+    attrs: { "data-cat-idx": c + "" }
+  })
+  dom.on(tab_btn, "click", () => {
+    active_cat.set(c)
+  })
+  dom.add_child(tab_container, tab_btn)
+}
+
+/// Build category carousel panels
+let panels_wrapper = dom.create("div", { styles: { position: "relative" } })
+
+for (let c = 0; c < categories.length; c++) {
+  let cat = categories[c]
+  let cat_slide_pos = state.reactive(0)
+  cat_positions.push(cat_slide_pos)
+  let slides_count = Math.ceil(cat.apps.length / 2)
+
+  let cat_track = dom.create("div", { className: "cat-track" })
+  for (let s = 0; s < slides_count; s++) {
+    let slide = dom.create("div", { styles: { minWidth: "100%", display: "flex" } })
+    for (let a = s * 2; a < Math.min((s + 1) * 2, cat.apps.length); a++) {
+      let app = cat.apps[a]
+      let card = dom.create("div", {
+        className: "cat-card",
+        children: [
+          dom.create("div", { className: "cat-card-icon", text: app.icon }),
+          dom.create("h4", { text: app.name }),
+          dom.create("p", { text: app.desc }),
+          dom.create("a", { className: "cat-link", text: app.url !== "#" ? "Visit →" : "Coming Soon", attrs: { href: app.url, target: "_blank" } })
+        ]
+      })
+      dom.add_child(slide, card)
+    }
+    dom.add_child(cat_track, slide)
+  }
+
+  /// Dots
+  let dots_div = dom.create("div", { className: "cat-dots" })
+  for (let d = 0; d < slides_count; d++) {
+    let dot = dom.create("button", {
+      className: "cat-dot" + (d === 0 ? " active" : ""),
+      attrs: { "data-dot-cat": c + "", "data-dot-idx": d + "" }
+    })
+    dom.on(dot, "click", () => { cat_positions[c].set(d) })
+    dom.add_child(dots_div, dot)
+  }
+
+  /// Arrows
+  let prev_btn = dom.create("button", { className: "cat-arrow", text: "←" })
+  dom.on(prev_btn, "click", () => {
+    let cur = cat_positions[c].get()
+    if (cur > 0) cat_positions[c].set(cur - 1)
+  })
+  let next_btn = dom.create("button", { className: "cat-arrow", text: "→" })
+  dom.on(next_btn, "click", () => {
+    let cur = cat_positions[c].get()
+    let max_s = Math.ceil(cat.apps.length / 2) - 1
+    if (cur < max_s) cat_positions[c].set(cur + 1)
+  })
+
+  let nav_bar = dom.create("div", { className: "cat-nav", children: [prev_btn, dots_div, next_btn] })
+
+  /// Slide position tracking
+  cat_slide_pos.on_change((val) => {
+    cat_track.style.transform = "translateX(-" + (val * 100) + "%)"
+    let all_dots = dots_div.querySelectorAll(".cat-dot")
+    for (const dt of all_dots) { dt.classList.remove("active") }
+    if (all_dots[val]) all_dots[val].classList.add("active")
+  })
+
+  let panel = dom.create("div", {
+    className: "cat-carousel",
+    styles: { display: c === 0 ? "block" : "none" },
+    attrs: { "data-cat-panel": c + "" },
+    children: [cat_track, nav_bar]
+  })
+  dom.add_child(panels_wrapper, panel)
+}
+
+/// Tab switching
+active_cat.on_change((val) => {
+  let all_tabs = dom.select_all(".cat-tab")
+  for (const t of all_tabs) { t.classList.remove("active") }
+  if (all_tabs[val]) all_tabs[val].classList.add("active")
+  let all_panels = dom.select_all("[data-cat-panel]")
+  for (const p of all_panels) { p.style.display = "none" }
+  let active_panel = dom.select("[data-cat-panel='" + val + "']")
+  if (active_panel) active_panel.style.display = "block"
+})
+
+let cat_section = dom.create("section", {
+  id: "categories",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// 35 APPLICATIONS" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Ecosystem by Category" }),
+    dom.create("p", { className: "section-desc reveal", text: "Every application unified by Trust Layer SSO, Stripe payments, Resend email, and Twilio communications. Browse by vertical." }),
+    dom.create("div", { className: "reveal", children: [tab_container, panels_wrapper] })
+  ]
+})
+dom.mount(cat_section, "#app")
+
+
+/// ─── UNIFIED INFRASTRUCTURE ────────────────────────────────
+
+dom.inject_css("
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .infra-card {
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: var(--glass-shadow);
+  }
+  .infra-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6,182,212,0.25);
+  }
+  .infra-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .infra-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .infra-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+  .infra-card .infra-stat {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.25rem;
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.15);
+    display: inline-block;
+  }
+  @media (max-width: 768px) {
+    .infra-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .infra-grid { grid-template-columns: 1fr; }
+  }
+", "dwsc-infra-styles")
+
+let infra_section = dom.create("section", {
+  id: "infrastructure",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// BACKBONE" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Unified Infrastructure" }),
+    dom.create("p", { className: "section-desc reveal", text: "Every ecosystem application shares the same authentication, payments, email, and communications backbone." }),
+    dom.create("div", {
+      className: "infra-grid",
+      children: [
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "🔐" }),
+          dom.create("h4", { text: "Trust Layer SSO" }),
+          dom.create("p", { text: "One identity across all 35 apps. Blockchain-verified hallmarks." }),
+          dom.create("span", { className: "infra-stat", text: "35 apps connected" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "📧" }),
+          dom.create("h4", { text: "Resend" }),
+          dom.create("p", { text: "Transactional email service. Welcome, notifications, and receipts." }),
+          dom.create("span", { className: "infra-stat", text: "Email backbone" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "💳" }),
+          dom.create("h4", { text: "Stripe" }),
+          dom.create("p", { text: "Unified payment processing with connected accounts per app." }),
+          dom.create("span", { className: "infra-stat", text: "All commerce" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "📱" }),
+          dom.create("h4", { text: "Twilio" }),
+          dom.create("p", { text: "SMS, voice, and WhatsApp messaging across the ecosystem." }),
+          dom.create("span", { className: "infra-stat", text: "Communications" })
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(infra_section, "#app")
+
+
+/// ─── TECHNOLOGY STACK ──────────────────────────────────────
+
+dom.inject_css("
+  .tech-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .tech-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.75rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+  }
+  .tech-badge:hover {
+    border-color: rgba(6,182,212,0.3);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+  .tech-badge .tech-icon { font-size: 1.2rem; }
+", "dwsc-tech-styles")
+
+let tech_items = [
+  { icon: "💎", name: "Lume" },
+  { icon: "⚡", name: "Node.js" },
+  { icon: "⚛️", name: "React" },
+  { icon: "🔺", name: "Three.js" },
+  { icon: "🚂", name: "Express" },
+  { icon: "🐘", name: "PostgreSQL" },
+  { icon: "🌐", name: "Neon" },
+  { icon: "🚀", name: "Render" },
+  { icon: "▲", name: "Vercel" },
+  { icon: "📧", name: "Resend" },
+  { icon: "💳", name: "Stripe" },
+  { icon: "📱", name: "Twilio" }
+]
+
+let tech_strip = dom.create("div", { className: "tech-strip" })
+for (const tech of tech_items) {
+  dom.add_child(tech_strip, dom.create("div", {
+    className: "tech-badge",
+    children: [
+      dom.create("span", { className: "tech-icon", text: tech.icon }),
+      dom.create("span", { text: tech.name })
+    ]
+  }))
+}
+
+let tech_section = dom.create("section", {
+  id: "tech-stack",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// BUILT WITH" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Technology Stack" }),
+    dom.create("p", { className: "section-desc reveal", text: "A modern, battle-tested stack powering every layer of the ecosystem." }),
+    dom.create("div", { className: "reveal", children: [tech_strip] })
+  ]
+})
+dom.mount(tech_section, "#app")
+
+
+/// ─── ROADMAP TIMELINE ──────────────────────────────────────
+
+dom.inject_css("
+  .timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 2rem auto 0;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--cyan), var(--purple));
+    opacity: 0.3;
+  }
+  .tl-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    background: var(--void);
+  }
+  .tl-item.done::before {
+    background: var(--cyan);
+    box-shadow: 0 0 10px rgba(6,182,212,0.4);
+  }
+  .tl-item.current::before {
+    background: var(--purple);
+    border-color: var(--purple);
+    box-shadow: 0 0 10px rgba(168,85,247,0.4);
+    animation: pulse 2s ease infinite;
+  }
+  .tl-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+  .tl-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  .tl-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .tl-item.future .tl-title { color: var(--text-secondary); }
+  .tl-item.future .tl-label { opacity: 0.5; }
+  .tl-item.future::before {
+    border-color: var(--text-dim);
+    background: transparent;
+  }
+  @media (max-width: 480px) {
+    .timeline { padding-left: 1.5rem; }
+    .tl-item { padding-left: 1.5rem; }
+  }
+", "dwsc-timeline-styles")
+
+let milestones = [
+  { id: "M1-M7", title: "Core Compiler + English Mode + Security", desc: "Lexer, parser, transpiler, 102 patterns, 7-layer tolerance, 3-layer security, intent blocks.", status: "done" },
+  { id: "M8", title: "Voice-to-Code Pipeline", desc: "7-step transcription cleanup, Web Speech API, homophone resolution, filler stripping.", status: "done" },
+  { id: "M9", title: "Interactive Playground", desc: "In-browser compilation, sandboxed execution, multi-panel IDE with live preview.", status: "done" },
+  { id: "M10", title: "Visual Context Awareness", desc: "UI Element Registry, spatial terms, full-stack app generation from English.", status: "current" },
+  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "future" },
+  { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "future" },
+  { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "future" }
+]
+
+let timeline_div = dom.create("div", { className: "timeline" })
+for (const m of milestones) {
+  dom.add_child(timeline_div, dom.create("div", {
+    className: "tl-item " + m.status + " reveal",
+    children: [
+      dom.create("div", { className: "tl-label", text: m.id }),
+      dom.create("div", { className: "tl-title", text: m.title }),
+      dom.create("div", { className: "tl-desc", text: m.desc })
+    ]
+  }))
+}
+
+let roadmap_section = dom.create("section", {
+  id: "roadmap",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ROADMAP" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Development Timeline" }),
+    dom.create("p", { className: "section-desc reveal", text: "13 milestones from concept to production-ready natural language compiler." }),
+    timeline_div
+  ]
+})
+dom.mount(roadmap_section, "#app")
+
+
 
 dom.inject_css("
   .vert-grid {

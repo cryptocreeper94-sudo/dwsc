@@ -788,391 +788,120 @@ let lume_section = dom.create("section", {
 dom.mount(lume_section, "#app")
 
 
-// ─── INTERACTIVE LUME PLAYGROUND ───────────────────────────
+// ─── LUME LANGUAGE HIGHLIGHT ────────────────────────────────
 
 dom.inject_css(`
-  .playground-tabs {
-    display: flex;
-    gap: 0.25rem;
-    margin-bottom: 0;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 0;
-  }
-  .playground-tabs::-webkit-scrollbar { display: none; }
-  .playground-tab {
-    padding: 0.6rem 1.25rem;
-    border: 1px solid var(--glass-border);
-    border-bottom: none;
-    border-radius: 0.75rem 0.75rem 0 0;
-    background: rgba(16, 16, 26, 0.4);
-    color: var(--text-dim);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .playground-tab:hover { color: var(--text-secondary); background: rgba(16, 16, 26, 0.6); }
-  .playground-tab.active {
-    background: var(--glass-bg);
-    color: var(--cyan);
-    border-color: rgba(6, 182, 212, 0.2);
-    border-bottom-color: transparent;
-  }
-  .playground-pane {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-radius: 0 1rem 1rem 1rem;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    box-shadow: var(--glass-shadow);
-  }
-  .playground-panel {
-    padding: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    line-height: 1.7;
-    overflow-x: auto;
-    min-height: 200px;
-  }
-  .playground-panel:first-child {
-    border-right: 1px solid var(--glass-border);
-  }
-  .playground-panel .panel-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 1rem;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .playground-panel .panel-label .dot {
-    width: 5px;
-    height: 5px;
-    background: var(--cyan);
-    border-radius: 50%;
-    animation: pulse 2s ease infinite;
-  }
-  .playground-panel .panel-code {
-    color: var(--text-secondary);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .playground-panel .panel-code .kw { color: var(--purple); }
-  .playground-panel .panel-code .fn { color: var(--cyan); }
-  .playground-panel .panel-code .str { color: var(--teal); }
-  .playground-panel .panel-code .cm { color: var(--text-dim); }
-  .playground-panel .panel-code .ok { color: #22c55e; }
-  .playground-panel .panel-code .err { color: #ef4444; }
-  .playground-panel .panel-code .warn { color: #eab308; }
-  .playground-result {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    background: rgba(34, 197, 94, 0.06);
-    border: 1px solid rgba(34, 197, 94, 0.15);
-    font-size: 0.78rem;
-    color: #22c55e;
-  }
-  .playground-result.fail {
-    background: rgba(239, 68, 68, 0.06);
-    border-color: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
-  }
-  @media (max-width: 768px) {
-    .playground-pane { grid-template-columns: 1fr; }
-    .playground-panel:first-child { border-right: none; border-bottom: 1px solid var(--glass-border); }
-    .playground-panel { min-height: 140px; padding: 1.25rem; }
-    .playground-tab { padding: 0.5rem 0.9rem; font-size: 0.65rem; }
-  }
-`, "dwsc-playground-styles")
-
-let pg_demos = [
-  {
-    tab: "Standard Mode",
-    lume: '<span class="kw">let</span> name = <span class="str">"Lume"</span>\n<span class="kw">let</span> version = <span class="str">0.8</span>\n\n<span class="kw">if</span> version >= <span class="str">1.0</span> {\n  <span class="fn">show</span> name + <span class="str">" is production ready"</span>\n} <span class="kw">else</span> {\n  <span class="fn">show</span> name + <span class="str">" v"</span> + version + <span class="str">" (preview)"</span>\n}',
-    js: '<span class="kw">let</span> name = <span class="str">"Lume"</span>;\n<span class="kw">let</span> version = <span class="str">0.8</span>;\n\n<span class="kw">if</span> (version >= <span class="str">1.0</span>) {\n  console.<span class="fn">log</span>(name + <span class="str">" is production ready"</span>);\n} <span class="kw">else</span> {\n  console.<span class="fn">log</span>(name + <span class="str">" v"</span> + version + <span class="str">" (preview)"</span>);\n}\n<span class="cm">// LUME-CERT: sha256:b7e2... | Risk: LOW</span>',
-    result: '✦ Output: Lume v0.8 (preview)',
-    pass: true
-  },
-  {
-    tab: "English Mode",
-    lume: '<span class="cm">// Just describe what you want:</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">filter</span> only the ones with verified emails\n<span class="kw">sort</span> them by signup date descending\n<span class="kw">show</span> their names and emails',
-    js: '<span class="kw">const</span> users = <span class="kw">await</span> <span class="fn">db.query</span>(\n  <span class="str">`SELECT name, email FROM users\n   WHERE created_at >= DATE_TRUNC(\'month\', NOW())\n   AND email_verified = true\n   ORDER BY created_at DESC`</span>\n);\nconsole.<span class="fn">log</span>(users);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY</span>',
-    result: '✦ Compiled: 4 English instructions → 1 optimized SQL query',
-    pass: true
-  },
-  {
-    tab: "Verify",
-    lume: '<span class="kw">let</span> response = { status: <span class="str">200</span> }\n<span class="kw">let</span> users = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>]\n<span class="kw">let</span> count = <span class="str">10</span>\n\n<span class="kw">verify</span> response.status <span class="fn">is</span> <span class="str">200</span>\n<span class="kw">verify</span> users <span class="fn">is not</span> empty\n<span class="kw">verify</span> count <span class="fn">is greater than</span> <span class="str">5</span>',
-    js: '<span class="kw">if</span> (response.status !== <span class="str">200</span>)\n  <span class="kw">throw new</span> <span class="fn">Error</span>(\n    <span class="str">`✗ Verify failed: expected\n    ${response.status} to equal 200`</span>\n  );\n<span class="kw">if</span> (!users || users.length === <span class="str">0</span>)\n  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"✗ expected not empty"</span>);\n<span class="kw">if</span> (!(count > <span class="str">5</span>))\n  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"✗ expected > 5"</span>);',
-    result: '✓ All 3 assertions passed\n✓ verify response.status is 200\n✓ verify users is not empty\n✓ verify count is greater than 5',
-    pass: true
-  },
-  {
-    tab: "Deploy",
-    lume: '<span class="cm">// Deployment as a language keyword:</span>\n<span class="kw">deploy</span> <span class="fn">to</span> render <span class="fn">from</span> <span class="str">"main"</span>\n\n<span class="cm">// Check status:</span>\n<span class="kw">deploy</span> status\n\n<span class="cm">// Rollback if needed:</span>\n<span class="kw">deploy</span> rollback',
-    js: '<span class="kw">await</span> <span class="fn">DeployEngine.deploy</span>({\n  platform: <span class="str">"render"</span>,\n  branch: <span class="str">"main"</span>,\n  selfHeal: <span class="str">true</span>,\n  rollbackOnFail: <span class="str">true</span>\n});\n<span class="cm">// Pre-push: 3-stage validation</span>\n<span class="cm">// Post-deploy: health check polling</span>\n<span class="cm">// Failure: auto-rollback + notify</span>',
-    result: '✦ Deploy Engine: render ← main\n  ✓ Stage 1: Syntax valid\n  ✓ Stage 2: Structure balanced\n  ✓ Stage 3: VM execution clean\n  ✦ Safe to deploy ✦',
-    pass: true
-  },
-  {
-    tab: "Error Reporting",
-    lume: '<span class="cm">// Traditional JavaScript error:</span>\n<span class="err">TypeError: Cannot read properties\n  of undefined (reading \'map\')\n    at Object.&lt;anonymous&gt;\n      (index.js:47:12)</span>\n\n<span class="cm">// Same error in Lume:</span>\n<span class="warn">⚠ You tried to use \"map\" on\n  \"users\", but users is empty.\n  Suggestion: check if users\n  exists before mapping.</span>',
-    js: '<span class="cm">// Lume error pipeline:</span>\n<span class="cm">// 1. Catch runtime exception</span>\n<span class="cm">// 2. Map to original Lume intent</span>\n<span class="cm">// 3. Generate human-readable msg</span>\n<span class="cm">// 4. Suggest fix based on context</span>\n\n<span class="fn">Guardian.report</span>({\n  intent: <span class="str">"show user names"</span>,\n  error: <span class="str">"users is undefined"</span>,\n  suggestion: <span class="str">"add: verify users is not empty"</span>\n});',
-    result: '✦ Lume errors are human-readable, context-aware, and suggest fixes.\n  Zero stack traces. Zero line numbers you can\'t find.',
-    pass: true
-  }
-]
-
-let pg_active = state.reactive(0)
-
-let pg_tabs = dom.create("div", { className: "playground-tabs" })
-for (let i = 0; i < pg_demos.length; i++) {
-  let tab = dom.create("button", {
-    className: "playground-tab" + (i === 0 ? " active" : ""),
-    text: pg_demos[i].tab
-  })
-  dom.on(tab, "click", () => { pg_active.set(i) })
-  dom.add_child(pg_tabs, tab)
-}
-
-let pg_pane = dom.create("div", { className: "playground-pane" })
-
-let pg_left = dom.create("div", { className: "playground-panel" })
-let pg_left_label = dom.create("div", { className: "panel-label", children: [
-  dom.create("span", { className: "dot" }),
-  dom.create("span", { text: "Lume Source" })
-]})
-let pg_left_code = dom.create("div", { className: "panel-code" })
-
-let pg_right = dom.create("div", { className: "playground-panel" })
-let pg_right_label = dom.create("div", { className: "panel-label", children: [
-  dom.create("span", { className: "dot" }),
-  dom.create("span", { text: "Compiled Output" })
-]})
-let pg_right_code = dom.create("div", { className: "panel-code" })
-let pg_result = dom.create("div", { className: "playground-result" })
-
-pg_left.appendChild(pg_left_label)
-pg_left.appendChild(pg_left_code)
-pg_right.appendChild(pg_right_label)
-pg_right.appendChild(pg_right_code)
-pg_right.appendChild(pg_result)
-pg_pane.appendChild(pg_left)
-pg_pane.appendChild(pg_right)
-
-// Set initial content
-pg_left_code.innerHTML = pg_demos[0].lume
-pg_right_code.innerHTML = pg_demos[0].js
-pg_result.textContent = pg_demos[0].result
-pg_result.className = pg_demos[0].pass ? "playground-result" : "playground-result fail"
-
-pg_active.on_change((val) => {
-  let demo = pg_demos[val]
-  pg_left_code.innerHTML = demo.lume
-  pg_right_code.innerHTML = demo.js
-  pg_result.textContent = demo.result
-  pg_result.className = demo.pass ? "playground-result" : "playground-result fail"
-  let tabs = dom.select_all(".playground-tab")
-  for (const t of tabs) { dom.remove_class(t, "active") }
-  dom.add_class(tabs[val], "active")
-})
-
-let playground_section = dom.create("section", {
-  id: "playground",
-  children: [
-    dom.create("div", { className: "section-label reveal", text: "// INTERACTIVE EXAMPLES" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "See Lume in Action" }),
-    dom.create("p", { className: "section-desc reveal", text: "Explore how Lume source code compiles to certified JavaScript. Each tab demonstrates a different capability — from natural language to deployment, from assertions to error reporting." }),
-    dom.create("div", { className: "reveal", children: [pg_tabs, pg_pane] })
-  ]
-})
-dom.mount(playground_section, "#app")
-
-
-// ─── TEST RESULTS DASHBOARD ────────────────────────────────
-
-dom.inject_css(`
-  .test-hero {
+  .lume-highlight {
+    padding: 4rem 2rem;
     text-align: center;
-    padding: 2.5rem 2rem;
-    border-radius: 1rem;
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.06), rgba(168, 85, 247, 0.04));
+    position: relative;
+  }
+  .highlight-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04), rgba(168, 85, 247, 0.03));
     border: 1px solid rgba(6, 182, 212, 0.15);
-    margin-bottom: 2rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(6, 182, 212, 0.04);
   }
-  .test-hero .test-big-number {
-    font-size: clamp(3rem, 7vw, 5rem);
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 0.5rem;
+  .highlight-card h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
   }
-  .test-hero .test-subtitle {
-    font-size: 1.1rem;
+  .highlight-card p {
+    font-size: 1rem;
     color: var(--text-secondary);
+    line-height: 1.7;
     margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .test-hero-pills {
+  .highlight-stats {
     display: flex;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 2rem;
+    margin-bottom: 2rem;
     flex-wrap: wrap;
   }
-  .test-hero-pill {
+  .highlight-stat {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    background: rgba(6, 182, 212, 0.06);
+    border: 1px solid rgba(6, 182, 212, 0.12);
+  }
+  .highlight-stat .stat-val {
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .highlight-stat .stat-lbl {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+  }
+  .highlight-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0.9rem;
-    border-radius: 2rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .test-hero-pill.pass {
-    background: rgba(34, 197, 94, 0.08);
-    color: #22c55e;
-    border: 1px solid rgba(34, 197, 94, 0.2);
-  }
-  .test-hero-pill.suites {
-    background: rgba(6, 182, 212, 0.08);
-    color: var(--cyan);
-    border: 1px solid rgba(6, 182, 212, 0.2);
-  }
-  .test-hero-pill.time {
-    background: rgba(168, 85, 247, 0.08);
-    color: var(--purple);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-  }
-  .test-categories {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-  .test-cat {
-    padding: 1.25rem;
-    border-radius: 1rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .test-cat:hover {
-    transform: translateY(-3px);
-    border-color: rgba(34, 197, 94, 0.2);
-  }
-  .test-cat .cat-name {
-    font-size: 0.9rem;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, var(--cyan), var(--teal));
+    color: #fff;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 0.4rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
   }
-  .test-cat .cat-count {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-  }
-  .test-bar-track {
-    height: 6px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .test-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, #22c55e, var(--teal));
-    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-    width: 0%;
-  }
-  .test-cat .cat-rate {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: #22c55e;
-    margin-top: 0.4rem;
-    text-align: right;
+  .highlight-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
   }
   @media (max-width: 768px) {
-    .test-categories { grid-template-columns: 1fr; }
-    .test-hero { padding: 2rem 1.5rem; }
+    .highlight-stats { gap: 1rem; }
+    .highlight-stat { padding: 0.75rem 1rem; }
+    .highlight-card { padding: 2rem 1.5rem; }
   }
-`, "dwsc-tests-styles")
+`, "dwsc-lume-highlight-styles")
 
-let test_cats = [
-  { name: "Core Compiler", count: 892, rate: 100 },
-  { name: "English Mode Patterns", count: 456, rate: 100 },
-  { name: "Voice Pipeline", count: 234, rate: 100 },
-  { name: "Security Scanner", count: 312, rate: 100 },
-  { name: "Vertical Applications", count: 255, rate: 100 },
-  { name: "Integration & E2E", count: 0, rate: 100 }
-]
-// Calculate remaining for last category
-test_cats[5].count = 2149 - (892 + 456 + 234 + 312 + 255)
-
-let test_grid = dom.create("div", { className: "test-categories" })
-let bars = []
-
-for (const cat of test_cats) {
-  let bar = dom.create("div", { className: "test-bar-fill" })
-  bars.push(bar)
-  let card = dom.create("div", { className: "test-cat reveal", children: [
-    dom.create("div", { className: "cat-name", text: cat.name }),
-    dom.create("div", { className: "cat-count", text: cat.count + " tests" }),
-    dom.create("div", { className: "test-bar-track", children: [bar] }),
-    dom.create("div", { className: "cat-rate", text: cat.rate + "% passing" })
-  ]})
-  dom.add_child(test_grid, card)
-}
-
-let test_section = dom.create("section", {
-  id: "tests",
+let lume_highlight = dom.create("section", {
+  id: "lume-highlight",
   children: [
-    dom.create("div", { className: "section-label reveal", text: "// TEST RESULTS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "Battle-Tested Reliability" }),
-    dom.create("p", { className: "section-desc reveal", text: "Every Lume commit passes a comprehensive test suite spanning the compiler, pattern library, voice pipeline, security scanner, and vertical applications." }),
-    dom.create("div", { className: "test-hero glass reveal", children: [
-      dom.create("div", { className: "test-big-number gradient-text", id: "test-counter", text: "2,149" }),
-      dom.create("div", { className: "test-subtitle", text: "Tests Passing · Zero Failures" }),
-      dom.create("div", { className: "test-hero-pills", children: [
-        dom.create("span", { className: "test-hero-pill pass", text: "✓ 100% Pass Rate" }),
-        dom.create("span", { className: "test-hero-pill suites", text: "◈ 505 Test Suites" }),
-        dom.create("span", { className: "test-hero-pill time", text: "⚡ 12.4s Total Runtime" })
-      ]})
-    ]}),
-    test_grid
+    dom.create("div", { className: "highlight-card reveal", children: [
+      dom.create("h3", { className: "gradient-text", text: "The Lume Programming Language" }),
+      dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
+      dom.create("div", { className: "highlight-stats", children: [
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "2,149" }),
+          dom.create("div", { className: "stat-lbl", text: "Tests Passing" })
+        ]}),
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "505" }),
+          dom.create("div", { className: "stat-lbl", text: "Test Suites" })
+        ]}),
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "100%" }),
+          dom.create("div", { className: "stat-lbl", text: "Pass Rate" })
+        ]})
+      ]}),
+      dom.create("a", { className: "highlight-cta", text: "Explore Lume →", attrs: { href: "https://lume-lang.com", target: "_blank", rel: "noopener" } })
+    ]})
   ]
 })
-dom.mount(test_section, "#app")
-
-// Animate bars on scroll
-dom.ready(() => {
-  let observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          for (const bar of bars) {
-            bar.style.width = "100%"
-          }
-        }, 300)
-        observer.disconnect()
-      }
-    }
-  }, { threshold: 0.3 })
-  let testEl = dom.select("#tests")
-  if (testEl) observer.observe(testEl)
-})
+dom.mount(lume_highlight, "#app")
 
 
 // ─── RESEARCH CAROUSEL ─────────────────────────────────────
