@@ -107,9 +107,22 @@ function transformLume(src) {
             }
 
             // Convert if/else blocks with indentation
+            // Only transform lines that don't already have JS-style if (...)
             const ifMatch = line.match(/^(\s*)if\s+(.+)$/)
-            if (ifMatch && !line.includes('{')) {
-                output.push(`${ifMatch[1]}if (${ifMatch[2]}) {`)
+            if (ifMatch && !line.includes('{') && !ifMatch[2].startsWith('(')) {
+                // Check if the next line is indented (block body) vs inline action
+                const baseIndent = ifMatch[1].length
+                const nextLine = i + 1 < lines.length ? lines[i + 1] : ''
+                const nextTrimmed = nextLine.trim()
+                const nextIndent = nextLine.match(/^(\s*)/)?.[1]?.length || 0
+
+                if (nextTrimmed && nextIndent > baseIndent) {
+                    // Block if — condition only, body follows on indented lines
+                    output.push(`${ifMatch[1]}if (${ifMatch[2]}) {`)
+                } else {
+                    // Inline if — pass through as-is (it's already valid JS or a simple statement)
+                    output.push(line)
+                }
                 continue
             }
 

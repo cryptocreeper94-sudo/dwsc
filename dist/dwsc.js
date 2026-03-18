@@ -1616,16 +1616,16 @@ dom.ready(() => {
   // ── Hash Router for Blog Posts ──
   function renderBlogPost() {
     let hash = window.location.hash.replace("#", "")
-    if ((!hash.startsWith("blog/")) return) {
+    if (!hash.startsWith("blog/")) return
 
     let slug = hash.replace("blog/", "")
     let post = blog_posts.find(p => p.slug === slug)
-    if ((!post) return) {
+    if (!post) return
 
     // Hide main content, show post
     let app = dom.select("#app")
     let existing = dom.select("#blog-post-view")
-    if ((existing) existing.remove()) {
+    if (existing) existing.remove()
 
     // Scroll to top
     window.scrollTo(0, 0)
@@ -1677,11 +1677,11 @@ dom.ready(() => {
       // Portal handled by its own module
     } else {
       let postView = dom.select("#blog-post-view")
-      if ((postView) postView.remove()) {
+      if (postView) postView.remove()
       let portalView = dom.select("#portal-view")
-      if ((portalView) portalView.remove()) {
+      if (portalView) portalView.remove()
       let app = dom.select("#app")
-      if ((app) app.style.display = "") {
+      if (app) app.style.display = ""
     }
   })
 
@@ -1952,7 +1952,7 @@ dom.ready(() => {
   if (document.referrer) {
     let refs = JSON.parse(localStorage.getItem("dwsc_referrers") || "[]")
     refs.push({ url: document.referrer, time: Date.now() })
-    if ((refs.length > 100) refs = refs.slice(-100)) {
+    if (refs.length > 100) refs = refs.slice(-100)
     localStorage.setItem("dwsc_referrers", JSON.stringify(refs))
   }
 
@@ -1960,7 +1960,7 @@ dom.ready(() => {
   let loadTimes = JSON.parse(localStorage.getItem("dwsc_load_times") || "[]")
   let loadTime = performance.now()
   loadTimes.push({ time: Date.now(), ms: Math.round(loadTime) })
-  if ((loadTimes.length > 50) loadTimes = loadTimes.slice(-50)) {
+  if (loadTimes.length > 50) loadTimes = loadTimes.slice(-50)
   localStorage.setItem("dwsc_load_times", JSON.stringify(loadTimes))
 })
 
@@ -1974,7 +1974,7 @@ dom.ready(() => {
   function showPortalAuth() {
     let app = dom.select("#app")
     let existing = dom.select("#portal-view")
-    if ((existing) existing.remove()) {
+    if (existing) existing.remove()
     app.style.display = "none"
     window.scrollTo(0, 0)
 
@@ -2049,7 +2049,7 @@ dom.ready(() => {
   function showPortalDashboard() {
     let app = dom.select("#app")
     let existing = dom.select("#portal-view")
-    if ((existing) existing.remove()) {
+    if (existing) existing.remove()
     app.style.display = "none"
     window.scrollTo(0, 0)
 
@@ -2338,9 +2338,10 @@ dom.ready(() => {
   let reveals = dom.select_all(".reveal")
   let observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
-      if entry.isIntersecting
+      if (entry.isIntersecting) {
         dom.add_class(entry.target, "visible")
         observer.unobserve(entry.target)
+      }
     }
   }, { threshold: 0.1 })
   

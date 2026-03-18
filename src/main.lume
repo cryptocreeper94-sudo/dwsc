@@ -2241,14 +2241,17 @@ dom.mount(footer, "#app")
 dom.ready(() => {
   let reveals = dom.select_all(".reveal")
   let observer = new IntersectionObserver((entries) => {
-    for each entry in entries
-      if entry.isIntersecting
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
         dom.add_class(entry.target, "visible")
         observer.unobserve(entry.target)
+      }
+    }
   }, { threshold: 0.1 })
   
-  for each el in reveals
+  for (const el of reveals) {
     observer.observe(el)
+  }
 })
 
-show "✦ DWSC.io rendered — Built with Lume"
+console.log("✦ DWSC.io rendered — Built with Lume")
