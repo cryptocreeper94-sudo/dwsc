@@ -15,6 +15,8 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { execSync } from 'node:child_process'
+import vm from 'node:vm'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -273,4 +275,207 @@ const bundle = STDLIB + appCode + FOOTER
 
 writeFileSync(distPath, bundle, 'utf-8')
 console.log(`  ✓ Bundle written: ${(bundle.length / 1024).toFixed(1)} KB`)
-console.log('  ✦ Done')
+
+
+// ═══════════════════════════════════════════════════════════════
+// ═══ SELF-HEALING VALIDATION PIPELINE ═══════════════════════
+// ═══════════════════════════════════════════════════════════════
+
+// (imports at top of file)
+
+let validationErrors = []
+
+// ── Stage 1: Syntax Gate ──
+// Uses Node's built-in syntax checker — exactly what would've caught the missing )
+console.log('  ⟐ Stage 1: Syntax Gate...')
+try {
+    execSync(`node -c "${distPath}"`, { stdio: 'pipe' })
+    console.log('  ✓ Stage 1: Syntax valid')
+} catch (e) {
+    const stderr = e.stderr?.toString() || ''
+    const lineMatch = stderr.match(/:(\d+)\n/)
+    const errorMatch = stderr.match(/SyntaxError: (.+)/)
+    const compiledLine = lineMatch ? parseInt(lineMatch[1]) : null
+    const errorMsg = errorMatch ? errorMatch[1] : 'Unknown syntax error'
+    
+    // Map compiled line → source line
+    let sourceLine = null
+    if (compiledLine) {
+        // The STDLIB is ~260 lines, so source line ≈ compiled line - STDLIB offset
+        const stdlibLines = STDLIB.split('\n').length
+        sourceLine = compiledLine - stdlibLines
+        if (sourceLine > 0) {
+            const sourceLines = source.split('\n')
+            const sourceContent = sourceLine <= sourceLines.length ? sourceLines[sourceLine - 1]?.trim().slice(0, 60) : ''
+            console.log(`  ✗ Stage 1 FAILED: ${errorMsg}`)
+            console.log(`    Compiled line: ${compiledLine}`)
+            console.log(`    Source line ~${sourceLine}: ${sourceContent}`)
+        } else {
+            console.log(`  ✗ Stage 1 FAILED: ${errorMsg} (in stdlib, line ${compiledLine})`)
+        }
+    } else {
+        console.log(`  ✗ Stage 1 FAILED: ${errorMsg}`)
+    }
+    validationErrors.push({ stage: 1, error: errorMsg, compiledLine, sourceLine })
+}
+
+
+// ── Stage 2: Structural Validation ──
+// Verify paren/brace balance, skipping template literal interiors
+console.log('  ⟐ Stage 2: Structural validation...')
+{
+    const lines = bundle.split('\n')
+    let parenDepth = 0, braceDepth = 0
+    let inTemplateLiteral = false
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i]
+        
+        // Track template literals (backtick strings)
+        for (let c = 0; c < line.length; c++) {
+            const ch = line[c]
+            if (ch === '`') {
+                inTemplateLiteral = !inTemplateLiteral
+                continue
+            }
+            if (inTemplateLiteral) continue
+            
+            // Skip characters inside regular strings
+            if (ch === '"' || ch === "'") {
+                const quote = ch
+                c++
+                while (c < line.length && line[c] !== quote) {
+                    if (line[c] === '\\') c++ // skip escaped chars
+                    c++
+                }
+                continue
+            }
+            
+            if (ch === '(') parenDepth++
+            if (ch === ')') parenDepth--
+            if (ch === '{') braceDepth++
+            if (ch === '}') braceDepth--
+        }
+    }
+
+    if (parenDepth === 0 && braceDepth === 0) {
+        console.log('  ✓ Stage 2: Structure balanced (parens: 0, braces: 0)')
+    } else {
+        console.log(`  ✗ Stage 2 FAILED: Unbalanced structure`)
+        if (parenDepth !== 0) console.log(`    Paren depth: ${parenDepth} (${parenDepth > 0 ? parenDepth + ' unclosed (' : Math.abs(parenDepth) + ' extra )'})`)
+        if (braceDepth !== 0) console.log(`    Brace depth: ${braceDepth} (${braceDepth > 0 ? braceDepth + ' unclosed {' : Math.abs(braceDepth) + ' extra }'})`)
+        validationErrors.push({ stage: 2, error: `Paren depth: ${parenDepth}, Brace depth: ${braceDepth}` })
+    }
+}
+
+
+// ── Stage 3: VM Execution Test ──
+// Run the bundle in a sandboxed VM with a minimal DOM stub
+console.log('  ⟐ Stage 3: VM execution test...')
+{
+    // Minimal DOM stub — just enough for the IIFE to not throw on basic DOM calls
+    const makeEl = (tag = 'div') => ({
+        tagName: tag, style: {}, classList: { add(){}, remove(){}, toggle(){} },
+        setAttribute(){}, addEventListener(){}, appendChild(c){ return c },
+        animate(){ return {} }, textContent: '', innerHTML: '', id: '', className: '',
+        children: [], parentNode: null, firstChild: null, remove(){},
+        querySelectorAll(){ return [] }, querySelector(){ return makeEl() },
+        focus(){}, value: '', dataset: {}, getBoundingClientRect(){ return { top: 0, left: 0, width: 0, height: 0 } },
+    })
+
+    const domStub = {
+        createElement: (tag) => makeEl(tag),
+        querySelector: () => makeEl(),
+        querySelectorAll: () => [],
+        getElementById: () => makeEl(),
+        head: { appendChild(){}, style: {} },
+        body: { appendChild(){}, style: {} },
+        readyState: 'loading',
+        addEventListener(){},
+        referrer: '',
+    }
+
+    const windowStub = {
+        location: { hash: '', href: '' },
+        scrollTo(){},
+        addEventListener(){},
+        innerWidth: 1024,
+        localStorage: {
+            getItem: () => null,
+            setItem(){},
+            removeItem(){},
+        },
+        sessionStorage: {
+            getItem: () => null,
+            setItem(){},
+        },
+    }
+
+    const sandbox = {
+        document: domStub,
+        window: windowStub,
+        navigator: { userAgent: 'LumeHeal/1.0' },
+        console: { log(){}, error(){}, warn(){} },
+        setTimeout: () => 0,
+        setInterval: () => 0,
+        clearTimeout(){},
+        clearInterval(){},
+        performance: { now: () => 0 },
+        alert(){},
+        fetch: () => Promise.resolve({ ok: true }),
+        URL: globalThis.URL,
+        IntersectionObserver: class { observe(){} unobserve(){} },
+        MutationObserver: class { observe(){} },
+        Date,
+        Math,
+        JSON,
+        String,
+        Object,
+        Array,
+        parseInt,
+        parseFloat,
+        Promise,
+    }
+
+    try {
+        const script = new vm.Script(bundle, { filename: 'dist/dwsc.js' })
+        const context = vm.createContext(sandbox)
+        script.runInContext(context, { timeout: 5000 })
+        console.log('  ✓ Stage 3: VM execution clean (no uncaught errors)')
+    } catch (e) {
+        const lineMatch = e.stack?.match(/dwsc\.js:(\d+)/)
+        const compiledLine = lineMatch ? parseInt(lineMatch[1]) : null
+        const stdlibLines = STDLIB.split('\n').length
+        const sourceLine = compiledLine ? compiledLine - stdlibLines : null
+
+        console.log(`  ✗ Stage 3 FAILED: ${e.message}`)
+        if (compiledLine) console.log(`    At compiled line: ${compiledLine}`)
+        if (sourceLine > 0) console.log(`    Source line ~${sourceLine}`)
+        validationErrors.push({ stage: 3, error: e.message, compiledLine, sourceLine })
+    }
+}
+
+
+// ── Validation Result ──
+if (validationErrors.length > 0) {
+    console.log('\n  ═══════════════════════════════════════')
+    console.log('  ✗ BUILD BLOCKED — Validation failed')
+    console.log(`  ${validationErrors.length} issue(s) detected:`)
+    validationErrors.forEach(e => {
+        console.log(`    Stage ${e.stage}: ${e.error}`)
+    })
+    console.log('  ═══════════════════════════════════════')
+    console.log('  ⟐ Run: node lume-heal.js rollback')
+    console.log('  ═══════════════════════════════════════\n')
+    process.exit(1)
+} else {
+    // Write last-known-good hash
+    try {
+        const hash = execSync('git rev-parse HEAD', { stdio: 'pipe' }).toString().trim()
+        writeFileSync(resolve(__dirname, 'dist/.last-good-hash'), hash, 'utf-8')
+        console.log(`  ✓ Last-good hash: ${hash.slice(0, 8)}`)
+    } catch { /* not in git — skip */ }
+    
+    console.log('  ✦ All 3 validation stages passed')
+    console.log('  ✦ Safe to deploy ✦\n')
+}

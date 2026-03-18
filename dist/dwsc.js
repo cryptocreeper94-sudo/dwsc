@@ -2128,7 +2128,7 @@ dom.ready(() => {
       ? topRefs.map(r => dom.create("div", { className: "health-item", children: [
           dom.create("span", { className: "health-name", text: r[0] }),
           dom.create("span", { className: "health-status up", text: r[1] + " visits" })
-        ]}))
+        ]})
       : [dom.create("div", { className: "health-item", children: [
           dom.create("span", { className: "health-name", text: "No referrers tracked yet" })
         ]})]
@@ -2353,5 +2353,6 @@ dom.ready(() => {
 })
 
 console.log("✦ DWSC.io rendered — Built with Lume")
+
 
 })();

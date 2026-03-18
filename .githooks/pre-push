@@ -1,0 +1,20 @@
+#!/bin/sh
+# Lume Self-Healing Pre-Push Hook
+# Validates the bundle before allowing push to remote
+# If validation fails, push is blocked
+
+echo "  ⟐ Lume pre-push validation..."
+
+# Build and validate
+node build.js
+BUILD_EXIT=$?
+
+if [ $BUILD_EXIT -ne 0 ]; then
+    echo ""
+    echo "  ✗ Push blocked — build validation failed"
+    echo "  ⟐ Fix errors above before pushing"
+    echo ""
+    exit 1
+fi
+
+echo "  ✓ Pre-push validation passed"
