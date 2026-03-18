@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 /**
- * Lume Self-Healing Module
+ * Lume Self-Healing Module v2.0
  * 
- * Standalone CLI tool for Lume bundle validation, rollback, monitoring, and diagnostics.
  * Part of the Lume Self-Healing Build Pipeline.
+ * Includes build validation, rollback, live monitoring, build history, and evolution engine.
  * 
- * Usage:
- *   node lume-heal.js validate    — Run all validation stages
- *   node lume-heal.js rollback    — Restore last known good bundle  
- *   node lume-heal.js status      — Show current build health
- *   node lume-heal.js check <url> — Check a live Lume deployment
- *   node lume-heal.js monitor <url> [interval] — Continuous health monitoring
+ * Commands:
+ *   validate         — Run all validation stages on local bundle
+ *   rollback         — Restore last known good bundle
+ *   status           — Show current build health
+ *   check <url>      — Verify a live Lume deployment
+ *   monitor <url>    — Continuous health monitoring
+ *   history          — View build history and trends
+ *   evolve           — Run the evolution engine (pattern analysis + recommendations)
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
@@ -21,14 +23,19 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const distPath = resolve(__dirname, 'dist/dwsc.js')
 const hashPath = resolve(__dirname, 'dist/.last-good-hash')
 const srcPath = resolve(__dirname, 'src/main.lume')
+const historyPath = resolve(__dirname, '.lume-history.json')
 
 const command = process.argv[2] || 'status'
 const arg1 = process.argv[3]
 const arg2 = process.argv[4]
 
+function loadHistory() {
+    try { return JSON.parse(readFileSync(historyPath, 'utf-8')) } catch { return [] }
+}
+
 
 // ════════════════════════════════════════════════════
-// ═══ VALIDATE — Local bundle validation ═══════════
+// ═══ VALIDATE ═════════════════════════════════════
 // ════════════════════════════════════════════════════
 
 function validate() {
@@ -41,6 +48,7 @@ function validate() {
     }
 
     let errors = 0
+    const bundle = readFileSync(distPath, 'utf-8')
 
     // Stage 1: Syntax
     console.log('  ⟐ Syntax check...')
@@ -56,7 +64,6 @@ function validate() {
 
     // Stage 2: Structure
     console.log('  ⟐ Structure check...')
-    const bundle = readFileSync(distPath, 'utf-8')
     let pd = 0, bd = 0, inTL = false
     for (const line of bundle.split('\n')) {
         for (let c = 0; c < line.length; c++) {
@@ -79,15 +86,14 @@ function validate() {
         errors++
     }
 
-    // Stage 3: Health beacon check
+    // Stage 3: Health beacon
     console.log('  ⟐ Health beacon check...')
     if (bundle.includes('__LUME_HEALTH__')) {
         console.log('  ✓ Health beacon present')
     } else {
-        console.log('  ⚠ No health beacon found (rebuild recommended)')
+        console.log('  ⚠ No health beacon found')
     }
 
-    // Result
     if (errors === 0) {
         console.log('\n  ✦ Bundle is healthy ✦\n')
     } else {
@@ -99,15 +105,14 @@ function validate() {
 
 
 // ════════════════════════════════════════════════════
-// ═══ ROLLBACK — Restore last known good bundle ════
+// ═══ ROLLBACK ═════════════════════════════════════
 // ════════════════════════════════════════════════════
 
 function rollback() {
     console.log('\n  ✦ Lume Heal — Rollback\n')
     
     if (!existsSync(hashPath)) {
-        console.log('  ✗ No last-known-good hash found')
-        console.log('  ⟐ No previous valid build recorded\n')
+        console.log('  ✗ No last-known-good hash found\n')
         process.exit(1)
     }
 
@@ -126,45 +131,44 @@ function rollback() {
             console.log('  ⚠ Restored bundle has issues — manual review needed\n')
         }
     } catch (e) {
-        console.log(`  ✗ Rollback failed: ${e.message}`)
-        console.log('  ⟐ Manual intervention required\n')
+        console.log(`  ✗ Rollback failed: ${e.message}\n`)
         process.exit(1)
     }
 }
 
 
 // ════════════════════════════════════════════════════
-// ═══ STATUS — Current build health overview ═══════
+// ═══ STATUS ═══════════════════════════════════════
 // ════════════════════════════════════════════════════
 
 function status() {
     console.log('\n  ✦ Lume Heal — Status\n')
 
     if (existsSync(distPath)) {
-        const stats = readFileSync(distPath, 'utf-8')
-        console.log(`  Bundle: dist/dwsc.js (${(stats.length / 1024).toFixed(1)} KB)`)
-        console.log(`  Beacon: ${stats.includes('__LUME_HEALTH__') ? '✓ present' : '✗ missing'}`)
+        const bundle = readFileSync(distPath, 'utf-8')
+        console.log(`  Bundle:    dist/dwsc.js (${(bundle.length / 1024).toFixed(1)} KB)`)
+        console.log(`  Beacon:    ${bundle.includes('__LUME_HEALTH__') ? '✓ present' : '✗ missing'}`)
     } else {
         console.log('  Bundle: not found')
     }
 
     if (existsSync(hashPath)) {
-        const hash = readFileSync(hashPath, 'utf-8').trim()
-        console.log(`  Last good: ${hash.slice(0, 8)}`)
-    } else {
-        console.log('  Last good: none recorded')
+        console.log(`  Last good: ${readFileSync(hashPath, 'utf-8').trim().slice(0, 8)}`)
     }
 
     try {
         const head = execSync('git rev-parse HEAD', { stdio: 'pipe' }).toString().trim()
-        console.log(`  Current HEAD: ${head.slice(0, 8)}`)
-    } catch {
-        console.log('  Current HEAD: not in git')
-    }
+        console.log(`  HEAD:      ${head.slice(0, 8)}`)
+    } catch {}
 
     if (existsSync(srcPath)) {
-        const src = readFileSync(srcPath, 'utf-8')
-        console.log(`  Source: src/main.lume (${src.split('\n').length} lines)`)
+        console.log(`  Source:    ${readFileSync(srcPath, 'utf-8').split('\n').length} lines`)
+    }
+
+    const history = loadHistory()
+    if (history.length > 0) {
+        const valid = history.filter(h => h.valid).length
+        console.log(`  History:   ${history.length} builds, ${valid} passed (${Math.round(valid/history.length*100)}%)`)
     }
 
     console.log('')
@@ -172,20 +176,18 @@ function status() {
 
 
 // ════════════════════════════════════════════════════
-// ═══ CHECK — Verify a live Lume deployment ════════
+// ═══ CHECK — Live deployment verification ════════
 // ════════════════════════════════════════════════════
 
 async function check(url) {
     if (!url) {
-        console.log('\n  Usage: node lume-heal.js check <url>')
-        console.log('  Example: node lume-heal.js check https://dwsc.io\n')
+        console.log('\n  Usage: node lume-heal.js check <url>\n')
         process.exit(1)
     }
 
     console.log(`\n  ✦ Lume Heal — Live Check: ${url}\n`)
     let errors = 0
 
-    // Check 1: HTML loads
     console.log('  ⟐ Checking HTML response...')
     try {
         const htmlRes = await fetch(url, { redirect: 'follow' })
@@ -193,40 +195,19 @@ async function check(url) {
             const html = await htmlRes.text()
             console.log(`  ✓ HTML: ${htmlRes.status} (${(html.length / 1024).toFixed(1)} KB)`)
             
-            // Detect script src
             const scriptMatch = html.match(/src=["']([^"']*\.js)["']/)
             if (scriptMatch) {
                 const scriptUrl = new URL(scriptMatch[1], url).href
                 console.log(`  ⟐ Found bundle: ${scriptMatch[1]}`)
                 
-                // Check 2: Bundle loads
-                console.log('  ⟐ Checking bundle response...')
                 try {
                     const jsRes = await fetch(scriptUrl)
                     if (jsRes.ok) {
                         const js = await jsRes.text()
                         console.log(`  ✓ Bundle: ${jsRes.status} (${(js.length / 1024).toFixed(1)} KB)`)
-
-                        // Check 3: Health beacon present
-                        if (js.includes('__LUME_HEALTH__')) {
-                            console.log('  ✓ Health beacon: present')
-                        } else {
-                            console.log('  ⚠ Health beacon: not found (older build?)')
-                        }
-
-                        // Check 4: IIFE structure
-                        if (js.includes('(function()') && js.trimEnd().endsWith('})();')) {
-                            console.log('  ✓ IIFE wrapper: intact')
-                        } else {
-                            console.log('  ⚠ IIFE wrapper: unexpected format')
-                        }
-
-                        // Check 5: Lume stdlib present
-                        if (js.includes('Lume Standard Library')) {
-                            console.log('  ✓ Lume stdlib: present')
-                        } else {
-                            console.log('  ⚠ Lume stdlib: not detected (may be a non-Lume bundle)')
-                        }
+                        console.log(`  ${js.includes('__LUME_HEALTH__') ? '✓' : '⚠'} Health beacon: ${js.includes('__LUME_HEALTH__') ? 'present' : 'not found'}`)
+                        console.log(`  ${js.includes('(function()') ? '✓' : '⚠'} IIFE wrapper: ${js.includes('(function()') ? 'intact' : 'unexpected'}`)
+                        console.log(`  ${js.includes('Lume Standard Library') ? '✓' : '⚠'} Lume stdlib: ${js.includes('Lume Standard Library') ? 'present' : 'not detected'}`)
                     } else {
                         console.log(`  ✗ Bundle failed: HTTP ${jsRes.status}`)
                         errors++
@@ -236,7 +217,7 @@ async function check(url) {
                     errors++
                 }
             } else {
-                console.log('  ⚠ No .js script tag found in HTML')
+                console.log('  ⚠ No .js script tag found')
             }
         } else {
             console.log(`  ✗ HTML failed: HTTP ${htmlRes.status}`)
@@ -247,14 +228,8 @@ async function check(url) {
         errors++
     }
 
-    // Result
-    if (errors === 0) {
-        console.log('\n  ✦ Deployment is healthy ✦\n')
-    } else {
-        console.log(`\n  ✗ ${errors} issue(s) detected`)
-        console.log('  ⟐ Deployment may need attention\n')
-        process.exit(1)
-    }
+    console.log(errors === 0 ? '\n  ✦ Deployment is healthy ✦\n' : `\n  ✗ ${errors} issue(s)\n`)
+    if (errors > 0) process.exit(1)
 }
 
 
@@ -264,74 +239,288 @@ async function check(url) {
 
 async function monitor(url, intervalSec = 30) {
     if (!url) {
-        console.log('\n  Usage: node lume-heal.js monitor <url> [interval_seconds]')
-        console.log('  Example: node lume-heal.js monitor https://dwsc.io 60\n')
+        console.log('\n  Usage: node lume-heal.js monitor <url> [interval_seconds]\n')
         process.exit(1)
     }
 
     const interval = parseInt(intervalSec) || 30
     console.log(`\n  ✦ Lume Heal — Monitor Mode`)
-    console.log(`  Target: ${url}`)
-    console.log(`  Interval: ${interval}s`)
-    console.log(`  Press Ctrl+C to stop\n`)
+    console.log(`  Target: ${url}  |  Interval: ${interval}s  |  Ctrl+C to stop\n`)
 
-    let consecutiveFailures = 0
-    let totalChecks = 0
-    let totalFailures = 0
+    let fails = 0, checks = 0, totalFails = 0
 
-    const runCheck = async () => {
-        totalChecks++
+    const tick = async () => {
+        checks++
         const time = new Date().toLocaleTimeString()
-        
         try {
             const res = await fetch(url, { redirect: 'follow' })
             if (res.ok) {
                 const html = await res.text()
-                
-                // Quick health indicators
-                const hasContent = html.length > 500
-                const hasScript = html.includes('.js')
-                
-                if (hasContent && hasScript) {
-                    consecutiveFailures = 0
-                    process.stdout.write(`  [${time}] ✓ UP (${res.status}, ${(html.length / 1024).toFixed(0)}KB)`)
-                    if (totalChecks > 1) process.stdout.write(` — ${totalChecks} checks, ${totalFailures} failures`)
-                    console.log('')
+                if (html.length > 500 && html.includes('.js')) {
+                    fails = 0
+                    console.log(`  [${time}] ✓ UP (${res.status}, ${(html.length/1024).toFixed(0)}KB) — ${checks} checks, ${totalFails} failures`)
                 } else {
-                    consecutiveFailures++
-                    totalFailures++
-                    console.log(`  [${time}] ⚠ DEGRADED — response too small or missing scripts`)
+                    fails++; totalFails++
+                    console.log(`  [${time}] ⚠ DEGRADED — response too small`)
                 }
             } else {
-                consecutiveFailures++
-                totalFailures++
+                fails++; totalFails++
                 console.log(`  [${time}] ✗ DOWN — HTTP ${res.status}`)
             }
         } catch (e) {
-            consecutiveFailures++
-            totalFailures++
+            fails++; totalFails++
             console.log(`  [${time}] ✗ DOWN — ${e.message}`)
         }
 
-        // Alert on consecutive failures
-        if (consecutiveFailures >= 3) {
-            console.log('')
-            console.log('  ═══════════════════════════════════════')
-            console.log(`  ⚠ ALERT: ${consecutiveFailures} consecutive failures!`)
-            console.log('  ⟐ Possible actions:')
-            console.log('    1. node lume-heal.js check ' + url)
-            console.log('    2. node lume-heal.js rollback')
-            console.log('    3. Check Render dashboard')
-            console.log('  ═══════════════════════════════════════')
-            console.log('')
+        if (fails >= 3) {
+            console.log('\n  ═══════════════════════════════════════')
+            console.log(`  ⚠ ALERT: ${fails} consecutive failures!`)
+            console.log('  ⟐ node lume-heal.js check ' + url)
+            console.log('  ⟐ node lume-heal.js rollback')
+            console.log('  ═══════════════════════════════════════\n')
         }
     }
 
-    // Initial check
-    await runCheck()
+    await tick()
+    setInterval(tick, interval * 1000)
+}
 
-    // Continuous monitoring
-    setInterval(runCheck, interval * 1000)
+
+// ════════════════════════════════════════════════════
+// ═══ HISTORY — Build history and trends ═══════════
+// ════════════════════════════════════════════════════
+
+function history() {
+    const builds = loadHistory()
+    
+    if (builds.length === 0) {
+        console.log('\n  ✦ Lume Heal — History\n')
+        console.log('  No build history found. Run: node build.js\n')
+        return
+    }
+
+    const valid = builds.filter(h => h.valid)
+    const failed = builds.filter(h => !h.valid)
+    const avgTime = Math.round(builds.reduce((s, b) => s + (b.buildTimeMs || 0), 0) / builds.length)
+    const avgSize = Math.round(builds.reduce((s, b) => s + b.bundleSize, 0) / builds.length / 1024)
+
+    console.log('\n  ✦ Lume Heal — Build History\n')
+    console.log('  ─── Overview ─────────────────────────')
+    console.log(`  Total builds:    ${builds.length}`)
+    console.log(`  Passed:          ${valid.length} (${Math.round(valid.length/builds.length*100)}%)`)
+    console.log(`  Failed:          ${failed.length} (${Math.round(failed.length/builds.length*100)}%)`)
+    console.log(`  Avg build time:  ${avgTime}ms`)
+    console.log(`  Avg bundle size: ${avgSize} KB`)
+
+    // Bundle size trend
+    if (builds.length >= 3) {
+        const recent = builds.slice(-3)
+        const sizes = recent.map(b => (b.bundleSize / 1024).toFixed(1))
+        console.log(`  Size trend:      ${sizes.join(' → ')} KB`)
+    }
+
+    // Error frequency analysis
+    if (failed.length > 0) {
+        console.log('\n  ─── Error Analysis ────────────────────')
+        const errorTypes = {}
+        failed.forEach(f => {
+            f.errors.forEach(e => {
+                const key = e.error
+                if (!errorTypes[key]) errorTypes[key] = { count: 0, commits: new Set(), stages: new Set() }
+                errorTypes[key].count++
+                errorTypes[key].commits.add(f.commit)
+                errorTypes[key].stages.add(e.stage)
+            })
+        })
+        
+        Object.entries(errorTypes)
+            .sort((a, b) => b[1].count - a[1].count)
+            .forEach(([error, data]) => {
+                console.log(`  [${data.count}x] ${error}`)
+                console.log(`       Stages: ${[...data.stages].join(', ')} | Commits: ${[...data.commits].join(', ')}`)
+            })
+    }
+
+    // Recent builds
+    console.log('\n  ─── Recent Builds ────────────────────')
+    builds.slice(-8).forEach(b => {
+        const status = b.valid ? '✓' : '✗'
+        const time = b.timestamp?.slice(0, 16)?.replace('T', ' ') || 'unknown'
+        const size = (b.bundleSize / 1024).toFixed(1)
+        const duration = b.buildTimeMs ? `${b.buildTimeMs}ms` : '—'
+        const errors = !b.valid ? ` — ${b.errors.map(e => e.error).join('; ')}` : ''
+        console.log(`  ${status} ${time} | ${b.commit} | ${size}KB | ${duration}${errors}`)
+    })
+
+    console.log('')
+}
+
+
+// ════════════════════════════════════════════════════
+// ═══ EVOLVE — Pattern analysis & recommendations ═
+// ════════════════════════════════════════════════════
+
+function evolve() {
+    const builds = loadHistory()
+    
+    if (builds.length < 3) {
+        console.log('\n  ✦ Lume Heal — Evolution Engine\n')
+        console.log('  Need at least 3 builds for pattern analysis.')
+        console.log(`  Current: ${builds.length} builds\n`)
+        return
+    }
+
+    console.log('\n  ✦ Lume Heal — Evolution Engine\n')
+    console.log('  Analyzing build patterns...\n')
+
+    const recommendations = []
+    const valid = builds.filter(h => h.valid)
+    const failed = builds.filter(h => !h.valid)
+
+    // ── Analysis 1: Failure Rate Trend ──
+    const recentHalf = builds.slice(-Math.ceil(builds.length / 2))
+    const olderHalf = builds.slice(0, Math.floor(builds.length / 2))
+    const recentFail = recentHalf.filter(h => !h.valid).length / recentHalf.length
+    const olderFail = olderHalf.length > 0 ? olderHalf.filter(h => !h.valid).length / olderHalf.length : 0
+
+    if (recentFail > olderFail && recentFail > 0.3) {
+        recommendations.push({
+            severity: 'HIGH',
+            title: 'Increasing Failure Rate',
+            detail: `Recent failure rate (${Math.round(recentFail*100)}%) is higher than historical (${Math.round(olderFail*100)}%).`,
+            action: 'Review recent changes — code quality may be degrading.'
+        })
+    } else if (recentFail === 0 && builds.length > 5) {
+        recommendations.push({
+            severity: 'INFO',
+            title: 'Clean Build Streak',
+            detail: `Last ${recentHalf.length} builds all passed.`,
+            action: 'Pipeline is healthy. Keep it up!'
+        })
+    }
+
+    // ── Analysis 2: Bundle Size Growth ──
+    if (builds.length >= 5) {
+        const firstSize = builds[0].bundleSize
+        const lastSize = builds[builds.length - 1].bundleSize
+        const growth = ((lastSize - firstSize) / firstSize * 100).toFixed(1)
+        
+        if (parseFloat(growth) > 20) {
+            recommendations.push({
+                severity: 'WARN',
+                title: 'Bundle Size Growing',
+                detail: `Bundle grew ${growth}% (${(firstSize/1024).toFixed(0)}KB → ${(lastSize/1024).toFixed(0)}KB) over ${builds.length} builds.`,
+                action: 'Consider code splitting or removing unused features.'
+            })
+        } else if (parseFloat(growth) < 0) {
+            recommendations.push({
+                severity: 'INFO',
+                title: 'Bundle Size Optimized',
+                detail: `Bundle shrunk ${Math.abs(growth)}% — good optimization.`,
+                action: 'None needed.'
+            })
+        }
+    }
+
+    // ── Analysis 3: Build Performance ──
+    const timesMs = builds.filter(b => b.buildTimeMs).map(b => b.buildTimeMs)
+    if (timesMs.length >= 3) {
+        const avg = Math.round(timesMs.reduce((s, t) => s + t, 0) / timesMs.length)
+        const max = Math.max(...timesMs)
+        const recentAvg = Math.round(timesMs.slice(-3).reduce((s, t) => s + t, 0) / 3)
+
+        if (recentAvg > avg * 1.5) {
+            recommendations.push({
+                severity: 'WARN',
+                title: 'Build Getting Slower',
+                detail: `Recent avg: ${recentAvg}ms vs overall avg: ${avg}ms.`,
+                action: 'Check for complex transforms or growing source file.'
+            })
+        }
+        
+        if (max > avg * 3) {
+            recommendations.push({
+                severity: 'INFO',
+                title: 'Build Time Spike Detected',
+                detail: `Max build time (${max}ms) is ${(max/avg).toFixed(1)}x the average (${avg}ms).`,
+                action: 'Monitor for consistency. Spikes may indicate resource contention.'
+            })
+        }
+    }
+
+    // ── Analysis 4: Recurring Errors ──
+    if (failed.length > 0) {
+        const errorTypes = {}
+        failed.forEach(f => {
+            f.errors.forEach(e => {
+                if (!errorTypes[e.error]) errorTypes[e.error] = { count: 0, lines: new Set() }
+                errorTypes[e.error].count++
+                if (e.sourceLine) errorTypes[e.error].lines.add(e.sourceLine)
+            })
+        })
+
+        Object.entries(errorTypes)
+            .filter(([, d]) => d.count >= 2)
+            .sort((a, b) => b[1].count - a[1].count)
+            .forEach(([error, data]) => {
+                recommendations.push({
+                    severity: 'HIGH',
+                    title: `Recurring Error: ${error}`,
+                    detail: `Occurred ${data.count}x${data.lines.size > 0 ? ` near source line(s): ${[...data.lines].join(', ')}` : ''}.`,
+                    action: 'This is a hotspot. Consider refactoring the affected code or adding a transform rule.'
+                })
+            })
+    }
+
+    // ── Analysis 5: Source File Growth ──
+    const srcLines = builds.filter(b => b.sourceLines).map(b => b.sourceLines)
+    if (srcLines.length >= 3) {
+        const growth = srcLines[srcLines.length - 1] - srcLines[0]
+        if (growth > 500) {
+            recommendations.push({
+                severity: 'WARN',
+                title: 'Source File Growing Rapidly',
+                detail: `main.lume grew by ${growth} lines over ${builds.length} builds.`,
+                action: 'Consider splitting into multiple Lume modules or extracting reusable components.'
+            })
+        }
+    }
+
+    // ── Analysis 6: Commit Diversity ──
+    const commitSet = new Set(builds.map(b => b.commit))
+    if (commitSet.size < builds.length * 0.3 && builds.length > 5) {
+        recommendations.push({
+            severity: 'INFO',
+            title: 'Frequent Rebuilds Without Commits',
+            detail: `${builds.length} builds across only ${commitSet.size} distinct commits.`,
+            action: 'Multiple rebuilds per commit may indicate debugging cycles. Consider running validation locally first.'
+        })
+    }
+
+    // ── Print Recommendations ──
+    if (recommendations.length === 0) {
+        console.log('  ✦ No issues detected — pipeline is running optimally ✦\n')
+        return
+    }
+
+    const severityIcon = { HIGH: '🔴', WARN: '🟡', INFO: '🟢' }
+    const severityOrder = { HIGH: 0, WARN: 1, INFO: 2 }
+
+    recommendations
+        .sort((a, b) => severityOrder[a.severity] - severityOrder[b.severity])
+        .forEach((rec, i) => {
+            console.log(`  ${severityIcon[rec.severity]} ${rec.title}`)
+            console.log(`     ${rec.detail}`)
+            console.log(`     → ${rec.action}`)
+            if (i < recommendations.length - 1) console.log('')
+        })
+
+    console.log('\n  ───────────────────────────────────────')
+    const high = recommendations.filter(r => r.severity === 'HIGH').length
+    const warn = recommendations.filter(r => r.severity === 'WARN').length
+    const info = recommendations.filter(r => r.severity === 'INFO').length
+    console.log(`  Summary: ${high} critical, ${warn} warnings, ${info} informational`)
+    console.log('  ✦ Evolution analysis complete ✦\n')
 }
 
 
@@ -342,14 +531,20 @@ switch (command) {
     case 'status':   status();   break
     case 'check':    check(arg1); break
     case 'monitor':  monitor(arg1, arg2); break
+    case 'history':  history(); break
+    case 'evolve':   evolve(); break
     default:
-        console.log(`\n  ✦ Lume Heal — Self-Healing Module\n`)
-        console.log('  Commands:')
-        console.log('    validate         — Run all validation stages on local bundle')
+        console.log(`\n  ✦ Lume Heal v2.0 — Self-Healing Module\n`)
+        console.log('  Build:')
+        console.log('    validate         — Run all validation stages')
         console.log('    rollback         — Restore last known good bundle')
-        console.log('    status           — Show current build health')  
-        console.log('    check <url>      — Verify a live Lume deployment')
+        console.log('    status           — Current build health')
+        console.log('  Deploy:')
+        console.log('    check <url>      — Verify live deployment')
         console.log('    monitor <url>    — Continuous health monitoring')
+        console.log('  Evolution:')
+        console.log('    history          — Build history and trends')
+        console.log('    evolve           — Pattern analysis + recommendations')
         console.log('')
         process.exit(command === 'help' ? 0 : 1)
 }

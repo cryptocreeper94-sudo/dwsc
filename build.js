@@ -278,6 +278,7 @@ window.__LUME_HEALTH__ = {
 `
 
 // ── Build ──
+const buildStart = Date.now()
 console.log('  ✦ Lume Browser Bundler')
 console.log(`  Source: ${srcPath}`)
 console.log(`  Output: ${distPath}`)
@@ -468,7 +469,35 @@ console.log('  ⟐ Stage 3: VM execution test...')
 }
 
 
-// ── Validation Result ──
+
+// ── Validation Result + Build History ──
+const buildEnd = Date.now()
+const historyPath = resolve(__dirname, '.lume-history.json')
+let history = []
+try { history = JSON.parse(readFileSync(historyPath, 'utf-8')) } catch { /* fresh history */ }
+
+let commitHash = 'unknown'
+try { commitHash = execSync('git rev-parse HEAD', { stdio: 'pipe' }).toString().trim() } catch {}
+
+const buildRecord = {
+    timestamp: new Date().toISOString(),
+    commit: commitHash.slice(0, 8),
+    bundleSize: bundle.length,
+    sourceLines: source.split('\n').length,
+    buildTimeMs: buildEnd - buildStart,
+    valid: validationErrors.length === 0,
+    errors: validationErrors.map(e => ({
+        stage: e.stage,
+        error: e.error,
+        sourceLine: e.sourceLine
+    }))
+}
+
+history.push(buildRecord)
+// Keep last 100 builds
+if (history.length > 100) history = history.slice(-100)
+writeFileSync(historyPath, JSON.stringify(history, null, 2), 'utf-8')
+
 if (validationErrors.length > 0) {
     console.log('\n  ═══════════════════════════════════════')
     console.log('  ✗ BUILD BLOCKED — Validation failed')
@@ -477,17 +506,35 @@ if (validationErrors.length > 0) {
         console.log(`    Stage ${e.stage}: ${e.error}`)
     })
     console.log('  ═══════════════════════════════════════')
+    
+    // Smart diagnostics — check history for similar errors
+    const similar = history.filter(h => !h.valid && h.errors.some(
+        he => validationErrors.some(ve => ve.error === he.error)
+    ))
+    if (similar.length > 1) {
+        console.log(`  ⟐ Pattern detected: This error has occurred ${similar.length} times`)
+        console.log(`    First: ${similar[0].timestamp.slice(0, 16)}`)
+        console.log(`    Commits: ${[...new Set(similar.map(s => s.commit))].join(', ')}`)
+    }
+    
     console.log('  ⟐ Run: node lume-heal.js rollback')
     console.log('  ═══════════════════════════════════════\n')
     process.exit(1)
 } else {
     // Write last-known-good hash
     try {
-        const hash = execSync('git rev-parse HEAD', { stdio: 'pipe' }).toString().trim()
-        writeFileSync(resolve(__dirname, 'dist/.last-good-hash'), hash, 'utf-8')
-        console.log(`  ✓ Last-good hash: ${hash.slice(0, 8)}`)
+        writeFileSync(resolve(__dirname, 'dist/.last-good-hash'), commitHash, 'utf-8')
+        console.log(`  ✓ Last-good hash: ${commitHash.slice(0, 8)}`)
     } catch { /* not in git — skip */ }
     
+    // Build trend
+    const recentBuilds = history.slice(-5)
+    const avgTime = Math.round(recentBuilds.reduce((s, b) => s + b.buildTimeMs, 0) / recentBuilds.length)
+    const failRate = Math.round(history.filter(h => !h.valid).length / history.length * 100)
+    
+    console.log(`  ✓ Build time: ${buildRecord.buildTimeMs}ms (avg: ${avgTime}ms)`)
+    console.log(`  ✓ History: ${history.length} builds, ${failRate}% failure rate`)
     console.log('  ✦ All 3 validation stages passed')
     console.log('  ✦ Safe to deploy ✦\n')
 }
+

@@ -2356,6 +2356,7 @@ console.log("✦ DWSC.io rendered — Built with Lume")
 
 
 
+
 // ═══ Lume Health Beacon ═══
 // Signals that the IIFE executed without fatal errors
 // Detectable by lume-heal.js monitor, external health checks, and browser console
