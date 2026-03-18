@@ -1346,11 +1346,18 @@ dom.inject_css(`
     font-family: var(--font-mono);
     font-size: 0.78rem;
     color: var(--text-secondary);
-    transition: color 0.2s, border-color 0.2s;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   .paper-card .paper-file:hover {
     color: var(--cyan);
     border-color: rgba(6, 182, 212, 0.3);
+    background: rgba(6, 182, 212, 0.06);
+  }
+  .paper-card .paper-file:active {
+    background: rgba(6, 182, 212, 0.12);
   }
   .paper-card .paper-file .file-icon {
     font-size: 1rem;
@@ -1384,9 +1391,9 @@ let papers_section = dom.create("section", {
               dom.create("span", { className: "meta-pill", text: "86,000+ Words" }),
               dom.create("span", { className: "meta-pill", text: "CHI / PLDI Target" })
             ]}),
-            dom.create("div", { className: "paper-file", children: [
+            dom.create("a", { className: "paper-file", attrs: { href: "papers/LUME-ACADEMIC-PAPER.md", download: "LUME-ACADEMIC-PAPER.md" }, children: [
               dom.create("span", { className: "file-icon", text: "📄" }),
-              dom.create("span", { text: "LUME-ACADEMIC-PAPER.md" })
+              dom.create("span", { text: "⬇ Download LUME-ACADEMIC-PAPER.md" })
             ]})
           ]
         }),
@@ -1405,9 +1412,9 @@ let papers_section = dom.create("section", {
               dom.create("span", { className: "meta-pill", text: "69,000+ Words" }),
               dom.create("span", { className: "meta-pill", text: "§8.16 TrustGen" })
             ]}),
-            dom.create("div", { className: "paper-file", children: [
+            dom.create("a", { className: "paper-file", attrs: { href: "papers/LUME_ACADEMIC_BRIEF.md", download: "LUME_ACADEMIC_BRIEF.md" }, children: [
               dom.create("span", { className: "file-icon", text: "📋" }),
-              dom.create("span", { text: "LUME_ACADEMIC_BRIEF.md" })
+              dom.create("span", { text: "⬇ Download LUME_ACADEMIC_BRIEF.md" })
             ]})
           ]
         })
