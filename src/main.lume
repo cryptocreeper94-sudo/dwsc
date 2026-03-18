@@ -525,6 +525,7 @@ let nav = dom.create("nav", {
         dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Verticals", attrs: { href: "#verticals" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Blog", attrs: { href: "#blog" } })] }),
         dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
@@ -541,6 +542,7 @@ let mobile_menu = dom.create("div", {
     dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
     dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
     dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Verticals", attrs: { href: "#verticals" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
     dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
     dom.create("a", { text: "Contact", attrs: { href: "#contact" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } })
   ]
@@ -960,6 +962,197 @@ let ecosystem_section = dom.create("section", {
   ]
 })
 dom.mount(ecosystem_section, "#app")
+
+
+/// ─── VERTICAL APPLICATIONS ─────────────────────────────────
+
+dom.inject_css("
+  .vert-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .vert-grid .vert-row-2 {
+    display: contents;
+  }
+  .vert-card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+  .vert-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 20px 60px rgba(6, 182, 212, 0.1), var(--glass-shadow);
+  }
+  .vert-card .vert-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.85);
+    transition: filter 0.4s ease;
+  }
+  .vert-card:hover .vert-img {
+    filter: brightness(1);
+  }
+  .vert-card .vert-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .vert-card .vert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+  }
+  .vert-card .vert-badge .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  .vert-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .vert-card .vert-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+  .vert-card .vert-code {
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    overflow-x: auto;
+  }
+  .vert-card .vert-code .kw { color: var(--purple); }
+  .vert-card .vert-code .fn { color: var(--cyan); }
+  .vert-card .vert-code .str { color: var(--teal); }
+  .vert-card .vert-code .cm { color: var(--text-dim); }
+  .vert-card.vert-wide {
+    grid-column: span 2;
+  }
+  @media (max-width: 768px) {
+    .vert-grid { grid-template-columns: 1fr; }
+    .vert-card.vert-wide { grid-column: span 1; }
+    .vert-card .vert-img { height: 160px; }
+  }
+", "dwsc-verticals-styles")
+
+let verticals_section = dom.create("section", {
+  id: "verticals",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// VERTICAL APPLICATIONS" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "From Language to Platform" }),
+    dom.create("p", { className: "section-desc reveal", text: "Five domain-specific verticals prove Lume's cognitive distance minimization generalizes across DevOps, testing, configuration, education, and accessibility — each as first-class language constructs." }),
+
+    /// Row 1: Deploy + Verify + Config
+    dom.create("div", {
+      className: "vert-grid reveal",
+      children: [
+        /// Deploy Engine
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/deploy-engine.png", alt: "Deploy Engine", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "DevOps" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Deploy Engine" }),
+            dom.create("p", { className: "vert-desc", text: "Deployment as a language keyword. No shell scripts, no CI/CD YAML — just state your intent. Self-healing pipeline with automatic rollback." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">deploy</span> <span class="fn">to</span> render <span class="fn">from</span> <span class="str">"main"</span>\n<span class="kw">deploy</span> status\n<span class="kw">deploy</span> rollback' })
+          ]})
+        ]}),
+
+        /// Verify Keyword
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/verify-keyword.png", alt: "Verify Keyword", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Testing" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Verify Keyword" }),
+            dom.create("p", { className: "vert-desc", text: "Natural language assertions at the compiler level. Zero transformation dimensions — write exactly what you'd say to a colleague." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">verify</span> response.status <span class="fn">is</span> <span class="str">200</span>\n<span class="kw">verify</span> users <span class="fn">is not</span> empty\n<span class="kw">verify</span> count <span class="fn">is greater than</span> <span class="str">5</span>' })
+          ]})
+        ]}),
+
+        /// Config Language
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/config-engine.png", alt: "Config Engine", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Configuration" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Config Language" }),
+            dom.create("p", { className: "vert-desc", text: "Type-safe configuration as code. Replace YAML, TOML, and JSON with validated config blocks and env() integration." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">config</span> database = postgres\n  <span class="fn">at</span> <span class="str">"db.example.com"</span>\n  <span class="fn">port</span> <span class="str">5432</span>' })
+          ]})
+        ]}),
+
+        /// Education Mode (wide)
+        dom.create("div", { className: "vert-card vert-wide", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/education-mode.png", alt: "Education Mode", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Education" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Education Mode" }),
+            dom.create("p", { className: "vert-desc", text: "Beginner-tuned Tolerance Chain that accepts natural language drawing commands. Friendly error messages guide learners instead of intimidating them with stack traces." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">make</span> a big red circle\n<span class="kw">add</span> a button that says hello\n\n<span class="cm">// Error: 🎨 Try "draw a red circle" or "make a blue square"</span>' })
+          ]})
+        ]}),
+
+        /// Accessibility (single)
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/accessibility.png", alt: "Accessibility", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Accessibility" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Eyes-Free Pipeline" }),
+            dom.create("p", { className: "vert-desc", text: "Complete eyes-free programming. Spoken errors, voice navigation, spoken deploy status, and spoken verification results. Zero screens, zero keyboards." }),
+            dom.create("div", { className: "vert-code", html: '<span class="cm">// Speak → Code → Hear Results</span>\n<span class="kw">voice</span> <span class="str">"deploy status"</span>\n<span class="cm">// 🔊 "Deploy to render succeeded"</span>' })
+          ]})
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(verticals_section, "#app")
 
 
 /// ─── PAPERS SECTION ────────────────────────────────────────
