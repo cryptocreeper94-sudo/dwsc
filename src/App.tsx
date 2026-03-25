@@ -4,11 +4,16 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
+import { PresaleBanner } from './components/PresaleBanner'
+import { EcosystemAccountHub } from './components/EcosystemAccountHub'
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <PresaleBanner />
+      <EcosystemAccountHub />
       <section id="center">
         <div className="hero">
           <img src={heroImg} className="base" width="170" height="179" alt="" />
