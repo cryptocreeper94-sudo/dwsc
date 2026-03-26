@@ -105,6 +105,7 @@ const state = {
 //  gradient wave text, responsive mobile-first design.
 // ═══════════════════════════════════════════════════════════
 
+
 // ─── GLOBAL STYLES ─────────────────────────────────────────
 
 dom.inject_css(`
@@ -586,6 +587,7 @@ let orb3 = dom.create("div", {
 dom.mount(orb3)
 
 
+
 // ─── NAVIGATION ────────────────────────────────────────────
 
 let mobile_open = state.reactive(false)
@@ -644,6 +646,7 @@ let mobile_menu = dom.create("div", {
   ]
 })
 dom.mount(mobile_menu)
+
 
 
 // ─── HERO SECTION ──────────────────────────────────────────
@@ -752,7 +755,7 @@ let stats_section = dom.create("section", {
           dom.create("div", { className: "label", text: "Tolerance Layers" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "2,149" }),
+          dom.create("div", { className: "number gradient-text", text: "2,174" }),
           dom.create("div", { className: "label", text: "Tests Passing" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
@@ -761,13 +764,14 @@ let stats_section = dom.create("section", {
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
           dom.create("div", { className: "number gradient-text", text: "0" }),
-          dom.create("div", { className: "label", text: "CD Target Score" })
+          dom.create("div", { className: "label", text: "~0 Cognitive Distance" })
         ]})
       ]
     })
   ]
 })
 dom.mount(stats_section, "#app")
+
 
 
 // ─── LUME SECTION ──────────────────────────────────────────
@@ -884,7 +888,7 @@ let lume_highlight = dom.create("section", {
       dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
       dom.create("div", { className: "highlight-stats", children: [
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "2,149" }),
+          dom.create("div", { className: "stat-val gradient-text", text: "2,174" }),
           dom.create("div", { className: "stat-lbl", text: "Tests Passing" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
@@ -901,6 +905,7 @@ let lume_highlight = dom.create("section", {
   ]
 })
 dom.mount(lume_highlight, "#app")
+
 
 
 // ─── RESEARCH CAROUSEL ─────────────────────────────────────
@@ -991,6 +996,7 @@ let research_section = dom.create("section", {
   ]
 })
 dom.mount(research_section, "#app")
+
 
 
 // ─── ECOSYSTEM (FOCUSED) ───────────────────────────────────
@@ -1457,17 +1463,13 @@ let categories = [
     apps: [
       { icon: "💎", name: "Lume Language", desc: "AI-native language with voice-to-code and certified security.", url: "https://lume-lang.com" },
       { icon: "◈", name: "TrustGen 3D", desc: "AI-powered 3D generation with built-in Lume IDE.", url: "https://trustgen.tlid.io" },
-      { icon: "🏗️", name: "DarkWave Studio", desc: "Ecosystem IDE with Lume toolchain integration.", url: "https://darkwavestudio.tlid.io" },
-      { icon: "🔧", name: "Deploy Engine", desc: "One-command deployment with Lume integration.", url: "#" },
-      { icon: "✅", name: "Verify Keyword", desc: "Domain verification and security certification.", url: "#" }
+      { icon: "🏗️", name: "DarkWave Studio", desc: "Ecosystem IDE with Lume toolchain integration.", url: "https://darkwavestudio.tlid.io" }
     ]
   },
   {
     name: "Security & Identity",
     apps: [
-      { icon: "🔐", name: "Trust Layer Hub", desc: "Central SSO, hallmarks, and blockchain identity.", url: "https://dwtl.io" },
-      { icon: "🔗", name: "Hallmarks", desc: "Blockchain-verified digital identity badges.", url: "#" },
-      { icon: "📝", name: "Trust Stamps", desc: "Tamper-evident certification for digital content.", url: "#" }
+      { icon: "🔐", name: "Trust Layer Hub", desc: "Central SSO, hallmarks, and blockchain identity.", url: "https://dwtl.io" }
     ]
   },
   {
@@ -1475,9 +1477,7 @@ let categories = [
     apps: [
       { icon: "🎨", name: "PaintPros", desc: "Professional painting service marketplace.", url: "https://paintpros.tlid.io" },
       { icon: "🏠", name: "TrustHome", desc: "Real estate and property management platform.", url: "https://trusthome.tlid.io" },
-      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" },
-      { icon: "🛒", name: "Marketplace", desc: "Trust Layer verified e-commerce ecosystem.", url: "#" },
-      { icon: "📋", name: "ServiceHub", desc: "Service provider directory and booking.", url: "#" }
+      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" }
     ]
   },
   {
@@ -1485,18 +1485,13 @@ let categories = [
     apps: [
       { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game with Three.js physics.", url: "https://bomber3d.tlid.io" },
       { icon: "🎲", name: "Chronicles", desc: "Collaborative storytelling RPG platform.", url: "https://chronicles.tlid.io" },
-      { icon: "🎵", name: "DarkWave Studio", desc: "Music production and audio engineering.", url: "https://darkwavestudio.tlid.io" },
-      { icon: "🎯", name: "GameForge", desc: "Game development toolkit and engine.", url: "#" }
+      { icon: "🎵", name: "DarkWave Studio", desc: "Music production and audio engineering.", url: "https://darkwavestudio.tlid.io" }
     ]
   },
   {
     name: "Enterprise Operations",
     apps: [
-      { icon: "📊", name: "Verdara", desc: "Enterprise analytics and reporting dashboard.", url: "https://verdara.tlid.io" },
-      { icon: "📈", name: "MetricFlow", desc: "Business metrics and KPI tracking.", url: "#" },
-      { icon: "🏢", name: "OpsCenter", desc: "Infrastructure monitoring and management.", url: "#" },
-      { icon: "📑", name: "DocForge", desc: "Enterprise document management system.", url: "#" },
-      { icon: "🔍", name: "AuditTrail", desc: "Compliance and audit trail management.", url: "#" }
+      { icon: "📊", name: "Verdara", desc: "Enterprise analytics and reporting dashboard.", url: "https://verdara.tlid.io" }
     ]
   },
   {
@@ -1504,22 +1499,7 @@ let categories = [
     apps: [
       { icon: "💬", name: "Signal Chat", desc: "Real-time messaging with bot framework.", url: "https://signalchat.tlid.io" },
       { icon: "🌳", name: "Arbora", desc: "Community tree planting and sustainability.", url: "https://arbora.tlid.io" },
-      { icon: "🌿", name: "Bloom", desc: "Social wellness and habit tracking.", url: "#" },
-      { icon: "📰", name: "Newsroom", desc: "Community news and content curation.", url: "#" },
-      { icon: "🎓", name: "DarkWave Academy", desc: "Educational platform with tutorials.", url: "https://darkwaveacademy.tlid.io" },
-      { icon: "🤝", name: "ConnectHub", desc: "Professional networking ecosystem.", url: "#" }
-    ]
-  },
-  {
-    name: "Infrastructure",
-    apps: [
-      { icon: "📧", name: "Resend (Email)", desc: "Unified email service across all apps.", url: "#" },
-      { icon: "📱", name: "Twilio (SMS)", desc: "SMS and voice communication backbone.", url: "#" },
-      { icon: "💳", name: "Stripe (Payments)", desc: "Payment processing for all commerce.", url: "#" },
-      { icon: "🗄️", name: "Neon (PostgreSQL)", desc: "Serverless database infrastructure.", url: "#" },
-      { icon: "🌐", name: "Vercel (Hosting)", desc: "Frontend deployment and CDN.", url: "#" },
-      { icon: "🚀", name: "Render (Backend)", desc: "Backend services and API hosting.", url: "#" },
-      { icon: "🔄", name: "CI/CD Pipeline", desc: "Automated build, test, and deploy.", url: "#" }
+      { icon: "🎓", name: "DarkWave Academy", desc: "Educational platform with tutorials.", url: "https://darkwaveacademy.tlid.io" }
     ]
   }
 ]
@@ -1633,6 +1613,7 @@ let cat_section = dom.create("section", {
   ]
 })
 dom.mount(cat_section, "#app")
+
 
 
 // ─── UNIFIED INFRASTRUCTURE ────────────────────────────────
@@ -2088,6 +2069,7 @@ let verticals_section = dom.create("section", {
 dom.mount(verticals_section, "#app")
 
 
+
 // ─── PAPERS SECTION ────────────────────────────────────────
 
 dom.inject_css(`
@@ -2274,354 +2256,6 @@ let papers_section = dom.create("section", {
 dom.mount(papers_section, "#app")
 
 
-// ─── BLOG ──────────────────────────────────────────────────
-
-dom.inject_css(`
-  /* ── Blog Section ── */
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  .blog-card {
-    padding: 2rem;
-    border-radius: 1rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .blog-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(6, 182, 212, 0.25);
-  }
-  .blog-card .blog-category {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .blog-card h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.3;
-    transition: color 0.2s;
-  }
-  .blog-card:hover h3 { color: var(--cyan); }
-  .blog-card .blog-excerpt {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .blog-card .blog-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.78rem;
-    color: var(--text-dim);
-    margin-top: auto;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--glass-border);
-  }
-  .blog-card .blog-meta span { display: flex; align-items: center; gap: 0.3rem; }
-  .blog-card.featured {
-    grid-column: span 2;
-    border-color: rgba(6, 182, 212, 0.2);
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04), rgba(168, 85, 247, 0.03));
-  }
-  .blog-card.featured h3 { font-size: 1.4rem; }
-
-  /* ── Blog Post View ── */
-  .blog-post-view {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 6rem 2rem 4rem;
-  }
-  .blog-post-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--cyan);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-bottom: 2rem;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .blog-post-back:hover { opacity: 0.7; }
-  .blog-post-header {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--glass-border);
-  }
-  .blog-post-header .blog-category {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    display: block;
-  }
-  .blog-post-header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-  .blog-post-header .blog-meta {
-    display: flex;
-    gap: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--text-dim);
-  }
-  .blog-post-body {
-    font-size: 1.05rem;
-    line-height: 1.85;
-    color: var(--text-secondary);
-  }
-  .blog-post-body h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 2.5rem 0 1rem;
-  }
-  .blog-post-body h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 2rem 0 0.75rem;
-  }
-  .blog-post-body p { margin-bottom: 1.25rem; }
-  .blog-post-body strong { color: var(--text-primary); }
-  .blog-post-body code {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-    background: rgba(6, 182, 212, 0.08);
-    color: var(--cyan);
-    padding: 0.15em 0.4em;
-    border-radius: 0.25rem;
-  }
-  .blog-post-body pre {
-    background: var(--primary);
-    border: 1px solid var(--glass-border);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    line-height: 1.7;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-    color: var(--cyan);
-  }
-  .blog-post-body ul, .blog-post-body ol {
-    margin: 1rem 0 1.5rem 1.5rem;
-  }
-  .blog-post-body li {
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
-  }
-  .blog-post-body blockquote {
-    border-left: 3px solid var(--cyan);
-    padding: 1rem 1.5rem;
-    margin: 1.5rem 0;
-    background: rgba(6, 182, 212, 0.04);
-    border-radius: 0 0.5rem 0.5rem 0;
-    font-style: italic;
-    color: rgba(255,255,255,0.7);
-  }
-
-  @media (max-width: 768px) {
-    .blog-grid { grid-template-columns: 1fr; }
-    .blog-card.featured { grid-column: span 1; }
-  }
-`, "dwsc-blog-styles")
-
-
-// ─── BLOG DATA ─────────────────────────────────────────────
-
-let blog_posts = [
-  {
-    slug: "why-lume-exists",
-    category: "Vision",
-    title: "Why Lume Exists: The Cognitive Distance Problem",
-    excerpt: "Every developer translates between natural language thought and formal syntax hundreds of times per day. We built a language to eliminate that translation entirely.",
-    date: "March 17, 2026",
-    readTime: "8 min read",
-    featured: true,
-    body: `<h2>The Translation Tax</h2>
-<p>Think about the last time you wrote code. You had an idea — <strong>"get all the users who signed up this month"</strong> — and then you spent the next 30 seconds translating that thought into something like <code>const users = await db.query("SELECT * FROM users WHERE created_at >= DATE_TRUNC('month', NOW())")</code>.</p>
-<p>That translation is not programming. It's <strong>overhead</strong>. You already knew what you wanted. The only thing standing between your thought and the computer's execution was syntax — arbitrary syntax that varies between languages, frameworks, and APIs.</p>
-<p>We call this gap <strong>cognitive distance</strong>: the measurable effort required to translate human intent into code that a system will accept.</p>
-
-<h2>Six Dimensions of Cognitive Distance</h2>
-<p>Cognitive distance isn't a single thing — it's a composite of six distinct transformation dimensions:</p>
-<ul>
-<li><strong>Lexical (T₁):</strong> Mapping natural words to keywords — "show" becomes <code>console.log</code></li>
-<li><strong>Syntactic (T₂):</strong> Adding semicolons, brackets, indentation</li>
-<li><strong>Structural (T₃):</strong> Organizing into classes, modules, imports</li>
-<li><strong>Semantic (T₄):</strong> Choosing the correct API — <code>forEach</code> vs <code>map</code> vs <code>filter</code></li>
-<li><strong>Representational (T₅):</strong> Translating mental models to data structures</li>
-<li><strong>Meta-cognitive (T₆):</strong> "Am I doing this right?" — monitoring your own understanding</li>
-</ul>
-<p>Every programming language scores between 0 and 6 on this scale. Assembly scores 6/6 — every dimension requires explicit translation. Python scores 3/6. AI assistants like Copilot paradoxically score 4/6 — they add a new meta-cognitive burden (verifying AI-generated code).</p>
-
-<h2>Lume's Answer: CD → 0</h2>
-<p>Lume is designed to score as close to 0/6 as possible. In text mode, it scores 0.5/6 — only rare semantic edge cases require any translation at all. In voice mode, cognitive distance approaches zero entirely: you speak your intent, and the compiler resolves it.</p>
-<p>This isn't magic — it's engineering. The 7-layer Tolerance Chain absorbs the natural imprecision of human communication. The Resolution Manifest ensures deterministic reproducibility. Review Mode provides transparency through human-in-the-loop verification.</p>
-<p>We didn't build Lume because we wanted a new programming language. We built it because the translation tax is the single largest barrier to accessible, inclusive programming — and it's entirely unnecessary.</p>
-
-<blockquote>The distance has narrowed over 70 years of programming language evolution. Lume eliminates it.</blockquote>`
-  },
-  {
-    slug: "tolerance-chain",
-    category: "Architecture",
-    title: "The 7-Layer Tolerance Chain: How Lume Understands You",
-    excerpt: "A deep dive into the seven resolution layers that absorb human imprecision — from exact pattern matching to AI-powered intent resolution.",
-    date: "March 17, 2026",
-    readTime: "10 min read",
-    featured: false,
-    body: `<h2>The Core Innovation</h2>
-<p>Traditional compilers are rigid: if your input doesn't conform exactly to a context-free grammar, compilation fails. One missing semicolon, one misspelled keyword, one wrong bracket — rejected.</p>
-<p>Lume's Tolerance Chain takes the opposite approach. It <strong>absorbs imprecision</strong> through seven structured resolution layers, each one handling a different class of human communication noise.</p>
-
-<h2>The Seven Layers</h2>
-<h3>Layer 1 — Exact Pattern Match (Confidence: 1.0)</h3>
-<p>The pattern library contains 34+ regex-based patterns that map English phrases directly to AST nodes. When input matches exactly, confidence is 1.0 and resolution is instantaneous. Example: <code>"show hello world"</code> → <code>console.log("hello world")</code>.</p>
-
-<h3>Layer 2 — Fuzzy Pattern Match</h3>
-<p>Levenshtein distance ≤ 2 from a known pattern. This catches typos and minor phrasing variations: <code>"shwo hello"</code> → resolved as "show hello."</p>
-
-<h3>Layer 3 — Auto-Correct</h3>
-<p>A domain-specific dictionary of ~500 programming terms. <code>"functon"</code> → <code>"function"</code>, <code>"consle"</code> → <code>"console"</code>. This runs before the Tolerance Chain's main resolution.</p>
-
-<h3>Layer 4 — Context Engine</h3>
-<p>Uses surrounding instructions to resolve ambiguity. Maintains a Context Stack with <code>LastSubject</code> and <code>LastCollection</code> registers for pronoun resolution. When the developer says "show it," the Context Engine knows what "it" refers to.</p>
-
-<h3>Layer 5 — Temporal Resolver</h3>
-<p>Resolves time-relative references: "the previous result," "the last item," "what we just created." Maintains a bounded sliding window of 5 instructions.</p>
-
-<h3>Layer 6 — i18n Pattern Library</h3>
-<p>Multilingual patterns for 10 languages. A Spanish-speaking developer can write <code>"mostrar hola mundo"</code> and it compiles the same way as <code>"show hello world."</code></p>
-
-<h3>Layer 7 — AI Resolver</h3>
-<p>The only non-deterministic layer. Falls back to an LLM for intent classification when all deterministic layers fail. Results are cached in the Resolution Manifest to ensure reproducibility.</p>
-
-<h2>Why This Matters for HCI</h2>
-<p>The Tolerance Chain is not a compiler optimization — it's an <strong>HCI mechanism</strong>. It absorbs exactly the kind of imprecision that characterizes natural human communication: typos, ambiguity, informality, dialect variation, and run-on sentences.</p>
-<p>By making imprecise input first-class, the Tolerance Chain removes the extraneous cognitive load of syntactic conformity. You don't have to think about <em>how</em> to say something — you just say it.</p>`
-  },
-  {
-    slug: "voice-to-code",
-    category: "Research",
-    title: "Voice-to-Code Is Not a Feature — It's an Architectural Consequence",
-    excerpt: "How the Cleanup Layer and Tolerance Chain make voice input a mechanical consequence of a compiler that already handles imprecise input.",
-    date: "March 17, 2026",
-    readTime: "7 min read",
-    featured: false,
-    body: `<h2>The Insight</h2>
-<p>Voice input is inherently imprecise. Speech-to-text engines produce homophones ("write" vs. "right"), filler words ("um," "uh"), stuttering ("get get the name"), spoken punctuation ("period"), and run-on sentences with no line breaks.</p>
-<p>No traditional compiler can handle any of these. Voice coding tools like Talon and Serenade work around this by operating at the <strong>editor level</strong> — mapping voice commands to IDE actions. The compiler never sees voice input.</p>
-<p>But here's the thing: <strong>the Lume compiler already handles all of these.</strong> The Tolerance Chain was designed to absorb exactly this class of imprecision — from typed input. Voice input just happens to produce the same kinds of noise.</p>
-
-<h2>The Cleanup Layer</h2>
-<p>The Cleanup Layer preprocesses raw speech-to-text output through five stages:</p>
-<ol>
-<li><strong>Filler Removal:</strong> Strips "um," "uh," "like," "you know"</li>
-<li><strong>Stutter De-duplication:</strong> "get get the name" → "get the name"</li>
-<li><strong>Spoken Punctuation Conversion:</strong> "period" → ".", "open paren" → "("</li>
-<li><strong>Sentence Boundary Detection:</strong> Splits run-on input using pauses and conjunctions</li>
-<li><strong>Adaptive Profile Application:</strong> Per-user dialect and accent corrections</li>
-</ol>
-<p>After the Cleanup Layer, voice input looks like informal typed English — exactly what the Tolerance Chain was already designed to handle.</p>
-
-<h2>Why This Is Different</h2>
-<p>Every other voice coding system bolts voice onto a language that wasn't designed for it. Lume is the first language where voice input is a <strong>mechanical consequence of the architecture</strong>. The compiler already handles imprecise input. Voice is just another source of imprecision.</p>
-<p>This distinction matters because it means voice-to-code doesn't add complexity, doesn't require special syntax, and doesn't need a separate compilation path. The same Tolerance Chain processes both modalities.</p>`
-  },
-  {
-    slug: "adaptive-voice-profiles",
-    category: "Feature",
-    title: "Adaptive Voice Profiles: The Compiler That Learns You",
-    excerpt: "How Lume's per-user dialect mapping, accent correction, and filler word personalization make the compiler adapt to each individual developer.",
-    date: "March 17, 2026",
-    readTime: "6 min read",
-    featured: false,
-    body: `<h2>The Problem with One-Size-Fits-All</h2>
-<p>Speech-to-text accuracy varies dramatically across accents, dialects, and speech patterns. A Southern US accent, a non-native English speaker, a developer with a speech impediment — all produce systematically different transcription artifacts.</p>
-<p>Traditional voice tools require users to adapt to the system. Lume's Adaptive Voice Profile flips this: <strong>the system adapts to the user.</strong></p>
-
-<h2>Three Axes of Personalization</h2>
-<h3>Dialect Mapping</h3>
-<p>When a user consistently says "gimme" for "get" or "toss" for "delete," the system records these as candidate mappings. After 5 consistent uses (configurable threshold), the candidate is auto-promoted to a confirmed mapping with confidence ≥ 0.95. The compiler now understands that when <em>you</em> say "gimme the users," you mean "get the users."</p>
-
-<h3>Accent Correction</h3>
-<p>When a Southern US accent consistently produces "roit" for "right," or a non-native speaker produces "dat" for "that," the profile stores these corrections and applies them before the Tolerance Chain begins. Over time, transcription accuracy improves without requiring any change in how the user speaks.</p>
-
-<h3>Filler Word Personalization</h3>
-<p>Beyond generic fillers ("um," "uh"), the profile learns user-specific fillers. Some developers habitually say "basically," "y'know," or "right so" while thinking. The profile identifies these patterns and strips them automatically.</p>
-
-<h2>The Learning Curve</h2>
-<p>The profile's confidence follows this formula:</p>
-<pre>DC(u) = 1 - e^(-0.01 · Rᵤ - 0.1 · Cᵤ)</pre>
-<p>Where DC(u) is Dialect Confidence for user u, R is total resolutions, and C is confirmed mappings. As the system learns, cognitive distance for that specific user decreases further — the compiler becomes more attuned to <em>you</em> specifically.</p>
-
-<h2>Accessibility Impact</h2>
-<p>This has profound implications for accessibility. Users with speech impediments or non-standard accents experience <strong>improving accuracy over time</strong>. The system doesn't require them to change how they speak — it changes how it listens.</p>`
-  },
-  {
-    slug: "building-dwsc",
-    category: "Engineering",
-    title: "Building DWSC.io — A Site Written Entirely in Lume",
-    excerpt: "How we built the DarkWave Systems Collective website using Lume source code, compiled to browser-ready JavaScript. Zero frameworks. Zero dependencies.",
-    date: "March 17, 2026",
-    readTime: "5 min read",
-    featured: false,
-    body: `<h2>Eating Our Own Dog Food</h2>
-<p>DWSC.io is built entirely with Lume. The source code lives in <code>src/main.lume</code> and compiles to a single browser-ready JavaScript bundle (<code>dist/dwsc.js</code>) via the Lume browser bundler. No React. No Vue. No framework. Zero npm runtime dependencies.</p>
-
-<h2>The Architecture</h2>
-<p>The site uses Lume's built-in DOM standard library:</p>
-<ul>
-<li><code>dom.create(tag, opts)</code> — Creates elements with text, HTML, classes, styles, children</li>
-<li><code>dom.mount(element, selector)</code> — Appends to a container</li>
-<li><code>dom.inject_css(css)</code> — Injects scoped stylesheets</li>
-<li><code>dom.select(selector)</code> — Queries the DOM</li>
-<li><code>dom.ready(fn)</code> — Runs after DOMContentLoaded</li>
-</ul>
-<p>Every section — hero, bento grid, stats, carousel, ecosystem cards, academic papers, this blog, and the footer — is a Lume variable that creates DOM nodes and mounts them to <code>#app</code>.</p>
-
-<h2>The Build Process</h2>
-<p>The Lume browser bundler (<code>build.js</code>) transforms Lume syntax into valid browser JavaScript:</p>
-<ul>
-<li>Multi-line strings → template literals</li>
-<li><code>for&nbsp;each x in y</code> → <code>for (const x of y)</code></li>
-<li><code>def&#105;ne x = y</code> → <code>const x = y</code></li>
-<li><code>sh&#111;w x</code> → <code>console.log(x)</code></li>
-<li>Wraps everything in an IIFE with the Lume Standard Library</li>
-</ul>
-<p>The result is a single 40-50KB JavaScript file with zero external dependencies that renders the entire site client-side.</p>
-
-<h2>SEO Solution</h2>
-<p>Client-side rendering is hostile to search engines. Our solution: the <code>index.html</code> file contains comprehensive SEO — Open Graph tags, Twitter Cards, JSON-LD structured data (Organization, WebSite, SoftwareApplication, Blog), and a full <code>&lt;noscript&gt;</code> fallback with all page content in static HTML. Crawlers that can't execute JavaScript still see everything.</p>
-
-<h2>Why This Matters</h2>
-<p>DWSC.io is proof that Lume isn't just a research language — it's production-ready. A complete, responsive, SEO-optimized website with animations, carousels, blog, and glassmorphism effects, built from a single <code>.lume</code> source file and compiled to one JavaScript bundle. That's the power of zero cognitive distance applied to web development.</p>`
-  }
-]
-
 
 // ─── BLOG SECTION RENDER ────────────────────────────────────
 
@@ -2743,6 +2377,7 @@ dom.ready(() => {
 })
 
 dom.mount(blog_section, "#app")
+
 
 
 // ─── DEVELOPER PORTAL ──────────────────────────────────────
@@ -3306,6 +2941,211 @@ dom.ready(() => {
 
   window.addEventListener("hashchange", handlePortalRoute)
   handlePortalRoute()
+})
+
+
+
+
+// ─── ECOSYSTEM ACCOUNT HUB V2 ──────────────────────────────
+
+dom.inject_css(`
+  .hub-trigger {
+    position: fixed; top: 14px; right: 16px; z-index: 9998;
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 2px solid rgba(6,182,212,0.35);
+    background: linear-gradient(135deg,rgba(8,10,18,0.9),rgba(8,10,18,0.9));
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: rgba(255,255,255,0.85);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4); padding: 0; outline: none;
+    transition: all 0.3s ease;
+  }
+  .hub-trigger:hover { border-color: var(--cyan); box-shadow: 0 0 15px rgba(6,182,212,0.4); }
+  .hub-backdrop {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .hub-backdrop.open { opacity: 1; pointer-events: auto; }
+  .hub-panel {
+    position: fixed; top: 0; right: 0; z-index: 9999;
+    width: 360px; max-width: 100vw; height: 100dvh;
+    background: linear-gradient(180deg,rgba(8,10,18,0.98),rgba(4,6,12,0.99));
+    border-left: 1px solid rgba(6,182,212,0.1);
+    backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px);
+    overflow-y: auto; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hub-panel.open { transform: translateX(0); }
+  @media (max-width: 640px) { .hub-panel { width: 100vw; border-left: none; } }
+  .hub-hdr {
+    padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .hub-av {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid transparent; background: linear-gradient(135deg,rgba(8,10,18,0.9),rgba(8,10,18,0.9));
+    background-clip: padding-box; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0; box-shadow: inset 0 0 0 2px rgba(6,182,212,0.2);
+  }
+  .hub-info { flex: 1; min-width: 0; }
+  .hub-nm { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hub-em { font-size: 11px; color: rgba(6,182,212,0.5); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+  .hub-close {
+    width: 30px; height: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.25);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; transition: all 0.2s;
+  }
+  .hub-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .hub-bonus { margin: 16px; padding: 16px; border-radius: 16px; border: 1px solid rgba(6,182,212,0.12); position: relative; overflow: hidden; }
+  .hub-sec { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+  .hub-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.18); margin-bottom: 8px; }
+  .hub-row {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px;
+    cursor: pointer; text-decoration: none; color: rgba(255,255,255,0.65); transition: background 0.2s;
+  }
+  .hub-row:hover { background: rgba(255,255,255,0.04); color: #fff; }
+  .hub-rIcon { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .hub-rCont { flex: 1; }
+  .hub-rTitle { font-size: 13px; font-weight: 600; }
+  .hub-rSub { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 1px; }
+  .hub-badge { padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+  .hub-badgeC { background: rgba(6,182,212,0.08); border: 1px solid rgba(6,182,212,0.15); color: #67e8f9; }
+  .hub-badgeG { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6ee7b7; }
+  .hub-grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px; }
+  .hub-appBadge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); text-decoration: none; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 600; transition: all 0.2s; }
+  .hub-appBadge:hover { background: rgba(255,255,255,0.06); color: #fff; }
+  .hub-conn { padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; justify-content: center; flex: 1; }
+  .hub-connBtn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 32px; border-radius: 999px; background: linear-gradient(135deg, #06b6d4, #8b5cf6); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: none; }
+  .hub-connBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(6,182,212,0.4); }
+  .hub-ft { margin-top: auto; padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.02); font-size: 10px; color: rgba(255,255,255,0.12); text-align: center; }
+  .hub-ftLink { color: rgba(6,182,212,0.35); text-decoration: none; }
+  .hub-ftLink:hover { color: var(--cyan); }
+`, "hub-css")
+
+// --- App Configuration & User Data ---
+const SSO_URL = "https://dwtl.io"
+const PRE_URL = "https://dwtl.io/presale"
+
+const hub_apps = [{n:'Trust Hub',u:'https://trusthub.tlid.io',i:'🛡️'},{n:'TrustGen 3D',u:'https://trustgen.tlid.io',i:'🎨'},{n:'TrustVault',u:'https://trustvault.tlid.io',i:'🔐'},{n:'Chronicles',u:'https://yourlegacy.io',i:'📜'},{n:'ORBIT',u:'https://orbitstaffing.io',i:'🌐'},{n:'Lume',u:'https://lume-lang.org',i:'💡'},{n:'Bomber 3D',u:'https://bomber.tlid.io',i:'⛳'},{n:'THE VOID',u:'https://intothevoid.app',i:'🕳️'},{n:'Lot Ops',u:'https://lotopspro.io',i:'🚗'},{n:'SignalCast',u:'https://signalcast.tlid.io',i:'📡'},{n:'Studio',u:'https://studio.tlid.io',i:'🎛️'}]
+
+let hub_user = null
+let user_keys = ['tl_user','trustlayer_user','user','auth_user','dwtl_user','eco_user','vanops_user','orbit_user','trustgen_user','chronicles_user','bomber_user']
+
+for (let key of user_keys) {
+  try {
+    let raw = localStorage.getItem(key)
+    if (raw) {
+      let parsed = JSON.parse(raw)
+      if (parsed && (parsed.name || parsed.email || parsed.username || parsed.displayName)) {
+        let uname = parsed.displayName || parsed.name || parsed.username || parsed.email.split('@')[0]
+        hub_user = { name: uname, email: parsed.email, avatar: parsed.avatar || parsed.avatarUrl || parsed.profilePic }
+        break
+      }
+    }
+  } catch (e) {
+    // ignore error
+  }
+}
+
+// --- DOM Elements ---
+let hub_open = state.reactive(false)
+let hub_backdrop = dom.create("div", { className: "hub-backdrop" })
+let hub_panel = dom.create("div", { className: "hub-panel" })
+
+// Create trigger button
+let trigger_initial = "👤"
+if (hub_user) {
+  if (hub_user.avatar) {
+    trigger_initial = "<img src='" + hub_user.avatar + "' style='width:100%;height:100%;border-radius:50%;object-fit:cover'/>"
+  } else {
+    trigger_initial = "<span style='font-size:11px;font-weight:800;color:#67e8f9'>" + text.upper(hub_user.name.split(' ')[0].substring(0,2)) + "</span>"
+  }
+}
+
+let hub_trigger = dom.create("button", {
+  className: "hub-trigger",
+  html: trigger_initial,
+  onClick: () => {
+    hub_open.set(!hub_open.get())
+  }
+})
+dom.mount(hub_trigger)
+
+// Append backdrop and panel to body
+dom.mount(hub_backdrop)
+dom.mount(hub_panel)
+
+// Render Panel Content based on User State
+let render_hub_panel = () => {
+  dom.clear(hub_panel)
+  
+  let hdr_av = "👤"
+  if (hub_user) {
+    if (hub_user.avatar) {
+      hdr_av = "<img src='" + hub_user.avatar + "' style='width:100%;height:100%;border-radius:50%;object-fit:cover'/>"
+    } else {
+      hdr_av = "<span style='font-weight:800;font-size:14px;color:#67e8f9'>" + text.upper(hub_user.name.split(' ')[0].substring(0,2)) + "</span>"
+    }
+  }
+  
+  let hdr_nm = hub_user ? hub_user.name : "Trust Layer"
+  let hdr_em = hub_user ? (hub_user.email || "Trust Layer ID") : "Connect your account"
+  
+  let hdr = dom.create("div", { className: "hub-hdr", html: "<div class='hub-av'>" + hdr_av + "</div><div class='hub-info'><div class='hub-nm'>" + hdr_nm + "</div><div class='hub-em'>" + hdr_em + "</div></div>" })
+  
+  let close_btn = dom.create("button", { className: "hub-close", html: "✕", onClick: () => hub_open.set(false) })
+  dom.add_child(hdr, close_btn)
+  dom.add_child(hub_panel, hdr)
+
+  // Bonus Section
+  let bonus = dom.create("div", { className: "hub-bonus", styles: { background: "linear-gradient(135deg, rgba(6,182,212,0.06), rgba(0,0,0,0.1))" }, html: "<div style='display:flex;align-items:center;gap:6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:10px;color:#06b6d4'><span style='width:6px;height:6px;border-radius:50%;background:#06b6d4'></span>🔥 This Week's Bonus</div><div style='font-size:16px;font-weight:800;color:rgba(255,255,255,0.92);margin-bottom:4px;'>💡 Language Pioneers</div><div style='font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:12px;line-height:1.4'>Invite devs to Lume</div><div style='display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap'><span class='hub-bonusSig'>⚡ 500 SIG</span><span class='hub-bonusMult'>2×</span><span class='hub-bonusPerk'>+ v1.0 early access</span></div><a href='https://lume-lang.org?ref=eco&bonus=lume' target='_blank' style='display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px 0;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#06b6d4,#8b5cf6)'>🚀 Refer & Earn</a>" })
+  dom.add_child(hub_panel, bonus)
+
+  if (hub_user) {
+    dom.add_child(hub_panel, dom.create("div", { className: "hub-sec", html: "<div class='hub-lbl'>Signal Wallet</div><a class='hub-row' href='" + PRE_URL + "' target='_blank'><div class='hub-rIcon'>⚡</div><div class='hub-rCont'><div class='hub-rTitle'>Signal (SIG)</div><div class='hub-rSub'>Signal Charging · $0.001</div></div><span class='hub-badge hub-badgeC'>LIVE</span></a><a class='hub-row' href='" + SSO_URL + "/wallet' target='_blank'><div class='hub-rIcon'>💎</div><div class='hub-rCont'><div class='hub-rTitle'>Manage Wallet</div><div class='hub-rSub'>Balance, transactions</div></div></a>" }))
+    dom.add_child(hub_panel, dom.create("div", { className: "hub-sec", html: "<div class='hub-lbl'>Trust & Identity</div><a class='hub-row' href='" + SSO_URL + "/hallmark' target='_blank'><div class='hub-rIcon'>🏛️</div><div class='hub-rCont'><div class='hub-rTitle'>DW-STAMP Hallmark</div><div class='hub-rSub'>Trust verification & tier</div></div><span class='hub-badge hub-badgeG'>✓</span></a><a class='hub-row' href='" + SSO_URL + "/profile' target='_blank'><div class='hub-rIcon'>🆔</div><div class='hub-rCont'><div class='hub-rTitle'>Trust Layer ID</div><div class='hub-rSub'>Manage your TLID</div></div></a>" }))
+    
+    let apps_html = "<div class='hub-lbl'>Ecosystem Apps</div><div class='hub-grid'>"
+    for (let app of hub_apps) {
+      apps_html = apps_html + "<a class='hub-appBadge' href='" + app.u + "' target='_blank'><span style='font-size:12px'>" + app.i + "</span>" + app.n + "</a>"
+    }
+    apps_html = apps_html + "</div>"
+    dom.add_child(hub_panel, dom.create("div", { className: "hub-sec", html: apps_html }))
+  } else {
+    dom.add_child(hub_panel, dom.create("div", { className: "hub-conn", html: "<div style='font-size:44px;opacity:0.5'>🛡️</div><div style='font-size:17px;font-weight:800;color:rgba(255,255,255,0.88)'>Connect to Trust Layer</div><div style='font-size:12px;color:rgba(255,255,255,0.35);line-height:1.55;max-width:260px'>Sign in with your Trust Layer ID to access your wallet, hallmark, rewards, and ecosystem apps.</div><a class='hub-connBtn' href='" + SSO_URL + "/login' target='_blank'>🔗 Connect Account</a>" }))
+    let apps_html = "<div class='hub-lbl'>Explore the Ecosystem</div><div class='hub-grid'>"
+    for (let app of hub_apps) {
+      apps_html = apps_html + "<a class='hub-appBadge' href='" + app.u + "' target='_blank'><span style='font-size:12px'>" + app.i + "</span>" + app.n + "</a>"
+    }
+    apps_html = apps_html + "</div>"
+    dom.add_child(hub_panel, dom.create("div", { className: "hub-sec", html: apps_html }))
+  }
+  
+  dom.add_child(hub_panel, dom.create("div", { className: "hub-ft", html: "<a class='hub-ftLink' href='" + SSO_URL + "' target='_blank'>Trust Layer</a> · Ecosystem Account Hub" }))
+}
+
+render_hub_panel()
+
+// State bindings
+hub_open.on_change((isOpen) => {
+  if (isOpen) {
+    dom.add_class(hub_backdrop, "open")
+    dom.add_class(hub_panel, "open")
+    document.body.style.overflow = "hidden"
+  } else {
+    dom.remove_class(hub_backdrop, "open")
+    dom.remove_class(hub_panel, "open")
+    document.body.style.overflow = ""
+  }
+})
+
+dom.on(hub_backdrop, "click", () => hub_open.set(false))
+dom.on(document, "keydown", (e) => {
+  if (e.key === "Escape") {
+    hub_open.set(false)
+  }
 })
 
 

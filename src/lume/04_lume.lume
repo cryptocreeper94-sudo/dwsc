@@ -1,0 +1,132 @@
+/// ─── LUME SECTION ──────────────────────────────────────────
+
+let lume_section = dom.create("section", {
+  id: "lume",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// FLAGSHIP" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Lume Programming Language" }),
+    dom.create("p", { className: "section-desc reveal", text: "The world's first AI-native programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
+    dom.create("div", {
+      className: "code-block glass reveal",
+      html: '<span class="cm">// English Mode — zero cognitive distance</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">show</span> their names and emails\n<span class="kw">sort</span> them by signup date descending\n\n<span class="cm">// Compiles to certified JavaScript:</span>\n<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">db.query</span>(<span class="str">\'SELECT name, email FROM users\n  WHERE created_at >= DATE_TRUNC(month, CURRENT_DATE)\n  ORDER BY created_at DESC\'</span>);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY | Risk: LOW</span>'
+    })
+  ]
+})
+dom.mount(lume_section, "#app")
+
+
+/// ─── LUME LANGUAGE HIGHLIGHT ────────────────────────────────
+
+dom.inject_css("
+  .lume-highlight {
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .highlight-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.04), rgba(168, 85, 247, 0.03));
+    border: 1px solid rgba(6, 182, 212, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(6, 182, 212, 0.04);
+  }
+  .highlight-card h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .highlight-card p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .highlight-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .highlight-stat {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    background: rgba(6, 182, 212, 0.06);
+    border: 1px solid rgba(6, 182, 212, 0.12);
+  }
+  .highlight-stat .stat-val {
+    font-size: 1.75rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .highlight-stat .stat-lbl {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+  }
+  .highlight-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, var(--cyan), var(--teal));
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+  }
+  .highlight-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
+  }
+  @media (max-width: 768px) {
+    .highlight-stats { gap: 1rem; }
+    .highlight-stat { padding: 0.75rem 1rem; }
+    .highlight-card { padding: 2rem 1.5rem; }
+  }
+", "dwsc-lume-highlight-styles")
+
+let lume_highlight = dom.create("section", {
+  id: "lume-highlight",
+  children: [
+    dom.create("div", { className: "highlight-card reveal", children: [
+      dom.create("h3", { className: "gradient-text", text: "The Lume Programming Language" }),
+      dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
+      dom.create("div", { className: "highlight-stats", children: [
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "{{LUME_TEST_COUNT}}" }),
+          dom.create("div", { className: "stat-lbl", text: "Tests Passing" })
+        ]}),
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "505" }),
+          dom.create("div", { className: "stat-lbl", text: "Test Suites" })
+        ]}),
+        dom.create("div", { className: "highlight-stat", children: [
+          dom.create("div", { className: "stat-val gradient-text", text: "100%" }),
+          dom.create("div", { className: "stat-lbl", text: "Pass Rate" })
+        ]})
+      ]}),
+      dom.create("a", { className: "highlight-cta", text: "Explore Lume →", attrs: { href: "https://lume-lang.com", target: "_blank", rel: "noopener" } })
+    ]})
+  ]
+})
+dom.mount(lume_highlight, "#app")
+

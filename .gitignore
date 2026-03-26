@@ -21,3 +21,5 @@ node_modules
 *.sln
 *.sw?
 .lume-history.json
+
+/dist/dwsc.js

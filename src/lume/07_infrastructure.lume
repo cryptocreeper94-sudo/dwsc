@@ -1,0 +1,452 @@
+/// ─── UNIFIED INFRASTRUCTURE ────────────────────────────────
+
+dom.inject_css("
+  .infra-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .infra-card {
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: var(--glass-shadow);
+  }
+  .infra-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6,182,212,0.25);
+  }
+  .infra-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .infra-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .infra-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+  .infra-card .infra-stat {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.25rem;
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.15);
+    display: inline-block;
+  }
+  @media (max-width: 768px) {
+    .infra-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .infra-grid { grid-template-columns: 1fr; }
+  }
+", "dwsc-infra-styles")
+
+let infra_section = dom.create("section", {
+  id: "infrastructure",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// BACKBONE" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Unified Infrastructure" }),
+    dom.create("p", { className: "section-desc reveal", text: "Every ecosystem application shares the same authentication, payments, email, and communications backbone." }),
+    dom.create("div", {
+      className: "infra-grid",
+      children: [
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "🔐" }),
+          dom.create("h4", { text: "Trust Layer SSO" }),
+          dom.create("p", { text: "One identity across all 35 apps. Blockchain-verified hallmarks." }),
+          dom.create("span", { className: "infra-stat", text: "35 apps connected" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "📧" }),
+          dom.create("h4", { text: "Resend" }),
+          dom.create("p", { text: "Transactional email service. Welcome, notifications, and receipts." }),
+          dom.create("span", { className: "infra-stat", text: "Email backbone" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "💳" }),
+          dom.create("h4", { text: "Stripe" }),
+          dom.create("p", { text: "Unified payment processing with connected accounts per app." }),
+          dom.create("span", { className: "infra-stat", text: "All commerce" })
+        ]}),
+        dom.create("div", { className: "infra-card reveal", children: [
+          dom.create("span", { className: "infra-icon", text: "📱" }),
+          dom.create("h4", { text: "Twilio" }),
+          dom.create("p", { text: "SMS, voice, and WhatsApp messaging across the ecosystem." }),
+          dom.create("span", { className: "infra-stat", text: "Communications" })
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(infra_section, "#app")
+
+
+/// ─── TECHNOLOGY STACK ──────────────────────────────────────
+
+dom.inject_css("
+  .tech-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .tech-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.75rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+  }
+  .tech-badge:hover {
+    border-color: rgba(6,182,212,0.3);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+  }
+  .tech-badge .tech-icon { font-size: 1.2rem; }
+", "dwsc-tech-styles")
+
+let tech_items = [
+  { icon: "💎", name: "Lume" },
+  { icon: "⚡", name: "Node.js" },
+  { icon: "⚛️", name: "React" },
+  { icon: "🔺", name: "Three.js" },
+  { icon: "🚂", name: "Express" },
+  { icon: "🐘", name: "PostgreSQL" },
+  { icon: "🌐", name: "Neon" },
+  { icon: "🚀", name: "Render" },
+  { icon: "▲", name: "Vercel" },
+  { icon: "📧", name: "Resend" },
+  { icon: "💳", name: "Stripe" },
+  { icon: "📱", name: "Twilio" }
+]
+
+let tech_strip = dom.create("div", { className: "tech-strip" })
+for (const tech of tech_items) {
+  dom.add_child(tech_strip, dom.create("div", {
+    className: "tech-badge",
+    children: [
+      dom.create("span", { className: "tech-icon", text: tech.icon }),
+      dom.create("span", { text: tech.name })
+    ]
+  }))
+}
+
+let tech_section = dom.create("section", {
+  id: "tech-stack",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// BUILT WITH" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Technology Stack" }),
+    dom.create("p", { className: "section-desc reveal", text: "A modern, battle-tested stack powering every layer of the ecosystem." }),
+    dom.create("div", { className: "reveal", children: [tech_strip] })
+  ]
+})
+dom.mount(tech_section, "#app")
+
+
+/// ─── ROADMAP TIMELINE ──────────────────────────────────────
+
+dom.inject_css("
+  .timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 2rem auto 0;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--cyan), var(--purple));
+    opacity: 0.3;
+  }
+  .tl-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--cyan);
+    background: var(--void);
+  }
+  .tl-item.done::before {
+    background: var(--cyan);
+    box-shadow: 0 0 10px rgba(6,182,212,0.4);
+  }
+  .tl-item.current::before {
+    background: var(--purple);
+    border-color: var(--purple);
+    box-shadow: 0 0 10px rgba(168,85,247,0.4);
+    animation: pulse 2s ease infinite;
+  }
+  .tl-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+  .tl-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+  .tl-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .tl-item.future .tl-title { color: var(--text-secondary); }
+  .tl-item.future .tl-label { opacity: 0.5; }
+  .tl-item.future::before {
+    border-color: var(--text-dim);
+    background: transparent;
+  }
+  @media (max-width: 480px) {
+    .timeline { padding-left: 1.5rem; }
+    .tl-item { padding-left: 1.5rem; }
+  }
+", "dwsc-timeline-styles")
+
+let milestones = [
+  { id: "M1-M7", title: "Core Compiler + English Mode + Security", desc: "Lexer, parser, transpiler, 102 patterns, 7-layer tolerance, 3-layer security, intent blocks.", status: "done" },
+  { id: "M8", title: "Voice-to-Code Pipeline", desc: "7-step transcription cleanup, Web Speech API, homophone resolution, filler stripping.", status: "done" },
+  { id: "M9", title: "Interactive Playground", desc: "In-browser compilation, sandboxed execution, multi-panel IDE with live preview.", status: "done" },
+  { id: "M10", title: "Visual Context Awareness", desc: "UI Element Registry, spatial terms, full-stack app generation from English.", status: "current" },
+  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "future" },
+  { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "future" },
+  { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "future" }
+]
+
+let timeline_div = dom.create("div", { className: "timeline" })
+for (const m of milestones) {
+  dom.add_child(timeline_div, dom.create("div", {
+    className: "tl-item " + m.status + " reveal",
+    children: [
+      dom.create("div", { className: "tl-label", text: m.id }),
+      dom.create("div", { className: "tl-title", text: m.title }),
+      dom.create("div", { className: "tl-desc", text: m.desc })
+    ]
+  }))
+}
+
+let roadmap_section = dom.create("section", {
+  id: "roadmap",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ROADMAP" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Development Timeline" }),
+    dom.create("p", { className: "section-desc reveal", text: "13 milestones from concept to production-ready natural language compiler." }),
+    timeline_div
+  ]
+})
+dom.mount(roadmap_section, "#app")
+
+
+
+dom.inject_css("
+  .vert-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .vert-grid .vert-row-2 {
+    display: contents;
+  }
+  .vert-card {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+  }
+  .vert-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 20px 60px rgba(6, 182, 212, 0.1), var(--glass-shadow);
+  }
+  .vert-card .vert-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.85);
+    transition: filter 0.4s ease;
+  }
+  .vert-card:hover .vert-img {
+    filter: brightness(1);
+  }
+  .vert-card .vert-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .vert-card .vert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+  }
+  .vert-card .vert-badge .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  .vert-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .vert-card .vert-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+  .vert-card .vert-code {
+    background: var(--primary);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    overflow-x: auto;
+  }
+  .vert-card .vert-code .kw { color: var(--purple); }
+  .vert-card .vert-code .fn { color: var(--cyan); }
+  .vert-card .vert-code .str { color: var(--teal); }
+  .vert-card .vert-code .cm { color: var(--text-dim); }
+  .vert-card.vert-wide {
+    grid-column: span 2;
+  }
+  @media (max-width: 768px) {
+    .vert-grid { grid-template-columns: 1fr; }
+    .vert-card.vert-wide { grid-column: span 1; }
+    .vert-card .vert-img { height: 160px; }
+  }
+", "dwsc-verticals-styles")
+
+let verticals_section = dom.create("section", {
+  id: "verticals",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// VERTICAL APPLICATIONS" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "From Language to Platform" }),
+    dom.create("p", { className: "section-desc reveal", text: "Five domain-specific verticals prove Lume's cognitive distance minimization generalizes across DevOps, testing, configuration, education, and accessibility — each as first-class language constructs." }),
+
+    /// Row 1: Deploy + Verify + Config
+    dom.create("div", {
+      className: "vert-grid reveal",
+      children: [
+        /// Deploy Engine
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/deploy-engine.png", alt: "Deploy Engine", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "DevOps" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Deploy Engine" }),
+            dom.create("p", { className: "vert-desc", text: "Deployment as a language keyword. No shell scripts, no CI/CD YAML — just state your intent. Self-healing pipeline with automatic rollback." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">deploy</span> <span class="fn">to</span> render <span class="fn">from</span> <span class="str">"main"</span>\n<span class="kw">deploy</span> status\n<span class="kw">deploy</span> rollback' })
+          ]})
+        ]}),
+
+        /// Verify Keyword
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/verify-keyword.png", alt: "Verify Keyword", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Testing" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Verify Keyword" }),
+            dom.create("p", { className: "vert-desc", text: "Natural language assertions at the compiler level. Zero transformation dimensions — write exactly what you'd say to a colleague." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">verify</span> response.status <span class="fn">is</span> <span class="str">200</span>\n<span class="kw">verify</span> users <span class="fn">is not</span> empty\n<span class="kw">verify</span> count <span class="fn">is greater than</span> <span class="str">5</span>' })
+          ]})
+        ]}),
+
+        /// Config Language
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/config-engine.png", alt: "Config Engine", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Configuration" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Config Language" }),
+            dom.create("p", { className: "vert-desc", text: "Type-safe configuration as code. Replace YAML, TOML, and JSON with validated config blocks and env() integration." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">config</span> database = postgres\n  <span class="fn">at</span> <span class="str">"db.example.com"</span>\n  <span class="fn">port</span> <span class="str">5432</span>' })
+          ]})
+        ]}),
+
+        /// Education Mode (wide)
+        dom.create("div", { className: "vert-card vert-wide", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/education-mode.png", alt: "Education Mode", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Education" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Education Mode" }),
+            dom.create("p", { className: "vert-desc", text: "Beginner-tuned Tolerance Chain that accepts natural language drawing commands. Friendly error messages guide learners instead of intimidating them with stack traces." }),
+            dom.create("div", { className: "vert-code", html: '<span class="kw">make</span> a big red circle\n<span class="kw">add</span> a button that says hello\n\n<span class="cm">// Error: 🎨 Try "draw a red circle" or "make a blue square"</span>' })
+          ]})
+        ]}),
+
+        /// Accessibility (single)
+        dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/accessibility.png", alt: "Accessibility", loading: "lazy" } }),
+          dom.create("div", { className: "vert-body", children: [
+            dom.create("div", { className: "vert-badge", children: [
+              dom.create("span", { className: "dot" }),
+              dom.create("span", { text: "Accessibility" })
+            ]}),
+            dom.create("h3", { className: "gradient-text", text: "Eyes-Free Pipeline" }),
+            dom.create("p", { className: "vert-desc", text: "Complete eyes-free programming. Spoken errors, voice navigation, spoken deploy status, and spoken verification results. Zero screens, zero keyboards." }),
+            dom.create("div", { className: "vert-code", html: '<span class="cm">// Speak → Code → Hear Results</span>\n<span class="kw">voice</span> <span class="str">"deploy status"</span>\n<span class="cm">// 🔊 "Deploy to render succeeded"</span>' })
+          ]})
+        ]})
+      ]
+    })
+  ]
+})
+dom.mount(verticals_section, "#app")
+

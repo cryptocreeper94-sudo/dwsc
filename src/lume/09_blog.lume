@@ -1,0 +1,121 @@
+/// ─── BLOG SECTION RENDER ────────────────────────────────────
+
+let blog_section = dom.create("section", {
+  id: "blog",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// ENGINEERING BLOG" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "From the Lab" }),
+    dom.create("p", { className: "section-desc reveal", text: "Research notes, engineering deep-dives, and behind-the-scenes from the team building the world's first intent-resolving programming language." }),
+    dom.create("div", {
+      className: "blog-grid",
+      id: "blog-grid"
+    })
+  ]
+})
+
+/// Populate blog cards
+dom.ready(() => {
+  let grid = dom.select("#blog-grid")
+  for (const post of blog_posts) {
+    let card = dom.create("div", {
+      className: post.featured ? "blog-card featured reveal" : "blog-card reveal",
+      children: [
+        dom.create("div", { className: "blog-category", text: post.category }),
+        dom.create("h3", { text: post.title }),
+        dom.create("p", { className: "blog-excerpt", text: post.excerpt }),
+        dom.create("div", {
+          className: "blog-meta",
+          children: [
+            dom.create("span", { html: "📅 " + post.date }),
+            dom.create("span", { html: "⏱ " + post.readTime }),
+            dom.create("span", { html: "✦ Lume" })
+          ]
+        })
+      ]
+    })
+    card.addEventListener("click", () => {
+      window.location.hash = "blog/" + post.slug
+    })
+    grid.appendChild(card)
+  }
+
+  /// ── Hash Router for Blog Posts ──
+  function renderBlogPost() {
+    let hash = window.location.hash.replace("#", "")
+    if (!hash.startsWith("blog/")) return
+
+    let slug = hash.replace("blog/", "")
+    let post = blog_posts.find(p => p.slug === slug)
+    if (!post) return
+
+    /// Hide main content, show post
+    let app = dom.select("#app")
+    let existing = dom.select("#blog-post-view")
+    if (existing) existing.remove()
+
+    /// Scroll to top
+    window.scrollTo(0, 0)
+
+    let postView = dom.create("div", {
+      id: "blog-post-view",
+      className: "blog-post-view",
+      children: [
+        dom.create("a", {
+          className: "blog-post-back",
+          html: "← Back to Blog",
+          onClick: () => {
+            window.location.hash = "blog"
+            postView.remove()
+            app.style.display = ""
+          }
+        }),
+        dom.create("div", {
+          className: "blog-post-header",
+          children: [
+            dom.create("span", { className: "blog-category", text: post.category }),
+            dom.create("h1", { className: "gradient-text", text: post.title }),
+            dom.create("div", {
+              className: "blog-meta",
+              children: [
+                dom.create("span", { text: "Jason Andrews" }),
+                dom.create("span", { text: post.date }),
+                dom.create("span", { text: post.readTime })
+              ]
+            })
+          ]
+        }),
+        dom.create("div", {
+          className: "blog-post-body",
+          html: post.body
+        })
+      ]
+    })
+
+    app.style.display = "none"
+    document.body.appendChild(postView)
+  }
+
+  window.addEventListener("hashchange", () => {
+    let hash = window.location.hash.replace("#", "")
+    if (hash.startsWith("blog/")) {
+      renderBlogPost()
+    } else if (hash === "portal") {
+      /// Portal handled by its own module
+    } else {
+      let postView = dom.select("#blog-post-view")
+      if (postView) postView.remove()
+      let portalView = dom.select("#portal-view")
+      if (portalView) portalView.remove()
+      let app = dom.select("#app")
+      if (app) app.style.display = ""
+    }
+  })
+
+  /// Check on load
+  if (window.location.hash.startsWith("#blog/")) {
+    renderBlogPost()
+  }
+})
+
+dom.mount(blog_section, "#app")
+

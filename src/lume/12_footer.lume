@@ -1,0 +1,94 @@
+/// ─── FOOTER ────────────────────────────────────────────────
+
+let footer = dom.create("footer", {
+  className: "footer",
+  children: [
+    dom.create("div", {
+      className: "footer-grid",
+      children: [
+        dom.create("div", {
+          children: [
+            dom.create("div", {
+              className: "nav-logo gradient-text",
+              text: "DWSC",
+              styles: { fontSize: "1.3rem", marginBottom: "1rem", cursor: "default", userSelect: "none" },
+              onClick: (() => {
+                let clicks = 0
+                let timer = null
+                return () => {
+                  clicks++
+                  if (clicks === 3) {
+                    clicks = 0
+                    clearTimeout(timer)
+                    window.location.hash = "portal"
+                  } else {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => { clicks = 0 }, 800)
+                  }
+                }
+              })()
+            }),
+            dom.create("p", {
+              className: "footer-brand",
+              text: "DarkWave Systems Collective — Research & Engineering Division of DarkWave Studios LLC. Building the future of human-computer interaction through the Trust Layer ecosystem."
+            })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Language" }),
+            dom.create("a", { text: "Lume Compiler", attrs: { href: "https://lume-lang.com" } }),
+            dom.create("a", { text: "Playground", attrs: { href: "https://lume-lang.com/playground" } }),
+            dom.create("a", { text: "Documentation", attrs: { href: "https://lume-lang.org" } }),
+            dom.create("a", { text: "GitHub", attrs: { href: "https://github.com/cryptocreeper94-sudo/lume" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Ecosystem" }),
+            dom.create("a", { text: "Trust Layer Hub", attrs: { href: "https://dwtl.io" } }),
+            dom.create("a", { text: "TrustGen 3D + Lume IDE", attrs: { href: "https://trustgen.tlid.io" } }),
+            dom.create("a", { text: "DarkWave Studios", attrs: { href: "https://darkwavestudios.io" } }),
+            dom.create("a", { text: "Trust Hub", attrs: { href: "https://trusthub.tlid.io" } })
+          ]
+        }),
+        dom.create("div", {
+          children: [
+            dom.create("h4", { text: "Legal" }),
+            dom.create("a", { text: "Privacy Policy", attrs: { href: "#" } }),
+            dom.create("a", { text: "Terms of Service", attrs: { href: "#" } }),
+            dom.create("a", { text: "Contact", attrs: { href: "mailto:team@dwsc.io" } })
+          ]
+        })
+      ]
+    }),
+    dom.create("div", {
+      className: "footer-bottom",
+      html: "© 2026 DarkWave Studios LLC. All rights reserved. <br/>Powered by Lume · Trust Layer · DWSC · <a href='https://trustgen.tlid.io' style='color:var(--cyan);text-decoration:none'>Try Lume IDE →</a>"
+    })
+  ]
+})
+dom.mount(footer, "#app")
+
+
+/// ─── SKELETON REVEAL ───────────────────────────────────────
+
+dom.ready(() => {
+  let reveals = dom.select_all(".reveal")
+  let observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        dom.add_class(entry.target, "visible")
+        observer.unobserve(entry.target)
+      }
+    }
+  }, { threshold: 0.1 })
+  
+  for (const el of reveals) {
+    observer.observe(el)
+  }
+})
+
+console.log("✦ DWSC.io rendered — Built with Lume")
+
+

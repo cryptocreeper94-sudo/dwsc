@@ -1,0 +1,89 @@
+/// ─── RESEARCH CAROUSEL ─────────────────────────────────────
+
+let current_slide = state.reactive(0)
+const slide_count = 3
+
+let slides_data = [
+  {
+    title: "Cognitive Distance Theory",
+    desc: "A formal mathematical framework proving that programming difficulty is proportional to the gap between human intent and machine syntax. Lume's CD score approaches zero.",
+    badge: "§8.1 — Theoretical Contribution"
+  },
+  {
+    title: "Certified-at-Birth Security",
+    desc: "Every compiled line carries a SHA-256 certificate binding Input + AST + JavaScript. The Semantic Invariant Test ensures intent-to-execution integrity is cryptographically provable.",
+    badge: "§8.13 — Three-Layer Security"
+  },
+  {
+    title: "Auditory Mode",
+    desc: "The first programming language usable with eyes closed. Speak your intent, hear the compiler's understanding, confirm by voice. Full bidirectional speech pipeline — zero screens, zero keyboards.",
+    badge: "§8.14 — Accessibility as Architecture"
+  }
+]
+
+let track = dom.create("div", { className: "carousel-track" })
+
+for (const slide of slides_data) {
+  let slide_el = dom.create("div", {
+    className: "carousel-slide",
+    children: [
+      dom.create("div", {
+        className: "slide-content",
+        children: [
+          dom.create("h3", { className: "gradient-text", text: slide.title }),
+          dom.create("p", { text: slide.desc }),
+          dom.create("span", { className: "tag", text: slide.badge })
+        ]
+      }),
+      dom.create("div", {
+        className: "code-block",
+        styles: { fontSize: "0.8rem" },
+        html: '<span class="cm">// Research paper section reference</span>\n<span class="kw">define</span> contribution = <span class="str">"' + slide.title + '"</span>\n<span class="kw">show</span> contribution.impact'
+      })
+    ]
+  })
+  dom.add_child(track, slide_el)
+}
+
+let dots_container = dom.create("div", { className: "carousel-dots" })
+
+for (let i = 0; i < slide_count; i++) {
+  let dot = dom.create("button", {
+    className: "carousel-dot" + (i === 0 ? " active" : ""),
+    attrs: { "aria-label": "Slide " + (i + 1) }
+  })
+  dom.on(dot, "click", () => {
+    current_slide.set(i)
+  })
+  dom.add_child(dots_container, dot)
+}
+
+current_slide.on_change((val) => {
+  track.style.transform = "translateX(-" + (val * 100) + "%)"
+  let dots = dom.select_all(".carousel-dot")
+  for (const d of dots) {
+    dom.remove_class(d, "active")
+  dom.add_class(dots[val], "active")
+  }
+})
+
+/// Auto-rotate
+let auto_rotate = setInterval(() => {
+  let next = (current_slide.get() + 1) % slide_count
+  current_slide.set(next)
+}, 6000)
+
+let research_section = dom.create("section", {
+  id: "research",
+  children: [
+    dom.create("div", { className: "section-label reveal", text: "// RESEARCH" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "Academic Contributions" }),
+    dom.create("p", { className: "section-desc reveal", text: "Peer-reviewable theoretical frameworks, experimental designs, and novel paradigms in programming language design." }),
+    dom.create("div", {
+      className: "carousel reveal",
+      children: [track, dots_container]
+    })
+  ]
+})
+dom.mount(research_section, "#app")
+

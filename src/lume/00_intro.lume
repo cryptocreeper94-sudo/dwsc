@@ -1,0 +1,11 @@
+/// ═══════════════════════════════════════════════════════════
+///  DWSC.io — DarkWave Systems Collective
+///  Built with Lume — the AI-native programming language
+///  
+///  This is the Lume source file. It compiles to browser-ready
+///  JavaScript via: lume bundle src/main.lume --target=browser
+///
+///  Ultra-Premium Protocol: Void Black + Cyan/Teal/Purple palette,
+///  glassmorphism, floating orbs, skeleton reveals, bento grid,
+///  gradient wave text, responsive mobile-first design.
+/// ═══════════════════════════════════════════════════════════

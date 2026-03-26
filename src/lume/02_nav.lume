@@ -1,0 +1,59 @@
+/// ─── NAVIGATION ────────────────────────────────────────────
+
+let mobile_open = state.reactive(false)
+
+let hamburger = dom.create("button", {
+  className: "hamburger",
+  html: "&#9776;",
+  attrs: { "aria-label": "Menu" },
+  onClick: () => {
+    mobile_open.set(!mobile_open.get())
+    let menu = dom.select(".mobile-menu")
+    if (mobile_open.get()) {
+      dom.add_class(menu, "open")
+      hamburger.innerHTML = "&#10005;"
+    } else {
+      dom.remove_class(menu, "open")
+      hamburger.innerHTML = "&#9776;"
+    }
+  }
+})
+
+let nav = dom.create("nav", {
+  className: "nav",
+  children: [
+    dom.create("div", {
+      className: "nav-logo gradient-text",
+      text: "DWSC"
+    }),
+    dom.create("ul", {
+      className: "nav-links",
+      children: [
+        dom.create("li", { children: [dom.create("a", { text: "Research", attrs: { href: "#research" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Lume", attrs: { href: "#lume" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Roadmap", attrs: { href: "#roadmap" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Papers", attrs: { href: "#papers" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Blog", attrs: { href: "#blog" } })] }),
+        dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
+      ]
+    }),
+    hamburger
+  ]
+})
+dom.mount(nav)
+
+let mobile_menu = dom.create("div", {
+  className: "mobile-menu",
+  children: [
+    dom.create("a", { text: "Research", attrs: { href: "#research" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Ecosystem", attrs: { href: "#ecosystem" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Lume", attrs: { href: "#lume" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Playground", attrs: { href: "#playground" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Verticals", attrs: { href: "#verticals" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Papers", attrs: { href: "#papers" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } }),
+    dom.create("a", { text: "Contact", attrs: { href: "#contact" }, onClick: () => { mobile_open.set(false); dom.remove_class(dom.select(".mobile-menu"), "open"); hamburger.innerHTML = "&#9776;" } })
+  ]
+})
+dom.mount(mobile_menu)
+
