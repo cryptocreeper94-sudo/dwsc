@@ -112,16 +112,16 @@ let lume_highlight = dom.create("section", {
       dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
       dom.create("div", { className: "highlight-stats", children: [
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "{{LUME_TEST_COUNT}}" }),
-          dom.create("div", { className: "stat-lbl", text: "Tests Passing" })
+          dom.create("div", { className: "stat-val gradient-text", text: "CI ✔" }),
+          dom.create("div", { className: "stat-lbl", text: "Build Verified" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "505" }),
-          dom.create("div", { className: "stat-lbl", text: "Test Suites" })
+          dom.create("div", { className: "stat-val gradient-text", text: "102" }),
+          dom.create("div", { className: "stat-lbl", text: "English Patterns" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "100%" }),
-          dom.create("div", { className: "stat-lbl", text: "Pass Rate" })
+          dom.create("div", { className: "stat-val gradient-text", text: "3-Stage" }),
+          dom.create("div", { className: "stat-lbl", text: "Validation Pipeline" })
         ]})
       ]}),
       dom.create("a", { className: "highlight-cta", text: "Explore Lume →", attrs: { href: "https://lume-lang.com", target: "_blank", rel: "noopener" } })

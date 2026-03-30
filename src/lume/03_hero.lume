@@ -104,8 +104,8 @@ let stats_section = dom.create("section", {
           dom.create("div", { className: "label", text: "Tolerance Layers" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "{{LUME_TEST_COUNT}}" }),
-          dom.create("div", { className: "label", text: "Tests Passing" })
+          dom.create("div", { className: "number gradient-text", text: "CI ✔" }),
+          dom.create("div", { className: "label", text: "Build Verified" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
           dom.create("div", { className: "number gradient-text", text: "3" }),

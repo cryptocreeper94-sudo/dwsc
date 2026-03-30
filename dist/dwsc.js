@@ -755,8 +755,8 @@ let stats_section = dom.create("section", {
           dom.create("div", { className: "label", text: "Tolerance Layers" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "2,174" }),
-          dom.create("div", { className: "label", text: "Tests Passing" })
+          dom.create("div", { className: "number gradient-text", text: "CI ✔" }),
+          dom.create("div", { className: "label", text: "Build Verified" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
           dom.create("div", { className: "number gradient-text", text: "3" }),
@@ -888,16 +888,16 @@ let lume_highlight = dom.create("section", {
       dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
       dom.create("div", { className: "highlight-stats", children: [
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "2,174" }),
-          dom.create("div", { className: "stat-lbl", text: "Tests Passing" })
+          dom.create("div", { className: "stat-val gradient-text", text: "CI ✔" }),
+          dom.create("div", { className: "stat-lbl", text: "Build Verified" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "505" }),
-          dom.create("div", { className: "stat-lbl", text: "Test Suites" })
+          dom.create("div", { className: "stat-val gradient-text", text: "102" }),
+          dom.create("div", { className: "stat-lbl", text: "English Patterns" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "100%" }),
-          dom.create("div", { className: "stat-lbl", text: "Pass Rate" })
+          dom.create("div", { className: "stat-val gradient-text", text: "3-Stage" }),
+          dom.create("div", { className: "stat-lbl", text: "Validation Pipeline" })
         ]})
       ]}),
       dom.create("a", { className: "highlight-cta", text: "Explore Lume →", attrs: { href: "https://lume-lang.com", target: "_blank", rel: "noopener" } })
@@ -1110,14 +1110,14 @@ let ecosystem_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 36+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
+    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 38+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
 
     // Stats row
     dom.create("div", {
       className: "eco-stats reveal",
       children: [
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "36+" }),
+          dom.create("div", { className: "eco-num gradient-text", text: "38+" }),
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
@@ -1296,7 +1296,8 @@ let arch_apps = [
   { icon: "🔧", name: "Deploy Engine", cat: "infra" },
   { icon: "✅", name: "Verify Keyword", cat: "infra" },
   { icon: "🔗", name: "Hallmarks", cat: "core" },
-  { icon: "📝", name: "Trust Stamps", cat: "core" }
+  { icon: "📝", name: "Trust Stamps", cat: "core" },
+  { icon: "🍔", name: "Happy Eats", cat: "comm" }
 ]
 
 let arch_container = dom.create("div", { className: "arch-container" })
@@ -1477,7 +1478,8 @@ let categories = [
     apps: [
       { icon: "🎨", name: "PaintPros", desc: "Professional painting service marketplace.", url: "https://paintpros.tlid.io" },
       { icon: "🏠", name: "TrustHome", desc: "Real estate and property management platform.", url: "https://trusthome.tlid.io" },
-      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" }
+      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" },
+      { icon: "🍔", name: "Happy Eats", desc: "Last-mile food delivery for truckers and rural workers. Vendor portals, driver dispatch, Stripe payments.", url: "https://happyeats.app" }
     ]
   },
   {
@@ -1606,7 +1608,7 @@ active_cat.on_change((val) => {
 let cat_section = dom.create("section", {
   id: "categories",
   children: [
-    dom.create("div", { className: "section-label reveal", text: "// 35 APPLICATIONS" }),
+    dom.create("div", { className: "section-label reveal", text: "// 38 APPLICATIONS" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Ecosystem by Category" }),
     dom.create("p", { className: "section-desc reveal", text: "Every application unified by Trust Layer SSO, Stripe payments, Resend email, and Twilio communications. Browse by vertical." }),
     dom.create("div", { className: "reveal", children: [tab_container, panels_wrapper] })
@@ -1672,8 +1674,8 @@ let infra_section = dom.create("section", {
         dom.create("div", { className: "infra-card reveal", children: [
           dom.create("span", { className: "infra-icon", text: "🔐" }),
           dom.create("h4", { text: "Trust Layer SSO" }),
-          dom.create("p", { text: "One identity across all 35 apps. Blockchain-verified hallmarks." }),
-          dom.create("span", { className: "infra-stat", text: "35 apps connected" })
+          dom.create("p", { text: "One identity across all 38 apps. Blockchain-verified hallmarks." }),
+          dom.create("span", { className: "infra-stat", text: "38 apps connected" })
         ]}),
         dom.create("div", { className: "infra-card reveal", children: [
           dom.create("span", { className: "infra-icon", text: "📧" }),
@@ -1849,8 +1851,8 @@ let milestones = [
   { id: "M1-M7", title: "Core Compiler + English Mode + Security", desc: "Lexer, parser, transpiler, 102 patterns, 7-layer tolerance, 3-layer security, intent blocks.", status: "done" },
   { id: "M8", title: "Voice-to-Code Pipeline", desc: "7-step transcription cleanup, Web Speech API, homophone resolution, filler stripping.", status: "done" },
   { id: "M9", title: "Interactive Playground", desc: "In-browser compilation, sandboxed execution, multi-panel IDE with live preview.", status: "done" },
-  { id: "M10", title: "Visual Context Awareness", desc: "UI Element Registry, spatial terms, full-stack app generation from English.", status: "current" },
-  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "future" },
+  { id: "M10", title: "Visual Context Awareness + LaaS", desc: "UI Element Registry, spatial terms, Lume as a Service (LaaS) cloud deployment. DWSC.io built entirely in Lume.", status: "done" },
+  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "current" },
   { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "future" },
   { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "future" }
 ]

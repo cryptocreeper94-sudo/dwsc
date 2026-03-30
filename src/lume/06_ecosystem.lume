@@ -109,14 +109,14 @@ let ecosystem_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 36+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
+    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 38+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
 
     /// Stats row
     dom.create("div", {
       className: "eco-stats reveal",
       children: [
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "36+" }),
+          dom.create("div", { className: "eco-num gradient-text", text: "38+" }),
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
@@ -295,7 +295,8 @@ let arch_apps = [
   { icon: "🔧", name: "Deploy Engine", cat: "infra" },
   { icon: "✅", name: "Verify Keyword", cat: "infra" },
   { icon: "🔗", name: "Hallmarks", cat: "core" },
-  { icon: "📝", name: "Trust Stamps", cat: "core" }
+  { icon: "📝", name: "Trust Stamps", cat: "core" },
+  { icon: "🍔", name: "Happy Eats", cat: "comm" }
 ]
 
 let arch_container = dom.create("div", { className: "arch-container" })
@@ -476,7 +477,8 @@ let categories = [
     apps: [
       { icon: "🎨", name: "PaintPros", desc: "Professional painting service marketplace.", url: "https://paintpros.tlid.io" },
       { icon: "🏠", name: "TrustHome", desc: "Real estate and property management platform.", url: "https://trusthome.tlid.io" },
-      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" }
+      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" },
+      { icon: "🍔", name: "Happy Eats", desc: "Last-mile food delivery for truckers and rural workers. Vendor portals, driver dispatch, Stripe payments.", url: "https://happyeats.app" }
     ]
   },
   {
@@ -605,7 +607,7 @@ active_cat.on_change((val) => {
 let cat_section = dom.create("section", {
   id: "categories",
   children: [
-    dom.create("div", { className: "section-label reveal", text: "// 35 APPLICATIONS" }),
+    dom.create("div", { className: "section-label reveal", text: "// 38 APPLICATIONS" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Ecosystem by Category" }),
     dom.create("p", { className: "section-desc reveal", text: "Every application unified by Trust Layer SSO, Stripe payments, Resend email, and Twilio communications. Browse by vertical." }),
     dom.create("div", { className: "reveal", children: [tab_container, panels_wrapper] })

@@ -54,8 +54,8 @@ let infra_section = dom.create("section", {
         dom.create("div", { className: "infra-card reveal", children: [
           dom.create("span", { className: "infra-icon", text: "🔐" }),
           dom.create("h4", { text: "Trust Layer SSO" }),
-          dom.create("p", { text: "One identity across all 35 apps. Blockchain-verified hallmarks." }),
-          dom.create("span", { className: "infra-stat", text: "35 apps connected" })
+          dom.create("p", { text: "One identity across all 38 apps. Blockchain-verified hallmarks." }),
+          dom.create("span", { className: "infra-stat", text: "38 apps connected" })
         ]}),
         dom.create("div", { className: "infra-card reveal", children: [
           dom.create("span", { className: "infra-icon", text: "📧" }),
@@ -231,8 +231,8 @@ let milestones = [
   { id: "M1-M7", title: "Core Compiler + English Mode + Security", desc: "Lexer, parser, transpiler, 102 patterns, 7-layer tolerance, 3-layer security, intent blocks.", status: "done" },
   { id: "M8", title: "Voice-to-Code Pipeline", desc: "7-step transcription cleanup, Web Speech API, homophone resolution, filler stripping.", status: "done" },
   { id: "M9", title: "Interactive Playground", desc: "In-browser compilation, sandboxed execution, multi-panel IDE with live preview.", status: "done" },
-  { id: "M10", title: "Visual Context Awareness", desc: "UI Element Registry, spatial terms, full-stack app generation from English.", status: "current" },
-  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "future" },
+  { id: "M10", title: "Visual Context Awareness + LaaS", desc: "UI Element Registry, spatial terms, Lume as a Service (LaaS) cloud deployment. DWSC.io built entirely in Lume.", status: "done" },
+  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "current" },
   { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "future" },
   { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "future" }
 ]
