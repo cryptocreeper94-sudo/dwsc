@@ -5,7 +5,7 @@ let lume_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// FLAGSHIP" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Lume Programming Language" }),
-    dom.create("p", { className: "section-desc reveal", text: "The world's first AI-native programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
+    dom.create("p", { className: "section-desc reveal", text: "The world's first deterministic intent-resolving programming language. Write in English. Compile with voice. Ship with confidence. Every line is security-certified at birth." }),
     dom.create("div", {
       className: "code-block glass reveal",
       html: '<span class="cm">// English Mode — zero cognitive distance</span>\n<span class="kw">get</span> all the users who signed up this month\n<span class="kw">show</span> their names and emails\n<span class="kw">sort</span> them by signup date descending\n\n<span class="cm">// Compiles to certified JavaScript:</span>\n<span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">db.query</span>(<span class="str">\'SELECT name, email FROM users\n  WHERE created_at >= DATE_TRUNC(month, CURRENT_DATE)\n  ORDER BY created_at DESC\'</span>);\n<span class="cm">// LUME-CERT: sha256:a3f8... | Intent: QUERY | Risk: LOW</span>'
@@ -112,16 +112,16 @@ let lume_highlight = dom.create("section", {
       dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
       dom.create("div", { className: "highlight-stats", children: [
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "CI ✔" }),
-          dom.create("div", { className: "stat-lbl", text: "Build Verified" })
+          dom.create("div", { className: "stat-val gradient-text", text: "v1.0.5" }),
+          dom.create("div", { className: "stat-lbl", text: "Latest Version" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "102" }),
-          dom.create("div", { className: "stat-lbl", text: "English Patterns" })
+          dom.create("div", { className: "stat-val gradient-text", text: "154" }),
+          dom.create("div", { className: "stat-lbl", text: "Intent Patterns" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "3-Stage" }),
-          dom.create("div", { className: "stat-lbl", text: "Validation Pipeline" })
+          dom.create("div", { className: "stat-val gradient-text", text: "529" }),
+          dom.create("div", { className: "stat-lbl", text: "Test Suites" })
         ]})
       ]}),
       dom.create("a", { className: "highlight-cta", text: "Explore Lume →", attrs: { href: "https://lume-lang.com", target: "_blank", rel: "noopener" } })
