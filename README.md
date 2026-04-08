@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+> 🔒 **Patent Pending:** The core deterministic governance capabilities (Lume-V) within this repository are protected under U.S. Provisional Patent Application **No. 64/032,339** (Filed April 7, 2026).
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -71,3 +73,4 @@ export default defineConfig([
   },
 ])
 ```
+
