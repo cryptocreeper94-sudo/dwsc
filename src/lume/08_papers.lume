@@ -211,7 +211,7 @@ dom.inject_css("
 ", "dwsc-papers-styles")
 
 /// ─── Helper: create a core paper link row ───
-let make_core_link = fn(num, title, subtitle, doi) {
+function make_core_link(num, title, subtitle, doi) {
   return dom.create("a", {
     className: "paper-link-row reveal",
     attrs: { href: "https://doi.org/" + doi, target: "_blank", rel: "noopener" },
@@ -227,7 +227,7 @@ let make_core_link = fn(num, title, subtitle, doi) {
 }
 
 /// ─── Helper: create a vertical paper link ───
-let make_vert_link = fn(title, subtitle, doi) {
+function make_vert_link(title, subtitle, doi) {
   return dom.create("a", {
     className: "vert-link reveal",
     attrs: { href: "https://doi.org/" + doi, target: "_blank", rel: "noopener" },
