@@ -120,7 +120,7 @@ let ecosystem_section = dom.create("section", {
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "8" }),
+          dom.create("div", { className: "eco-num gradient-text", text: "23" }),
           dom.create("div", { className: "eco-label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [

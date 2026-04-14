@@ -20,6 +20,88 @@ dom.inject_css("
     --font-mono: 'JetBrains Mono', monospace;
   }
 
+  /* ── Light Mode ── */
+  body.light-mode {
+    background: #f5f7fa !important;
+    color: #1a1a2e !important;
+    --void: #f5f7fa;
+    --primary: #ffffff;
+    --secondary: #eef1f6;
+    --deep: #e8ecf1;
+    --cyan: #0891b2;
+    --teal: #0d9488;
+    --blue: #0284c7;
+    --purple: #7c3aed;
+    --indigo: #6d28d9;
+    --glass-bg: rgba(255, 255, 255, 0.78);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    --text-primary: #1a1a2e;
+    --text-secondary: rgba(26,26,46,0.6);
+    --text-dim: rgba(26,26,46,0.35);
+  }
+  body.light-mode .nav {
+    background: rgba(245, 247, 250, 0.92) !important;
+    border-bottom-color: rgba(0,0,0,0.06) !important;
+  }
+  body.light-mode .nav-links a { color: rgba(26,26,46,0.6); }
+  body.light-mode .nav-links a:hover { color: var(--cyan); }
+  body.light-mode .hamburger { color: var(--cyan); }
+  body.light-mode .mobile-menu {
+    background: rgba(245, 247, 250, 0.97) !important;
+  }
+  body.light-mode .mobile-menu a { color: #1a1a2e; }
+  body.light-mode .gradient-text {
+    background: linear-gradient(135deg, #0891b2, #0d9488, #7c3aed) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+  body.light-mode .orb { opacity: 0.06; }
+  body.light-mode .code-block {
+    background: #f0f4f8;
+    border-color: rgba(0,0,0,0.08);
+    color: rgba(26,26,46,0.6);
+  }
+  body.light-mode .code-block .kw { color: #7c3aed; }
+  body.light-mode .code-block .fn { color: #0891b2; }
+  body.light-mode .code-block .str { color: #0d9488; }
+  body.light-mode .code-block .cm { color: rgba(26,26,46,0.35); }
+  body.light-mode .footer {
+    background: #e8ecf1 !important;
+    border-top-color: rgba(0,0,0,0.06) !important;
+  }
+  body.light-mode .footer a { color: rgba(26,26,46,0.45); }
+  body.light-mode .footer a:hover { color: var(--cyan); }
+  body.light-mode .footer h4 { color: rgba(26,26,46,0.6); }
+  body.light-mode .footer-brand { color: rgba(26,26,46,0.45); }
+  body.light-mode .footer-bottom { color: rgba(26,26,46,0.35); border-top-color: rgba(0,0,0,0.05); }
+  body.light-mode .paper-link-row .plr-title,
+  body.light-mode .vert-link .vl-title { color: #1e293b; }
+  body.light-mode ::-webkit-scrollbar-track { background: #f5f7fa; }
+  body.light-mode ::-webkit-scrollbar-thumb { background: #0891b2; }
+  /* ── Theme Toggle Button ── */
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--glass-border);
+    color: var(--cyan);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    background: rgba(6,182,212,0.1);
+    border-color: var(--cyan);
+  }
+
   /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--void); }

@@ -1,3 +1,39 @@
+/// ─── THEME TOGGLE ──────────────────────────────────────────
+
+let is_light = state.reactive(false)
+
+/// Check saved preference or system preference
+if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+  let saved_theme = localStorage.getItem("dwsc-theme")
+  if (saved_theme === "light") {
+    is_light.set(true)
+    document.body.classList.add("light-mode")
+  } else if (saved_theme === null && window.matchMedia("(prefers-color-scheme: light)").matches) {
+    is_light.set(true)
+    document.body.classList.add("light-mode")
+  }
+}
+
+let theme_btn = dom.create("button", {
+  className: "theme-toggle",
+  html: is_light.get() ? "☀️" : "🌙",
+  attrs: { "aria-label": "Toggle theme", title: "Toggle light/dark mode" },
+  onClick: () => {
+    is_light.set(!is_light.get())
+    if (is_light.get()) {
+      document.body.classList.add("light-mode")
+      localStorage.setItem("dwsc-theme", "light")
+      theme_btn.innerHTML = "☀️"
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f5f7fa")
+    } else {
+      document.body.classList.remove("light-mode")
+      localStorage.setItem("dwsc-theme", "dark")
+      theme_btn.innerHTML = "🌙"
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#06060a")
+    }
+  }
+})
+
 /// ─── NAVIGATION ────────────────────────────────────────────
 
 let mobile_open = state.reactive(false)
@@ -38,6 +74,7 @@ let nav = dom.create("nav", {
         dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
       ]
     }),
+    theme_btn,
     hamburger
   ]
 })

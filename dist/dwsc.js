@@ -128,6 +128,88 @@ dom.inject_css(`
     --font-mono: 'JetBrains Mono', monospace;
   }
 
+  /* ── Light Mode ── */
+  body.light-mode {
+    background: #f5f7fa !important;
+    color: #1a1a2e !important;
+    --void: #f5f7fa;
+    --primary: #ffffff;
+    --secondary: #eef1f6;
+    --deep: #e8ecf1;
+    --cyan: #0891b2;
+    --teal: #0d9488;
+    --blue: #0284c7;
+    --purple: #7c3aed;
+    --indigo: #6d28d9;
+    --glass-bg: rgba(255, 255, 255, 0.78);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+    --text-primary: #1a1a2e;
+    --text-secondary: rgba(26,26,46,0.6);
+    --text-dim: rgba(26,26,46,0.35);
+  }
+  body.light-mode .nav {
+    background: rgba(245, 247, 250, 0.92) !important;
+    border-bottom-color: rgba(0,0,0,0.06) !important;
+  }
+  body.light-mode .nav-links a { color: rgba(26,26,46,0.6); }
+  body.light-mode .nav-links a:hover { color: var(--cyan); }
+  body.light-mode .hamburger { color: var(--cyan); }
+  body.light-mode .mobile-menu {
+    background: rgba(245, 247, 250, 0.97) !important;
+  }
+  body.light-mode .mobile-menu a { color: #1a1a2e; }
+  body.light-mode .gradient-text {
+    background: linear-gradient(135deg, #0891b2, #0d9488, #7c3aed) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+  body.light-mode .orb { opacity: 0.06; }
+  body.light-mode .code-block {
+    background: #f0f4f8;
+    border-color: rgba(0,0,0,0.08);
+    color: rgba(26,26,46,0.6);
+  }
+  body.light-mode .code-block .kw { color: #7c3aed; }
+  body.light-mode .code-block .fn { color: #0891b2; }
+  body.light-mode .code-block .str { color: #0d9488; }
+  body.light-mode .code-block .cm { color: rgba(26,26,46,0.35); }
+  body.light-mode .footer {
+    background: #e8ecf1 !important;
+    border-top-color: rgba(0,0,0,0.06) !important;
+  }
+  body.light-mode .footer a { color: rgba(26,26,46,0.45); }
+  body.light-mode .footer a:hover { color: var(--cyan); }
+  body.light-mode .footer h4 { color: rgba(26,26,46,0.6); }
+  body.light-mode .footer-brand { color: rgba(26,26,46,0.45); }
+  body.light-mode .footer-bottom { color: rgba(26,26,46,0.35); border-top-color: rgba(0,0,0,0.05); }
+  body.light-mode .paper-link-row .plr-title,
+  body.light-mode .vert-link .vl-title { color: #1e293b; }
+  body.light-mode ::-webkit-scrollbar-track { background: #f5f7fa; }
+  body.light-mode ::-webkit-scrollbar-thumb { background: #0891b2; }
+  /* ── Theme Toggle Button ── */
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--glass-border);
+    color: var(--cyan);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    background: rgba(6,182,212,0.1);
+    border-color: var(--cyan);
+  }
+
   /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--void); }
@@ -588,6 +670,42 @@ dom.mount(orb3)
 
 
 
+// ─── THEME TOGGLE ──────────────────────────────────────────
+
+let is_light = state.reactive(false)
+
+// Check saved preference or system preference
+if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+  let saved_theme = localStorage.getItem("dwsc-theme")
+  if (saved_theme === "light") {
+    is_light.set(true)
+    document.body.classList.add("light-mode")
+  } else if (saved_theme === null && window.matchMedia("(prefers-color-scheme: light)").matches) {
+    is_light.set(true)
+    document.body.classList.add("light-mode")
+  }
+}
+
+let theme_btn = dom.create("button", {
+  className: "theme-toggle",
+  html: is_light.get() ? "☀️" : "🌙",
+  attrs: { "aria-label": "Toggle theme", title: "Toggle light/dark mode" },
+  onClick: () => {
+    is_light.set(!is_light.get())
+    if (is_light.get()) {
+      document.body.classList.add("light-mode")
+      localStorage.setItem("dwsc-theme", "light")
+      theme_btn.innerHTML = "☀️"
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f5f7fa")
+    } else {
+      document.body.classList.remove("light-mode")
+      localStorage.setItem("dwsc-theme", "dark")
+      theme_btn.innerHTML = "🌙"
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", "#06060a")
+    }
+  }
+})
+
 // ─── NAVIGATION ────────────────────────────────────────────
 
 let mobile_open = state.reactive(false)
@@ -628,6 +746,7 @@ let nav = dom.create("nav", {
         dom.create("li", { children: [dom.create("a", { text: "Contact", attrs: { href: "#contact" } })] })
       ]
     }),
+    theme_btn,
     hamburger
   ]
 })
@@ -1121,7 +1240,7 @@ let ecosystem_section = dom.create("section", {
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "8" }),
+          dom.create("div", { className: "eco-num gradient-text", text: "23" }),
           dom.create("div", { className: "eco-label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
@@ -2319,8 +2438,8 @@ let papers_section = dom.create("section", {
   id: "papers",
   children: [
     dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "30 Published Papers" }),
-    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers and the DAIGS vertical substrate architecture — 30 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework." }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "35 Published Papers" }),
+    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 35 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
 
     // ─── Core Infrastructure ───
     dom.create("div", {
@@ -2328,25 +2447,29 @@ let papers_section = dom.create("section", {
       children: [
         dom.create("div", { className: "paper-type", children: [
           dom.create("span", { className: "dot" }),
-          dom.create("span", { text: "Core Infrastructure · 9 Papers" })
+          dom.create("span", { text: "Core Infrastructure · 13 Papers" })
         ]}),
         dom.create("h3", { className: "gradient-text", text: "Lume Core + DAIGS Architecture" }),
-        dom.create("p", { className: "paper-abstract", text: "The foundational layer: the Lume programming language, Lume-V deterministic cognition, Lume-X canonicalization, Lume-OS distributed runtime, Lume-Ops vascular mesh, and the DAIGS multi-organism governance architecture." }),
+        dom.create("p", { className: "paper-abstract", text: "The foundational layer: the Lume programming language, Lume-V deterministic cognition, Lume-X multi-agent cognition, Lume-OS deterministic runtime, Lume-Ops operational substrate, the DAIGS multi-organism governance architecture, and the Trust Layer capstone." }),
         dom.create("div", { className: "paper-meta", children: [
-          dom.create("span", { className: "meta-pill", text: "9 Papers" }),
+          dom.create("span", { className: "meta-pill", text: "13 Papers" }),
           dom.create("span", { className: "meta-pill", text: "Patent Pending" }),
           dom.create("span", { className: "meta-pill", text: "U.S. 64/032,339" })
         ]}),
         dom.create("div", { className: "paper-grid", children: [
-          make_core_link("1", "Lume", "Deterministic Natural-Language Programming Language", "10.5281/zenodo.19382282"),
-          make_core_link("2", "Lume‑V", "Deterministic Cognition and Identity", "10.5281/zenodo.19463416"),
-          make_core_link("3", "Lume‑X", "Deterministic Canonicalization & Multi-Agent Compilation", "10.5281/zenodo.19443968"),
-          make_core_link("4", "Lume‑OS v2", "Distributed Deterministic Runtime for Multi-Organism Governance", "10.5281/zenodo.19501104"),
-          make_core_link("5", "Lume‑Ops v2", "Deterministic Vascular Operational Mesh", "10.5281/zenodo.19500230"),
-          make_core_link("6", "DAIGS Master Taxonomy", "Deterministic Autonomous Infrastructure Governance System", "10.5281/zenodo.19491785"),
-          make_core_link("7", "DAIGS v2", "Multi-Organism Governance for Planet-Scale Infrastructure", "10.5281/zenodo.19501315"),
-          make_core_link("8", "Lume‑Med", "Medical AI Governance (DAIGS Origin)", "10.5281/zenodo.19499466"),
-          make_core_link("9", "Lume‑Ops Base", "Operational Foundation Paper", "10.5281/zenodo.19435010")
+          make_core_link("1", "Trust Layer Capstone", "Deterministic Correctness Substrate + Multi-Personality Organisms", "10.5281/zenodo.19560675"),
+          make_core_link("2", "Lume (Core)", "Deterministic Natural-Language Programming Language v5.1", "10.5281/zenodo.19559443"),
+          make_core_link("3", "Lume‑V", "Deterministic Governance Layer for Autonomous Systems", "10.5281/zenodo.19559423"),
+          make_core_link("4", "Lume‑X", "Deterministic Multi-Agent Cognition", "10.5281/zenodo.19559388"),
+          make_core_link("5", "Lume Ecosystem", "Deterministic Governance Library", "10.5281/zenodo.19559376"),
+          make_core_link("6", "Lume‑OS v2", "Distributed Deterministic Runtime", "10.5281/zenodo.19559355"),
+          make_core_link("7", "Lume‑OS v1", "Deterministic Operating System for Autonomous Systems", "10.5281/zenodo.19559307"),
+          make_core_link("8", "Lume‑Ops v2", "Deterministic Vascular Operational Mesh", "10.5281/zenodo.19559266"),
+          make_core_link("9", "Lume‑Ops v1", "Deterministic Universal Operational Substrate", "10.5281/zenodo.19559242"),
+          make_core_link("10", "DAIGS Fusion", "Unified Cross-Vertical Governance", "10.5281/zenodo.19559081"),
+          make_core_link("11", "DAIGS v3", "Advanced Governance Architecture", "10.5281/zenodo.19559064"),
+          make_core_link("12", "DAIGS v2", "Multi-Organism Governance", "10.5281/zenodo.19559020"),
+          make_core_link("13", "DAIGS v1", "Master Taxonomy", "10.5281/zenodo.19558908")
         ]})
       ]
     }),
@@ -2357,39 +2480,33 @@ let papers_section = dom.create("section", {
       children: [
         dom.create("div", { className: "paper-type", children: [
           dom.create("span", { className: "dot" }),
-          dom.create("span", { text: "DAIGS Vertical Substrates · 21 Papers" })
+          dom.create("span", { text: "DAIGS Vertical Substrates · 22 Papers" })
         ]}),
-        dom.create("h3", { className: "gradient-text", text: "23 Industry Verticals" }),
-        dom.create("p", { className: "paper-abstract", text: "Each vertical applies the DAIGS deterministic governance framework to a specific industry — from healthcare and finance to aerospace and agriculture. Every paper follows the canonical 14-section scholarly structure with comprehensive appendices." }),
+        dom.create("h3", { className: "gradient-text", text: "22 Industry Verticals" }),
+        dom.create("p", { className: "paper-abstract", text: "Each vertical applies the DAIGS deterministic governance framework to a specific industry — from healthcare and finance to aerospace and agriculture. All 22 verticals are published with permanent DOIs." }),
         dom.create("div", { className: "vert-grid", children: [
-          make_vert_link("Lume‑Fin", "Financial Systems", "10.5281/zenodo.19488366"),
-          make_vert_link("Lume‑Civ", "Civic Infrastructure", "10.5281/zenodo.19485506"),
-          make_vert_link("Lume‑Food", "Food Safety & Supply Chain", "10.5281/zenodo.19499846"),
-          make_vert_link("Lume‑Ind", "Industrial Systems", "10.5281/zenodo.19486295"),
-          make_vert_link("Lume‑Agri", "Agriculture", "10.5281/zenodo.19485203"),
-          make_vert_link("Lume‑Aero", "Aerospace", "10.5281/zenodo.19475426"),
-          make_vert_link("Lume‑Space", "Space Systems", "10.5281/zenodo.19484777"),
-          make_vert_link("Lume‑Def", "Defense Systems", "10.5281/zenodo.19475467"),
-          make_vert_link("Lume‑Gov", "Regulatory Governance", "10.5281/zenodo.19474511"),
-          make_vert_link("Lume‑Energy", "Energy Systems", "10.5281/zenodo.19475366"),
-          make_vert_link("Lume‑Grid", "Power Grid", "10.5281/zenodo.19485366"),
-          make_vert_link("Lume‑Hydro", "Hydrological Systems", "10.5281/zenodo.19486694"),
-          make_vert_link("Lume‑Env", "Environmental Monitoring", "10.5281/zenodo.19485824"),
-          make_vert_link("Lume‑Auto", "Autonomous Vehicles", "10.5281/zenodo.19485588"),
-          make_vert_link("Lume‑Geo", "Geospatial Systems", "10.5281/zenodo.19382282"),
-          make_vert_link("Lume‑LifeBio", "Life Sciences & Biotech", "10.5281/zenodo.19382282"),
-          make_vert_link("Lume‑Mar", "Maritime Systems", "10.5281/zenodo.19382282")
-        ]}),
-        dom.create("div", { className: "paper-type", style: { marginTop: "1.25rem", color: "var(--text-secondary)" }, children: [
-          dom.create("span", { text: "Upcoming — 6 more verticals in preparation" })
-        ]}),
-        dom.create("div", { className: "upcoming-bar", children: [
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑Com" }),
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑Cyber" }),
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑Edu" }),
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑OS v1" }),
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑Ops v1" }),
-          dom.create("span", { className: "upcoming-pill", text: "Lume‑Ops Base" })
+          make_vert_link("Lume‑Med", "Medical AI Governance", "10.5281/zenodo.19557655"),
+          make_vert_link("Lume‑Fin", "Financial Systems", "10.5281/zenodo.19558853"),
+          make_vert_link("Lume‑Energy", "Energy Systems", "10.5281/zenodo.19558030"),
+          make_vert_link("Lume‑Grid", "Power Grid Distribution", "10.5281/zenodo.19558218"),
+          make_vert_link("Lume‑Cyber", "Cybersecurity Governance", "10.5281/zenodo.19558639"),
+          make_vert_link("Lume‑Def", "Defense Systems", "10.5281/zenodo.19558713"),
+          make_vert_link("Lume‑Auto", "Autonomous Vehicles", "10.5281/zenodo.19558317"),
+          make_vert_link("Lume‑Aero", "Aerospace", "10.5281/zenodo.19558406"),
+          make_vert_link("Lume‑Space", "Space Operations", "10.5281/zenodo.19558493"),
+          make_vert_link("Lume‑Civ", "Civic Infrastructure", "10.5281/zenodo.19558246"),
+          make_vert_link("Lume‑Hydro", "Hydrological Systems", "10.5281/zenodo.19557771"),
+          make_vert_link("Lume‑Geo", "Geospatial Systems", "10.5281/zenodo.19557797"),
+          make_vert_link("Lume‑Env", "Environmental Monitoring", "10.5281/zenodo.19557990"),
+          make_vert_link("Lume‑Ind", "Industrial Systems", "10.5281/zenodo.19558522"),
+          make_vert_link("Lume‑Gov", "Regulatory Governance", "10.5281/zenodo.19558825"),
+          make_vert_link("Lume‑Edu", "Education Systems", "10.5281/zenodo.19557472"),
+          make_vert_link("Lume‑Food", "Food Safety & Supply Chain", "10.5281/zenodo.19557556"),
+          make_vert_link("Lume‑Com", "Commercial & Telecom", "10.5281/zenodo.19557601"),
+          make_vert_link("Lume‑LifeBio", "Life Sciences & Biotech", "10.5281/zenodo.19557627"),
+          make_vert_link("Lume‑Mar", "Maritime Systems", "10.5281/zenodo.19557753"),
+          make_vert_link("Lume‑Agri", "Agriculture", "10.5281/zenodo.19557698"),
+          make_vert_link("Lume‑Omni", "Cross-Domain Baseline", "10.5281/zenodo.19557371")
         ]})
       ]
     }),
