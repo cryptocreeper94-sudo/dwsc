@@ -1,76 +1,38 @@
-# React + TypeScript + Vite
+# DarkWave Systems Collective (dwsc.io)
 
-> 🔒 **Patent Pending:** The core deterministic governance capabilities (Lume-V) within this repository are protected under U.S. Provisional Patent Application **No. 64/032,339** (Filed April 7, 2026).
+> 🔒 **Patent Pending** — DarkWave Studios LLC
+>
+> - U.S. Pat. App. No. **64/032,339** — Lume‑V: Deterministic Autonomous Infrastructure Governance Engine
+> - U.S. Pat. App. No. **64/047,512** — Lume Core: Deterministic Natural‑Language Programming Language
+> - U.S. Pat. App. No. **64/047,467** — Axiom: Deterministic Zero‑Assumption AI System
+> - U.S. Pat. App. No. **64/047,496** — Lume‑X: Deterministic Multi‑Agent Cognition Substrate
+> - U.S. Pat. App. No. **64/047,536** — Synthetic Organisms: Deterministic Self‑Governing Constructs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The research collective and engineering arm of DarkWave Studios. Hosts the Canon² research archive, developer documentation, and the Strata publication registry.
 
-Currently, two official plugins are available:
+**Live:** [dwsc.io](https://dwsc.io)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+| Layer | Tech |
+|---|---|
+| Frontend | React 19 + Vite (TypeScript) |
+| Styling | Tailwind CSS |
+| Auth | Trust Layer SSO |
+| Deployment | Render (Ohio) |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Canon² Research Archive
 
-## Expanding the ESLint configuration
+73 published papers across two canons on [Zenodo](https://zenodo.org/communities/lume-architecture-papers):
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Canon 1** (42 papers) — Core infrastructure, DAIGS verticals, governance engines
+- **Canon 2** (31 papers) — Deterministic protocols, synthetic organisms, *Deterministic Dissolution*
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+ORCID: [0009-0007-5214-649X](https://orcid.org/0009-0007-5214-649X)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
