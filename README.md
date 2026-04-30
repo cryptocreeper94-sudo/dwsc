@@ -1,38 +1,44 @@
-# DarkWave Systems Collective (dwsc.io)
+﻿# DWSC Portal
 
-> 🔒 **Patent Pending** — DarkWave Studios LLC
->
-> - U.S. Pat. App. No. **64/032,339** — Lume‑V: Deterministic Autonomous Infrastructure Governance Engine
-> - U.S. Pat. App. No. **64/047,512** — Lume Core: Deterministic Natural‑Language Programming Language
-> - U.S. Pat. App. No. **64/047,467** — Axiom: Deterministic Zero‑Assumption AI System
-> - U.S. Pat. App. No. **64/047,496** — Lume‑X: Deterministic Multi‑Agent Cognition Substrate
-> - U.S. Pat. App. No. **64/047,536** — Synthetic Organisms: Deterministic Self‑Governing Constructs
+> $([char]0x1F512) **Patent Pending:** The core deterministic governance capabilities (Lume-V) within this repository are protected under U.S. Provisional Patent Application **No. 64/032,339** (Filed April 7, 2026).
 
-The research collective and engineering arm of DarkWave Studios. Hosts the Canon² research archive, developer documentation, and the Strata publication registry.
+DarkWave Systems Collective — ecosystem coordination, partner management, and shared infrastructure portal.
 
 **Live:** [dwsc.io](https://dwsc.io)
+
+## Lume-OS Integration
+
+This application is registered with **Lume Cortex** — the deterministic meta-operating system governing the Trust Layer ecosystem.
+
+| Property | Value |
+|---|---|
+| **Cortex Bridge** | `cortex-bridge.js` |
+| **Lume-V Wrapper** | `lume-v.wrapper.lume` |
+| **Ecosystem** | trust-layer-42 (42 apps · 42 papers) |
+| **Cortex Endpoint** | lume-cortex.onrender.com |
 
 ## Stack
 
 | Layer | Tech |
 |---|---|
-| Frontend | React 19 + Vite (TypeScript) |
-| Styling | Tailwind CSS |
-| Auth | Trust Layer SSO |
-| Deployment | Render (Ohio) |
-
-## Canon² Research Archive
-
-73 published papers across two canons on [Zenodo](https://zenodo.org/communities/lume-architecture-papers):
-
-- **Canon 1** (42 papers) — Core infrastructure, DAIGS verticals, governance engines
-- **Canon 2** (31 papers) — Deterministic protocols, synthetic organisms, *Deterministic Dissolution*
-
-ORCID: [0009-0007-5214-649X](https://orcid.org/0009-0007-5214-649X)
+| React 19 + Vite 7 | | Express + TypeScript | | PostgreSQL (Drizzle ORM) | | Trust Layer SSO | | Render |
 
 ## Development
 
-```bash
+``bash
 npm install
 npm run dev
-```
+``
+
+---
+
+## Intellectual Property
+
+**Patent Pending:**
+- U.S. Pat. App. No. 64/032,339 — Lume-V
+- U.S. Pat. App. No. 64/047,512 — Lume Core
+- U.S. Pat. App. No. 64/047,467 — Axiom
+- U.S. Pat. App. No. 64/047,496 — Lume-X
+- U.S. Pat. App. No. 64/047,536 — Synthetic Organisms
+
+© 2026 DarkWave Studios LLC. All rights reserved.
