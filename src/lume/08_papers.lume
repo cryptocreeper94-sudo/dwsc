@@ -248,6 +248,28 @@ let papers_section = dom.create("section", {
     dom.create("h2", { className: "section-title gradient-text reveal", text: "35 Published Papers" }),
     dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 35 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
 
+    /// ─── Strata Research Registry ───
+    dom.create("div", {
+      className: "paper-card paper-featured reveal",
+      style: { marginBottom: "1.5rem", borderColor: "rgba(6, 182, 212, 0.4)", background: "linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(168, 85, 247, 0.05))" },
+      children: [
+        dom.create("div", { className: "paper-type", children: [
+          dom.create("span", { className: "dot" }),
+          dom.create("span", { text: "Strata Sovereign Registry" })
+        ]}),
+        dom.create("h3", { className: "gradient-text", text: "Strata Research Platform" }),
+        dom.create("p", { className: "paper-abstract", text: "The decentralized, verified hub for Trust Layer academic publishing and deterministic logic governance research.", style: { color: "#e2e8f0" } }),
+        dom.create("a", { className: "paper-link-row", attrs: { href: "https://strata.tlid.io", target: "_blank", rel: "noopener" }, children: [
+           dom.create("span", { className: "plr-num", text: "🧬", style: { fontSize: "1rem" } }),
+           dom.create("div", { children: [
+              dom.create("div", { className: "plr-title", text: "Access Strata Research Network", style: { color: "#22d3ee" } }),
+              dom.create("div", { className: "plr-sub", text: "Mint your Strata-ID and publish research directly to the ecosystem." })
+           ]}),
+           dom.create("span", { className: "plr-arrow", text: "↗" })
+        ]})
+      ]
+    }),
+
     /// ─── Core Infrastructure ───
     dom.create("div", {
       className: "paper-card paper-featured reveal",
