@@ -1229,14 +1229,14 @@ let ecosystem_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ECOSYSTEM" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Trust Layer Ecosystem" }),
-    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 38+ interconnected applications — all unified by Trust Layer SSO and blockchain-verified identity." }),
+    dom.create("p", { className: "section-desc reveal", text: "Lume powers a production ecosystem of 42 interconnected applications - all unified by Trust Layer SSO and blockchain-verified identity." }),
 
     // Stats row
     dom.create("div", {
       className: "eco-stats reveal",
       children: [
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "38+" }),
+          dom.create("div", { className: "eco-num gradient-text", text: "42" }),
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
@@ -2438,8 +2438,8 @@ let papers_section = dom.create("section", {
   id: "papers",
   children: [
     dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "35 Published Papers" }),
-    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 35 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "96 Published Papers" }),
+    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 96 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
 
     // ─── Strata Research Registry ───
     dom.create("div", {
