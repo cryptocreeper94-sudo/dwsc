@@ -2107,6 +2107,7 @@ let verticals_section = dom.create("section", {
       children: [
         // Private Ledger
         dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/emp-private-ledger.png", alt: "Private Ledger Data Center", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
@@ -2119,6 +2120,7 @@ let verticals_section = dom.create("section", {
 
         // Public Ledger
         dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/emp-public-ledger.png", alt: "Public Ledger Cryptography", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot", style: { background: "var(--purple)" } }),
@@ -2131,6 +2133,7 @@ let verticals_section = dom.create("section", {
 
         // VET Bridge
         dom.create("div", { className: "vert-card", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/emp-vet-bridge.png", alt: "Verified Enterprise Trust Compliance", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot", style: { background: "var(--teal)" } }),
@@ -2143,6 +2146,7 @@ let verticals_section = dom.create("section", {
 
         // DAIGS
         dom.create("div", { className: "vert-card vert-wide", children: [
+          dom.create("img", { className: "vert-img", attrs: { src: "images/emp-daigs.png", alt: "DAIGS Governance Dashboard", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
