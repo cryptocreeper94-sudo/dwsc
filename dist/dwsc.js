@@ -2054,7 +2054,7 @@ dom.mount(roadmap_section, "#app")
 dom.inject_css(`
   .vert-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
   }
@@ -2143,12 +2143,11 @@ dom.inject_css(`
   .vert-card .vert-code .fn { color: var(--cyan); }
   .vert-card .vert-code .str { color: var(--teal); }
   .vert-card .vert-code .cm { color: var(--text-dim); }
-  .vert-card.vert-wide {
-    grid-column: span 2;
+  @media (max-width: 1024px) {
+    .vert-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 768px) {
     .vert-grid { grid-template-columns: 1fr; }
-    .vert-card.vert-wide { grid-column: span 1; }
     .vert-card .vert-img { height: 160px; }
   }
 `, "dwsc-verticals-styles")
@@ -2203,7 +2202,7 @@ let verticals_section = dom.create("section", {
         ]}),
 
         // DAIGS
-        dom.create("div", { className: "vert-card vert-wide", children: [
+        dom.create("div", { className: "vert-card", children: [
           dom.create("img", { className: "vert-img", attrs: { src: "images/emp-daigs.png", alt: "DAIGS Governance Dashboard", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
