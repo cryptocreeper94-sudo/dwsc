@@ -2,17 +2,17 @@
 
 dom.inject_css("
   .hero-cta {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    margin: 2.5rem auto 0;
+    max-width: 900px;
   }
   .hero-cta a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 280px;
+    width: 100%;
     padding: 0.85rem 0;
     border-radius: 0.75rem;
     font-size: 0.95rem;
@@ -40,9 +40,8 @@ dom.inject_css("
     background: rgba(6, 182, 212, 0.08);
     transform: translateY(-2px);
   }
-  @media (max-width: 480px) {
-    .hero-cta { flex-direction: column; align-items: stretch; }
-    .hero-cta a { justify-content: center; }
+  @media (max-width: 768px) {
+    .hero-cta { grid-template-columns: 1fr; max-width: 320px; }
   }
 ", "dwsc-hero-cta-styles")
 

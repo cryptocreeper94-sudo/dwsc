@@ -116,19 +116,19 @@ let ecosystem_section = dom.create("section", {
       className: "eco-stats reveal",
       children: [
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "38+" }),
+          dom.create("div", { className: "eco-num", text: "42" }),
           dom.create("div", { className: "eco-label", text: "Production Apps" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "23" }),
+          dom.create("div", { className: "eco-num", text: "23" }),
           dom.create("div", { className: "eco-label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "1" }),
+          dom.create("div", { className: "eco-num", text: "1" }),
           dom.create("div", { className: "eco-label", text: "Unified SSO" })
         ]}),
         dom.create("div", { className: "eco-stat", children: [
-          dom.create("div", { className: "eco-num gradient-text", text: "✦" }),
+          dom.create("div", { className: "eco-num", text: "✦" }),
           dom.create("div", { className: "eco-label", text: "Lume Powered" })
         ]})
       ]
@@ -139,34 +139,40 @@ let ecosystem_section = dom.create("section", {
       className: "eco-flagships",
       children: [
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "🚗" }),
+          dom.create("img", { attrs: { src: "images/eco-lumescan.png", alt: "LumeScan", style: "width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;" } }),
           dom.create("h3", { text: "LumeScan" }),
-          dom.create("p", { text: "Automotive diagnostic ecosystem anchoring operations to the EMP ledger." }),
-          dom.create("span", { className: "eco-tag", text: "AUTOMOTIVE" })
+          dom.create("p", { text: "Enterprise-grade automotive node anchoring Mode 05 and Mode 06 operations to the EMP ledger." }),
+          dom.create("span", { className: "eco-tag", text: "AUTOMOTIVE" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("button", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center", cursor: "pointer" }, text: "Read Description →", attrs: { onclick: "window.showEcoModal('lumescan')" } })
+          ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "⚖️" }),
+          dom.create("img", { attrs: { src: "images/eco-meridian.png", alt: "Meridian Canon", style: "width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;" } }),
           dom.create("h3", { text: "Meridian Canon" }),
-          dom.create("p", { text: "Legal and policy governance node for deterministic regulation." }),
+          dom.create("p", { text: "Deterministic wireless-energy architecture. Route energy like data via the energy internet." }),
           dom.create("span", { className: "eco-tag", text: "GOVERNMENT" }),
           dom.create("div", { styles: { marginTop: "1rem" }, children: [
-            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://meridiancanon.com", target: "_blank" } })
+            dom.create("button", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center", cursor: "pointer" }, text: "Read Description →", attrs: { onclick: "window.showEcoModal('meridian')" } })
           ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "💧" }),
+          dom.create("img", { attrs: { src: "images/eco-hydrocore.png", alt: "Hydrocore", style: "width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;" } }),
           dom.create("h3", { text: "Hydrocore" }),
-          dom.create("p", { text: "Civic utility and hydrological infrastructure management." }),
+          dom.create("p", { text: "Advanced closed-loop hydrogen engine and deterministic steam infrastructure control system." }),
           dom.create("span", { className: "eco-tag", text: "UTILITIES" }),
           dom.create("div", { styles: { marginTop: "1rem" }, children: [
-            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://hydrocore.dev", target: "_blank" } })
+            dom.create("button", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center", cursor: "pointer" }, text: "Read Description →", attrs: { onclick: "window.showEcoModal('hydrocore')" } })
           ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "📊" }),
+          dom.create("img", { attrs: { src: "images/eco-verdara.png", alt: "Verdara-Ultra", style: "width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;" } }),
           dom.create("h3", { text: "Verdara-Ultra" }),
-          dom.create("p", { text: "Enterprise intelligence and analytic reporting across the Trust Layer." }),
-          dom.create("span", { className: "eco-tag", text: "ENTERPRISE" })
+          dom.create("p", { text: "Deterministic military-grade outdoor guidance system and tactical satellite tracking map." }),
+          dom.create("span", { className: "eco-tag", text: "ENTERPRISE" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("button", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center", cursor: "pointer" }, text: "Read Description →", attrs: { onclick: "window.showEcoModal('verdara')" } })
+          ]})
         ]})
       ]
     }),
@@ -185,6 +191,61 @@ let ecosystem_section = dom.create("section", {
   ]
 })
 dom.mount(ecosystem_section, "#app")
+
+/// ─── ECOSYSTEM MODALS ──────────────────────────────────────
+
+dom.inject_css(`
+  .eco-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85); z-index: 99999;
+    display: none; justify-content: center; align-items: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .eco-modal-overlay.active { display: flex; }
+  .eco-modal {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem; padding: 2.5rem;
+    max-width: 600px; width: 90%;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .eco-modal h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+  .eco-modal p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem; }
+  .eco-modal-close {
+    position: absolute; top: 1rem; right: 1.5rem;
+    background: none; border: none; color: var(--text-secondary);
+    font-size: 1.5rem; cursor: pointer; transition: color 0.2s;
+  }
+  .eco-modal-close:hover { color: var(--cyan); }
+`, "dwsc-eco-modal-styles");
+
+let eco_modal_overlay = dom.create("div", { className: "eco-modal-overlay", attrs: { id: "eco-modal-overlay" } });
+let eco_modal_content = dom.create("div", { className: "eco-modal" });
+eco_modal_overlay.appendChild(eco_modal_content);
+dom.mount(eco_modal_overlay, "body");
+
+const eco_data = {
+  lumescan: { title: "LumeScan", text: "Much more than a diagnostics system. Enterprise-grade automotive node anchoring Mode 05 and Mode 06 operations to the EMP ledger. Provides verifiable condition reports, real-time diagnostic stream analysis, and secure remote operations using deterministic Trust Layer integration." },
+  meridian: { title: "Meridian Canon", text: "Deterministic wireless-energy architecture. Route energy like data via the energy internet. 9 papers. One architecture. Features include anchor nodes, field geometry mapping, safety envelope enforcement, and continuous environmental coupling." },
+  hydrocore: { title: "Hydrocore", text: "Advanced closed-loop hydrogen engine and deterministic steam infrastructure control system. Governs pressure, thermal balance, structural load, and flow stability with absolute determinism using the 4/42 fractal law." },
+  verdara: { title: "Verdara-Ultra", text: "Deterministic military-grade outdoor guidance system. Tactical satellite tracking map operating across the Trust Layer. Empowers enterprise intelligence and robust analytic reporting through an invariant operational architecture." }
+};
+
+window.showEcoModal = function(id) {
+  let data = eco_data[id];
+  if (!data) return;
+  eco_modal_content.innerHTML = `
+    <button class="eco-modal-close" onclick="document.getElementById('eco-modal-overlay').classList.remove('active')">✕</button>
+    <h3>${data.title}</h3>
+    <p>${data.text}</p>
+  `;
+  eco_modal_overlay.classList.add("active");
+};
+eco_modal_overlay.addEventListener("click", function(e) {
+  if (e.target === eco_modal_overlay) eco_modal_overlay.classList.remove("active");
+});
 
 
 /// ─── ECOSYSTEM ARCHITECTURE DIAGRAM ────────────────────────
