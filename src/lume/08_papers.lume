@@ -251,9 +251,9 @@ let papers_section = dom.create("section", {
       className: "reveal",
       styles: { display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem", flexWrap: "wrap", marginBottom: "3rem" },
       children: [
-        dom.create("a", { className: "eco-cta-link", text: "Lume Community ↗", attrs: { href: "https://zenodo.org/communities/lume", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
-        dom.create("a", { className: "eco-cta-link", text: "DAIGS Community ↗", attrs: { href: "https://zenodo.org/communities/daigs", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
-        dom.create("a", { className: "eco-cta-link", text: "Trust Layer Community ↗", attrs: { href: "https://zenodo.org/communities/trustlayer", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } })
+        dom.create("a", { className: "eco-cta-link", text: "L-SOC Community ↗", attrs: { href: "https://zenodo.org/communities/l-soc", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "Lume/DAIGS Community ↗", attrs: { href: "https://zenodo.org/communities/lume-daigs", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "Lume Ecosystem Community ↗", attrs: { href: "https://zenodo.org/communities/lume-ecosystem", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } })
       ]
     }),
 

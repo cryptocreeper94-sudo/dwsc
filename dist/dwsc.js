@@ -2475,9 +2475,9 @@ let papers_section = dom.create("section", {
       className: "reveal",
       styles: { display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem", flexWrap: "wrap", marginBottom: "3rem" },
       children: [
-        dom.create("a", { className: "eco-cta-link", text: "Lume Community ↗", attrs: { href: "https://zenodo.org/communities/lume", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
-        dom.create("a", { className: "eco-cta-link", text: "DAIGS Community ↗", attrs: { href: "https://zenodo.org/communities/daigs", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
-        dom.create("a", { className: "eco-cta-link", text: "Trust Layer Community ↗", attrs: { href: "https://zenodo.org/communities/trustlayer", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } })
+        dom.create("a", { className: "eco-cta-link", text: "L-SOC Community ↗", attrs: { href: "https://zenodo.org/communities/l-soc", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "Lume/DAIGS Community ↗", attrs: { href: "https://zenodo.org/communities/lume-daigs", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "Lume Ecosystem Community ↗", attrs: { href: "https://zenodo.org/communities/lume-ecosystem", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } })
       ]
     }),
 
@@ -2583,6 +2583,84 @@ dom.mount(papers_section, "#app")
 
 // ─── BLOG SECTION RENDER ────────────────────────────────────
 
+let blog_posts = [
+  {
+    slug: "emp-vet-architecture",
+    title: "The Dual-Ledger Paradigm: EMP and VET Architecture",
+    category: "Architecture",
+    excerpt: "How the Enterprise Modernization Platform separates operational records from cryptographic verification using the Trust Layer.",
+    date: "May 22, 2026",
+    readTime: "8 min read",
+    featured: true,
+    body: `
+      <h2>The Core Dilemma of Enterprise Blockchains</h2>
+      <p>For years, enterprises have struggled to adopt blockchain technology due to fundamental conflicts between operational privacy and public verifiability. The Lume ecosystem solves this through the Enterprise Modernization Platform (EMP) dual-ledger model.</p>
+      <br>
+      <h3>Private Ledger (CORE)</h3>
+      <p>The Certified Operational Record Engine (CORE) handles the massive throughput of enterprise operations. It stores full-payload data (PII, trade secrets) securely behind the firewall, with zero blockchain overhead.</p>
+      <br>
+      <h3>Public Ledger (TLL)</h3>
+      <p>The Trust Layer Ledger is a public Proof-of-Authority chain. It stores <strong>only cryptographic hashes</strong> of the CORE data. It provides immutable proof without ever exposing the underlying payload.</p>
+      <br>
+      <h3>Verified Enterprise Trust (VET)</h3>
+      <p>The bridge between the two is VET. When a third party needs to verify a record, VET compares the private data against the public hash, issuing a deterministic certificate of authenticity. Privacy is preserved, trust is automated.</p>
+    `
+  },
+  {
+    slug: "scaling-axiom",
+    title: "Scaling the Axiom Knowledge OS to 1.2M Topics",
+    category: "Engineering",
+    excerpt: "Inside the deterministic architecture of Axiom Studio's knowledge packs and the roadmap to human-level domain mastery.",
+    date: "May 18, 2026",
+    readTime: "6 min read",
+    featured: false,
+    body: `
+      <h2>Beyond Stochastic Generation</h2>
+      <p>Most AI systems rely on stochastic models that hallucinate facts. Axiom Studio was built on a different premise: deterministic, offline-capable knowledge retrieval powered by Lume's Semantic Invariant Certificates.</p>
+      <br>
+      <h3>The 50-Topic Pack Architecture</h3>
+      <p>To scale to our target of 1.2 million topics, we architected the system around 50-topic "Knowledge Packs." These packs are cryptographically signed using Ed25519 signatures, ensuring that the knowledge retrieved is exactly what the domain expert authored.</p>
+      <br>
+      <p>We recently completed the rollout of the Automotive and Plumbing packs, and are now scaling into Electrical, HVAC, and beyond. Every pack undergoes rigorous validation against the DAIGS governance rules before being hashed to the Trust Layer.</p>
+    `
+  },
+  {
+    slug: "lumescan-hardware",
+    title: "LumeScan: Hardware Governance in the Automotive Sector",
+    category: "Automotive",
+    excerpt: "Implementing strict DAIGS constraints for Mode 05 IMMO Key Management and Mode 06 Remote Start.",
+    date: "May 21, 2026",
+    readTime: "5 min read",
+    featured: false,
+    body: `
+      <h2>Governance at the Edge</h2>
+      <p>Hardware diagnostics have traditionally been an unregulated free-for-all. With LumeScan, we introduced the first deterministic governance framework for OBD-II interactions.</p>
+      <br>
+      <h3>Mode 05 & Mode 06 Firmware</h3>
+      <p>Our recent firmware rollout enables Mode 05 (Immobilizer Key Management) and Mode 06 (Remote Start). Crucially, these features are governed by hard constraints. For example, a Remote Start command requires a valid Ed25519 signed token with a 30-second expiry, and is subject to Geofencing and Supervisor authorization rules evaluated natively on the dongle.</p>
+      <br>
+      <p>This is what "Deterministic Governance" looks like in the real world: rules that cannot be bypassed, running at the edge.</p>
+    `
+  },
+  {
+    slug: "voice-to-code",
+    title: "Voice-to-Code Pipeline: The 7-Layer Tolerance Chain",
+    category: "Lume Core",
+    excerpt: "Why voice-to-code is not a feature of Lume, but an architectural consequence of its imprecision-tolerant design.",
+    date: "May 15, 2026",
+    readTime: "10 min read",
+    featured: false,
+    body: `
+      <h2>The Cognitive Distance Problem</h2>
+      <p>Developers spend vast amounts of energy translating their intent into rigid syntax. Lume solves this via the 7-Layer Tolerance Chain, a pipeline that progressively resolves human imprecision into deterministic instructions.</p>
+      <br>
+      <h3>From Speech to AST</h3>
+      <p>Because Lume natively handles fuzzy language, adding voice input didn't require building a "voice assistant." It simply meant piping Web Speech API transcripts into the existing Tolerance Chain. The compiler strips filler words, resolves homophones, and maps intent to the AST perfectly.</p>
+      <br>
+      <p>This fundamentally shifts the programming paradigm. You don't write code for Lume; you explain your intent to Lume, and Lume writes the deterministic code.</p>
+    `
+  }
+]
 let blog_section = dom.create("section", {
   id: "blog",
   children: [
