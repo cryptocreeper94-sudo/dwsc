@@ -831,19 +831,19 @@ let hero = dom.create("section", {
     }),
     dom.create("p", {
       className: "subtitle reveal",
-      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance."
+      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Deterministic Trust Layer and the Dual-Ledger Architecture for Enterprise Infrastructure."
     }),
     dom.create("div", {
       className: "tagline reveal",
-      text: "Intent → Code → Certified. Zero translation."
+      text: "Verified but private. Deterministic enterprise governance."
     }),
     dom.create("div", {
       className: "hero-cta reveal",
       children: [
         dom.create("a", {
           className: "cta-primary",
-          text: "◈ Try Lume IDE at TrustGen",
-          attrs: { href: "https://trustgen.tlid.io", target: "_blank" }
+          text: "◈ Explore Dual-Ledger Architecture",
+          attrs: { href: "#infrastructure" }
         }),
         dom.create("a", {
           className: "cta-secondary",
@@ -870,20 +870,20 @@ let stats_section = dom.create("section", {
       className: "stats",
       children: [
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "7" }),
-          dom.create("div", { className: "label", text: "Tolerance Layers" })
+          dom.create("div", { className: "number gradient-text", text: "2" }),
+          dom.create("div", { className: "label", text: "Dual-Ledger Model" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "CI ✔" }),
-          dom.create("div", { className: "label", text: "Build Verified" })
+          dom.create("div", { className: "number gradient-text", text: "23" }),
+          dom.create("div", { className: "label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "3" }),
-          dom.create("div", { className: "label", text: "Security Layers" })
+          dom.create("div", { className: "number gradient-text", text: "38+" }),
+          dom.create("div", { className: "label", text: "Production Nodes" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "0" }),
-          dom.create("div", { className: "label", text: "~0 Cognitive Distance" })
+          dom.create("div", { className: "number gradient-text", text: "100%" }),
+          dom.create("div", { className: "label", text: "Deterministic Audit" })
         ]})
       ]
     })
@@ -1259,28 +1259,28 @@ let ecosystem_section = dom.create("section", {
       className: "eco-flagships",
       children: [
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "🛡️" }),
-          dom.create("h3", { text: "Trust Layer Hub" }),
-          dom.create("p", { text: "Central SSO, hallmarks, and cross-app authentication." }),
-          dom.create("span", { className: "eco-tag", text: "CORE" })
+          dom.create("span", { className: "eco-icon", text: "🚗" }),
+          dom.create("h3", { text: "LumeScan" }),
+          dom.create("p", { text: "Automotive diagnostic ecosystem anchoring operations to the EMP ledger." }),
+          dom.create("span", { className: "eco-tag", text: "AUTOMOTIVE" })
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "◈" }),
-          dom.create("h3", { text: "TrustGen + Lume IDE" }),
-          dom.create("p", { text: "AI-powered 3D studio with built-in Lume editor and voice direction." }),
-          dom.create("span", { className: "eco-tag", text: "DEVELOPER" })
+          dom.create("span", { className: "eco-icon", text: "⚖️" }),
+          dom.create("h3", { text: "Meridian Canon" }),
+          dom.create("p", { text: "Legal and policy governance node for deterministic regulation." }),
+          dom.create("span", { className: "eco-tag", text: "GOVERNMENT" })
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "🔗" }),
-          dom.create("h3", { text: "Signal Chat" }),
-          dom.create("p", { text: "Real-time messaging with bot framework and WebSocket protocol." }),
-          dom.create("span", { className: "eco-tag", text: "COMMUNICATION" })
+          dom.create("span", { className: "eco-icon", text: "💧" }),
+          dom.create("h3", { text: "Hydrocore" }),
+          dom.create("p", { text: "Civic utility and hydrological infrastructure management." }),
+          dom.create("span", { className: "eco-tag", text: "UTILITIES" })
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
-          dom.create("span", { className: "eco-icon", text: "🏗️" }),
-          dom.create("h3", { text: "DarkWave Studio" }),
-          dom.create("p", { text: "Ecosystem IDE with Lume toolchain, debugging, and live preview." }),
-          dom.create("span", { className: "eco-tag", text: "DEVELOPER" })
+          dom.create("span", { className: "eco-icon", text: "📊" }),
+          dom.create("h3", { text: "Verdara-Ultra" }),
+          dom.create("p", { text: "Enterprise intelligence and analytic reporting across the Trust Layer." }),
+          dom.create("span", { className: "eco-tag", text: "ENTERPRISE" })
         ]})
       ]
     }),
@@ -1397,26 +1397,26 @@ dom.inject_css(`
 // Build the hub-and-spoke nodes
 let arch_apps = [
   { icon: "🔐", name: "Trust Layer SSO", cat: "core" },
-  { icon: "◈", name: "TrustGen 3D", cat: "dev" },
-  { icon: "🎵", name: "DarkWave Studio", cat: "dev" },
-  { icon: "💬", name: "Signal Chat", cat: "social" },
-  { icon: "🏗️", name: "DW Studio IDE", cat: "dev" },
-  { icon: "🎓", name: "DarkWave Academy", cat: "edu" },
-  { icon: "💎", name: "Lume Lang", cat: "dev" },
-  { icon: "🎮", name: "Bomber 3D", cat: "game" },
-  { icon: "🌳", name: "Arbora", cat: "social" },
-  { icon: "🎲", name: "Chronicles", cat: "game" },
-  { icon: "🍺", name: "BrewBoard", cat: "comm" },
-  { icon: "🎨", name: "PaintPros", cat: "comm" },
-  { icon: "🏠", name: "TrustHome", cat: "comm" },
-  { icon: "📊", name: "Verdara", cat: "ent" },
-  { icon: "🌿", name: "Bloom", cat: "social" },
-  { icon: "📰", name: "Newsroom", cat: "social" },
-  { icon: "🔧", name: "Deploy Engine", cat: "infra" },
-  { icon: "✅", name: "Verify Keyword", cat: "infra" },
-  { icon: "🔗", name: "Hallmarks", cat: "core" },
+  { icon: "🚗", name: "LumeScan", cat: "auto" },
+  { icon: "⚖️", name: "Meridian Canon", cat: "gov" },
+  { icon: "🛡️", name: "VET Ledger", cat: "core" },
+  { icon: "🏗️", name: "EMP Core", cat: "ent" },
+  { icon: "💧", name: "Hydrocore", cat: "civic" },
+  { icon: "📊", name: "Verdara-Ultra", cat: "ent" },
+  { icon: "🔌", name: "Lume-Grid", cat: "civic" },
+  { icon: "🏥", name: "Lume-Med", cat: "med" },
   { icon: "📝", name: "Trust Stamps", cat: "core" },
-  { icon: "🍔", name: "Happy Eats", cat: "comm" }
+  { icon: "🛰️", name: "Lume-Space", cat: "space" },
+  { icon: "🏦", name: "Lume-Fin", cat: "fin" },
+  { icon: "🛡️", name: "Lume-Cyber", cat: "cyber" },
+  { icon: "✈️", name: "Lume-Aero", cat: "aero" },
+  { icon: "🌱", name: "Lume-Env", cat: "env" },
+  { icon: "⚙️", name: "Lume-Ind", cat: "ind" },
+  { icon: "📦", name: "Lume-Supply", cat: "supply" },
+  { icon: "🌽", name: "Lume-Agri", cat: "agri" },
+  { icon: "🔗", name: "Hallmarks", cat: "core" },
+  { icon: "💎", name: "Lume Compiler", cat: "core" },
+  { icon: "◈", name: "TrustGen 3D", cat: "dev" }
 ]
 
 let arch_container = dom.create("div", { className: "arch-container" })
@@ -1579,48 +1579,35 @@ dom.inject_css(`
 
 let categories = [
   {
-    name: "Developer Tools",
+    name: "Enterprise Operations",
+    apps: [
+      { icon: "🚗", name: "LumeScan", desc: "Hardware + software OBD-II diagnostic platform connected to the EMP ledger.", url: "https://lumescan.com" },
+      { icon: "📊", name: "Verdara-Ultra", desc: "Enterprise analytics and reporting dashboard for cross-ledger intelligence.", url: "https://verdara.tlid.io" },
+      { icon: "🏢", name: "EMP Walled Garden", desc: "Isolated dual-ledger enterprise modernization platform for fleet logistics.", url: "https://emp.tlid.io" }
+    ]
+  },
+  {
+    name: "Civic & Legal",
+    apps: [
+      { icon: "⚖️", name: "Meridian Canon", desc: "Deterministic legal framework and policy governance engine.", url: "https://meridian.tlid.io" },
+      { icon: "💧", name: "Hydrocore", desc: "Civic infrastructure and hydrological systems governance.", url: "https://hydrocore.tlid.io" },
+      { icon: "🔌", name: "Lume-Grid", desc: "Power distribution and smart-grid deterministic routing.", url: "https://lumegrid.tlid.io" }
+    ]
+  },
+  {
+    name: "Trust & Identity",
+    apps: [
+      { icon: "🔐", name: "Trust Layer Hub", desc: "Central SSO, hallmarks, and blockchain-verified identity.", url: "https://dwtl.io" },
+      { icon: "🛡️", name: "VET Ledger", desc: "Verified Enterprise Trust public verification layer.", url: "https://vet.tlid.io" },
+      { icon: "📝", name: "Trust Stamps", desc: "Cryptographic provenance certification issuance.", url: "https://truststamps.tlid.io" }
+    ]
+  },
+  {
+    name: "Developer Core",
     apps: [
       { icon: "💎", name: "Lume Language", desc: "AI-native language with voice-to-code and certified security.", url: "https://lume-lang.com" },
       { icon: "◈", name: "TrustGen 3D", desc: "AI-powered 3D generation with built-in Lume IDE.", url: "https://trustgen.tlid.io" },
       { icon: "🏗️", name: "DarkWave Studio", desc: "Ecosystem IDE with Lume toolchain integration.", url: "https://darkwavestudio.tlid.io" }
-    ]
-  },
-  {
-    name: "Security & Identity",
-    apps: [
-      { icon: "🔐", name: "Trust Layer Hub", desc: "Central SSO, hallmarks, and blockchain identity.", url: "https://dwtl.io" }
-    ]
-  },
-  {
-    name: "Commerce & Services",
-    apps: [
-      { icon: "🎨", name: "PaintPros", desc: "Professional painting service marketplace.", url: "https://paintpros.tlid.io" },
-      { icon: "🏠", name: "TrustHome", desc: "Real estate and property management platform.", url: "https://trusthome.tlid.io" },
-      { icon: "🍺", name: "BrewBoard", desc: "Craft brewery discovery and review platform.", url: "https://brewboard.tlid.io" },
-      { icon: "🍔", name: "Happy Eats", desc: "Last-mile food delivery for truckers and rural workers. Vendor portals, driver dispatch, Stripe payments.", url: "https://happyeats.app" }
-    ]
-  },
-  {
-    name: "Gaming & Entertainment",
-    apps: [
-      { icon: "🎮", name: "Bomber 3D", desc: "Long-drive golf game with Three.js physics.", url: "https://bomber3d.tlid.io" },
-      { icon: "🎲", name: "Chronicles", desc: "Collaborative storytelling RPG platform.", url: "https://chronicles.tlid.io" },
-      { icon: "🎵", name: "DarkWave Studio", desc: "Music production and audio engineering.", url: "https://darkwavestudio.tlid.io" }
-    ]
-  },
-  {
-    name: "Enterprise Operations",
-    apps: [
-      { icon: "📊", name: "Verdara", desc: "Enterprise analytics and reporting dashboard.", url: "https://verdara.tlid.io" }
-    ]
-  },
-  {
-    name: "Community & Social",
-    apps: [
-      { icon: "💬", name: "Signal Chat", desc: "Real-time messaging with bot framework.", url: "https://signalchat.tlid.io" },
-      { icon: "🌳", name: "Arbora", desc: "Community tree planting and sustainability.", url: "https://arbora.tlid.io" },
-      { icon: "🎓", name: "DarkWave Academy", desc: "Educational platform with tutorials.", url: "https://darkwaveacademy.tlid.io" }
     ]
   }
 ]
@@ -2104,83 +2091,61 @@ dom.inject_css(`
 `, "dwsc-verticals-styles")
 
 let verticals_section = dom.create("section", {
-  id: "verticals",
+  id: "dual-ledger",
   children: [
-    dom.create("div", { className: "section-label reveal", text: "// VERTICAL APPLICATIONS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "From Language to Platform" }),
-    dom.create("p", { className: "section-desc reveal", text: "Five domain-specific verticals prove Lume's cognitive distance minimization generalizes across DevOps, testing, configuration, education, and accessibility — each as first-class language constructs." }),
+    dom.create("div", { className: "section-label reveal", text: "// ARCHITECTURE" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "The Dual-Ledger Model" }),
+    dom.create("p", { className: "section-desc reveal", text: "The Enterprise Modernization Platform (EMP) separates operations from verification. It provides the speed and privacy of a centralized database, with the cryptographic certainty of a distributed ledger." }),
 
-    // Row 1: Deploy + Verify + Config
     dom.create("div", {
       className: "vert-grid reveal",
       children: [
-        // Deploy Engine
+        // Private Ledger
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/deploy-engine.png", alt: "Deploy Engine", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "DevOps" })
+              dom.create("span", { text: "Internal Operations" })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Deploy Engine" }),
-            dom.create("p", { className: "vert-desc", text: "Deployment as a language keyword. No shell scripts, no CI/CD YAML — just state your intent. Self-healing pipeline with automatic rollback." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">deploy</span> <span class="fn">to</span> render <span class="fn">from</span> <span class="str">"main"</span>\n<span class="kw">deploy</span> status\n<span class="kw">deploy</span> rollback' })
+            dom.create("h3", { className: "gradient-text", text: "Private Ledger (CORE)" }),
+            dom.create("p", { className: "vert-desc", text: "A high-speed, localized Deterministic Database running inside the enterprise firewall. It stores PII, trade secrets, and full payload operational data. Zero blockchain overhead." })
           ]})
         ]}),
 
-        // Verify Keyword
+        // Public Ledger
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/verify-keyword.png", alt: "Verify Keyword", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Testing" })
+              dom.create("span", { className: "dot", style: { background: "var(--purple)" } }),
+              dom.create("span", { text: "External Verification", style: { color: "var(--purple)" } })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Verify Keyword" }),
-            dom.create("p", { className: "vert-desc", text: "Natural language assertions at the compiler level. Zero transformation dimensions — write exactly what you'd say to a colleague." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">verify</span> response.status <span class="fn">is</span> <span class="str">200</span>\n<span class="kw">verify</span> users <span class="fn">is not</span> empty\n<span class="kw">verify</span> count <span class="fn">is greater than</span> <span class="str">5</span>' })
+            dom.create("h3", { className: "gradient-text", text: "Public Ledger (TLL)" }),
+            dom.create("p", { className: "vert-desc", text: "The Trust Layer Ledger. A distributed Proof-of-Authority chain that stores ONLY cryptographic hashes of the Private Ledger data. It provides immutable proof without data exposure." })
           ]})
         ]}),
 
-        // Config Language
+        // VET Bridge
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/config-engine.png", alt: "Config Engine", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Configuration" })
+              dom.create("span", { className: "dot", style: { background: "var(--teal)" } }),
+              dom.create("span", { text: "Certification Layer", style: { color: "var(--teal)" } })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Config Language" }),
-            dom.create("p", { className: "vert-desc", text: "Type-safe configuration as code. Replace YAML, TOML, and JSON with validated config blocks and env() integration." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">config</span> database = postgres\n  <span class="fn">at</span> <span class="str">"db.example.com"</span>\n  <span class="fn">port</span> <span class="str">5432</span>' })
+            dom.create("h3", { className: "gradient-text", text: "Verified Enterprise Trust (VET)" }),
+            dom.create("p", { className: "vert-desc", text: "The cross-ledger verification bridge. When a third party needs to verify a record, VET compares the Private Ledger data against the Public Ledger hash to issue a cryptographic certificate of authenticity." })
           ]})
         ]}),
 
-        // Education Mode (wide)
+        // DAIGS
         dom.create("div", { className: "vert-card vert-wide", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/education-mode.png", alt: "Education Mode", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Education" })
+              dom.create("span", { text: "Governance" })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Education Mode" }),
-            dom.create("p", { className: "vert-desc", text: "Beginner-tuned Tolerance Chain that accepts natural language drawing commands. Friendly error messages guide learners instead of intimidating them with stack traces." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">make</span> a big red circle\n<span class="kw">add</span> a button that says hello\n\n<span class="cm">// Error: 🎨 Try "draw a red circle" or "make a blue square"</span>' })
-          ]})
-        ]}),
-
-        // Accessibility (single)
-        dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/accessibility.png", alt: "Accessibility", loading: "lazy" } }),
-          dom.create("div", { className: "vert-body", children: [
-            dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Accessibility" })
-            ]}),
-            dom.create("h3", { className: "gradient-text", text: "Eyes-Free Pipeline" }),
-            dom.create("p", { className: "vert-desc", text: "Complete eyes-free programming. Spoken errors, voice navigation, spoken deploy status, and spoken verification results. Zero screens, zero keyboards." }),
-            dom.create("div", { className: "vert-code", html: '<span class="cm">// Speak → Code → Hear Results</span>\n<span class="kw">voice</span> <span class="str">"deploy status"</span>\n<span class="cm">// 🔊 "Deploy to render succeeded"</span>' })
+            dom.create("h3", { className: "gradient-text", text: "DAIGS Governance Engine" }),
+            dom.create("p", { className: "vert-desc", text: "The Deterministic AI Governance Substrate (DAIGS) enforces strict logic rules across the entire dual-ledger architecture. It ensures that operations like LumeScan key management or Meridian Canon legal execution strictly adhere to predetermined constraints before any cryptographic hash is generated or anchored." }),
+            dom.create("div", { className: "vert-code", html: '<span class="cm">// Deterministic Engine Constraint Example</span>\n<span class="kw">if</span> request.authorization_level <span class="fn">is less than</span> 3:\n  <span class="kw">reject</span> <span class="str">"Insufficient VET clearance for operation"</span>' })
           ]})
         ]})
       ]

@@ -61,19 +61,19 @@ let hero = dom.create("section", {
     }),
     dom.create("p", {
       className: "subtitle reveal",
-      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Trust Layer ecosystem and Lume — the AI-native programming language that eliminates cognitive distance."
+      text: "Research & Engineering Division of DarkWave Studios LLC. Pioneering the Deterministic Trust Layer and the Dual-Ledger Architecture for Enterprise Infrastructure."
     }),
     dom.create("div", {
       className: "tagline reveal",
-      text: "Intent → Code → Certified. Zero translation."
+      text: "Verified but private. Deterministic enterprise governance."
     }),
     dom.create("div", {
       className: "hero-cta reveal",
       children: [
         dom.create("a", {
           className: "cta-primary",
-          text: "◈ Try Lume IDE at TrustGen",
-          attrs: { href: "https://trustgen.tlid.io", target: "_blank" }
+          text: "◈ Explore Dual-Ledger Architecture",
+          attrs: { href: "#infrastructure" }
         }),
         dom.create("a", {
           className: "cta-secondary",
@@ -100,20 +100,20 @@ let stats_section = dom.create("section", {
       className: "stats",
       children: [
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "7" }),
-          dom.create("div", { className: "label", text: "Tolerance Layers" })
+          dom.create("div", { className: "number gradient-text", text: "2" }),
+          dom.create("div", { className: "label", text: "Dual-Ledger Model" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "CI ✔" }),
-          dom.create("div", { className: "label", text: "Build Verified" })
+          dom.create("div", { className: "number gradient-text", text: "23" }),
+          dom.create("div", { className: "label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "3" }),
-          dom.create("div", { className: "label", text: "Security Layers" })
+          dom.create("div", { className: "number gradient-text", text: "38+" }),
+          dom.create("div", { className: "label", text: "Production Nodes" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "0" }),
-          dom.create("div", { className: "label", text: "~0 Cognitive Distance" })
+          dom.create("div", { className: "number gradient-text", text: "100%" }),
+          dom.create("div", { className: "label", text: "Deterministic Audit" })
         ]})
       ]
     })

@@ -365,83 +365,61 @@ dom.inject_css("
 ", "dwsc-verticals-styles")
 
 let verticals_section = dom.create("section", {
-  id: "verticals",
+  id: "dual-ledger",
   children: [
-    dom.create("div", { className: "section-label reveal", text: "// VERTICAL APPLICATIONS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "From Language to Platform" }),
-    dom.create("p", { className: "section-desc reveal", text: "Five domain-specific verticals prove Lume's cognitive distance minimization generalizes across DevOps, testing, configuration, education, and accessibility — each as first-class language constructs." }),
+    dom.create("div", { className: "section-label reveal", text: "// ARCHITECTURE" }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "The Dual-Ledger Model" }),
+    dom.create("p", { className: "section-desc reveal", text: "The Enterprise Modernization Platform (EMP) separates operations from verification. It provides the speed and privacy of a centralized database, with the cryptographic certainty of a distributed ledger." }),
 
-    /// Row 1: Deploy + Verify + Config
     dom.create("div", {
       className: "vert-grid reveal",
       children: [
-        /// Deploy Engine
+        /// Private Ledger
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/deploy-engine.png", alt: "Deploy Engine", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "DevOps" })
+              dom.create("span", { text: "Internal Operations" })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Deploy Engine" }),
-            dom.create("p", { className: "vert-desc", text: "Deployment as a language keyword. No shell scripts, no CI/CD YAML — just state your intent. Self-healing pipeline with automatic rollback." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">deploy</span> <span class="fn">to</span> render <span class="fn">from</span> <span class="str">"main"</span>\n<span class="kw">deploy</span> status\n<span class="kw">deploy</span> rollback' })
+            dom.create("h3", { className: "gradient-text", text: "Private Ledger (CORE)" }),
+            dom.create("p", { className: "vert-desc", text: "A high-speed, localized Deterministic Database running inside the enterprise firewall. It stores PII, trade secrets, and full payload operational data. Zero blockchain overhead." })
           ]})
         ]}),
 
-        /// Verify Keyword
+        /// Public Ledger
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/verify-keyword.png", alt: "Verify Keyword", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Testing" })
+              dom.create("span", { className: "dot", style: { background: "var(--purple)" } }),
+              dom.create("span", { text: "External Verification", style: { color: "var(--purple)" } })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Verify Keyword" }),
-            dom.create("p", { className: "vert-desc", text: "Natural language assertions at the compiler level. Zero transformation dimensions — write exactly what you'd say to a colleague." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">verify</span> response.status <span class="fn">is</span> <span class="str">200</span>\n<span class="kw">verify</span> users <span class="fn">is not</span> empty\n<span class="kw">verify</span> count <span class="fn">is greater than</span> <span class="str">5</span>' })
+            dom.create("h3", { className: "gradient-text", text: "Public Ledger (TLL)" }),
+            dom.create("p", { className: "vert-desc", text: "The Trust Layer Ledger. A distributed Proof-of-Authority chain that stores ONLY cryptographic hashes of the Private Ledger data. It provides immutable proof without data exposure." })
           ]})
         ]}),
 
-        /// Config Language
+        /// VET Bridge
         dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/config-engine.png", alt: "Config Engine", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Configuration" })
+              dom.create("span", { className: "dot", style: { background: "var(--teal)" } }),
+              dom.create("span", { text: "Certification Layer", style: { color: "var(--teal)" } })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Config Language" }),
-            dom.create("p", { className: "vert-desc", text: "Type-safe configuration as code. Replace YAML, TOML, and JSON with validated config blocks and env() integration." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">config</span> database = postgres\n  <span class="fn">at</span> <span class="str">"db.example.com"</span>\n  <span class="fn">port</span> <span class="str">5432</span>' })
+            dom.create("h3", { className: "gradient-text", text: "Verified Enterprise Trust (VET)" }),
+            dom.create("p", { className: "vert-desc", text: "The cross-ledger verification bridge. When a third party needs to verify a record, VET compares the Private Ledger data against the Public Ledger hash to issue a cryptographic certificate of authenticity." })
           ]})
         ]}),
 
-        /// Education Mode (wide)
+        /// DAIGS
         dom.create("div", { className: "vert-card vert-wide", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/education-mode.png", alt: "Education Mode", loading: "lazy" } }),
           dom.create("div", { className: "vert-body", children: [
             dom.create("div", { className: "vert-badge", children: [
               dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Education" })
+              dom.create("span", { text: "Governance" })
             ]}),
-            dom.create("h3", { className: "gradient-text", text: "Education Mode" }),
-            dom.create("p", { className: "vert-desc", text: "Beginner-tuned Tolerance Chain that accepts natural language drawing commands. Friendly error messages guide learners instead of intimidating them with stack traces." }),
-            dom.create("div", { className: "vert-code", html: '<span class="kw">make</span> a big red circle\n<span class="kw">add</span> a button that says hello\n\n<span class="cm">// Error: 🎨 Try "draw a red circle" or "make a blue square"</span>' })
-          ]})
-        ]}),
-
-        /// Accessibility (single)
-        dom.create("div", { className: "vert-card", children: [
-          dom.create("img", { className: "vert-img", attrs: { src: "images/accessibility.png", alt: "Accessibility", loading: "lazy" } }),
-          dom.create("div", { className: "vert-body", children: [
-            dom.create("div", { className: "vert-badge", children: [
-              dom.create("span", { className: "dot" }),
-              dom.create("span", { text: "Accessibility" })
-            ]}),
-            dom.create("h3", { className: "gradient-text", text: "Eyes-Free Pipeline" }),
-            dom.create("p", { className: "vert-desc", text: "Complete eyes-free programming. Spoken errors, voice navigation, spoken deploy status, and spoken verification results. Zero screens, zero keyboards." }),
-            dom.create("div", { className: "vert-code", html: '<span class="cm">// Speak → Code → Hear Results</span>\n<span class="kw">voice</span> <span class="str">"deploy status"</span>\n<span class="cm">// 🔊 "Deploy to render succeeded"</span>' })
+            dom.create("h3", { className: "gradient-text", text: "DAIGS Governance Engine" }),
+            dom.create("p", { className: "vert-desc", text: "The Deterministic AI Governance Substrate (DAIGS) enforces strict logic rules across the entire dual-ledger architecture. It ensures that operations like LumeScan key management or Meridian Canon legal execution strictly adhere to predetermined constraints before any cryptographic hash is generated or anchored." }),
+            dom.create("div", { className: "vert-code", html: '<span class="cm">// Deterministic Engine Constraint Example</span>\n<span class="kw">if</span> request.authorization_level <span class="fn">is less than</span> 3:\n  <span class="kw">reject</span> <span class="str">"Insufficient VET clearance for operation"</span>' })
           ]})
         ]})
       ]
