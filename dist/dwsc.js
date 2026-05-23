@@ -2471,6 +2471,15 @@ let papers_section = dom.create("section", {
     dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "93 Published Papers & 4 Books" }),
     dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 93 peer-reviewable research publications and 4 books on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
+    dom.create("div", {
+      className: "reveal",
+      styles: { display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem", flexWrap: "wrap", marginBottom: "3rem" },
+      children: [
+        dom.create("a", { className: "eco-cta-link", text: "Lume Community ↗", attrs: { href: "https://zenodo.org/communities/lume", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "DAIGS Community ↗", attrs: { href: "https://zenodo.org/communities/daigs", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } }),
+        dom.create("a", { className: "eco-cta-link", text: "Trust Layer Community ↗", attrs: { href: "https://zenodo.org/communities/trustlayer", target: "_blank" }, styles: { padding: "0.6rem 1.25rem", fontSize: "0.85rem" } })
+      ]
+    }),
 
     // ─── Strata Research Registry ───
     dom.create("div", {
@@ -2506,8 +2515,7 @@ let papers_section = dom.create("section", {
         dom.create("p", { className: "paper-abstract", text: "The foundational layer: the Lume programming language, Lume-V deterministic cognition, Lume-X multi-agent cognition, Lume-OS deterministic runtime, Lume-Ops operational substrate, the DAIGS multi-organism governance architecture, and the Trust Layer capstone." }),
         dom.create("div", { className: "paper-meta", children: [
           dom.create("span", { className: "meta-pill", text: "13 Papers" }),
-          dom.create("span", { className: "meta-pill", text: "Patent Pending" }),
-          dom.create("span", { className: "meta-pill", text: "U.S. 64/032,339" })
+          dom.create("span", { className: "meta-pill", text: "6 Patents Pending" })
         ]}),
         dom.create("div", { className: "paper-grid", children: [
           make_core_link("1", "Trust Layer Capstone", "Deterministic Correctness Substrate + Multi-Personality Organisms", "10.5281/zenodo.19560675"),
