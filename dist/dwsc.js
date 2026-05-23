@@ -160,10 +160,9 @@ dom.inject_css(`
   }
   body.light-mode .mobile-menu a { color: #1a1a2e; }
   body.light-mode .gradient-text {
-    background: linear-gradient(135deg, #0891b2, #0d9488, #7c3aed) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
+    background: none !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
   }
   body.light-mode .orb { opacity: 0.06; }
   body.light-mode .code-block {
@@ -780,8 +779,9 @@ dom.inject_css(`
   .hero-cta a {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 2rem;
+    justify-content: center;
+    width: 280px;
+    padding: 0.85rem 0;
     border-radius: 0.75rem;
     font-size: 0.95rem;
     font-weight: 600;

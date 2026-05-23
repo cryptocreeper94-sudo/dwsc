@@ -11,8 +11,9 @@ dom.inject_css("
   .hero-cta a {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 2rem;
+    justify-content: center;
+    width: 280px;
+    padding: 0.85rem 0;
     border-radius: 0.75rem;
     font-size: 0.95rem;
     font-weight: 600;
