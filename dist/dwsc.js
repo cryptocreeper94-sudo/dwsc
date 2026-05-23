@@ -2021,9 +2021,9 @@ let milestones = [
   { id: "M8", title: "Voice-to-Code Pipeline", desc: "7-step transcription cleanup, Web Speech API, homophone resolution, filler stripping.", status: "done" },
   { id: "M9", title: "Interactive Playground", desc: "In-browser compilation, sandboxed execution, multi-panel IDE with live preview.", status: "done" },
   { id: "M10", title: "Visual Context Awareness + LaaS", desc: "UI Element Registry, spatial terms, Lume as a Service (LaaS) cloud deployment. DWSC.io built entirely in Lume.", status: "done" },
-  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "current" },
-  { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "future" },
-  { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "future" }
+  { id: "M11", title: "Reverse Mode (Code-to-Language)", desc: "lume explain — convert existing JS/TS to natural language annotations.", status: "done" },
+  { id: "M12", title: "Collaborative Intent", desc: "Multi-developer compilation, AST-level diffing, intent-aware conflict resolution.", status: "done" },
+  { id: "M13", title: "Zero-Dependency Runtime", desc: "Native binaries from natural language via Bun compile. One file in, one executable out.", status: "done" }
 ]
 
 let timeline_div = dom.create("div", { className: "timeline" })
