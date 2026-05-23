@@ -287,84 +287,69 @@ dom.inject_css("
   }
   .arch-node {
     position: absolute;
-    width: 56px;
-    height: 56px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
+    background: var(--cyan);
+    box-shadow: 0 0 10px rgba(6,182,212,0.8);
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 5;
   }
   .arch-node:hover {
-    border-color: rgba(6,182,212,0.4);
-    transform: scale(1.15);
-    box-shadow: 0 0 20px rgba(6,182,212,0.2);
+    transform: translate(-50%, -50%) scale(1.8) !important;
+    background: #fff;
+    box-shadow: 0 0 15px rgba(255,255,255,1);
   }
   .arch-node .arch-tooltip {
     position: absolute;
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
-    padding: 0.4rem 0.75rem;
+    padding: 0.5rem 0.85rem;
     border-radius: 0.5rem;
-    background: var(--primary);
-    border: 1px solid rgba(6,182,212,0.2);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(6,182,212,0.4);
     white-space: nowrap;
-    font-size: 0.7rem;
-    color: var(--text-primary);
-    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    font-weight: 700;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    z-index: 20;
   }
-  .arch-node:hover .arch-tooltip { opacity: 1; }
+  .arch-node:hover .arch-tooltip { opacity: 1; transform: translateX(-50%) translateY(-5px); }
   @keyframes orbit-pulse {
     0%, 100% { opacity: 0.08; }
-    50% { opacity: 0.15; }
+    50% { opacity: 0.2; }
   }
   @media (max-width: 768px) {
     .arch-container { max-width: 360px; }
     .arch-hub { width: 80px; height: 80px; }
     .arch-hub-icon { font-size: 1.1rem; }
     .arch-hub-label { font-size: 0.5rem; }
-    .arch-node { width: 36px; height: 36px; font-size: 0.8rem; }
+    .arch-node { width: 10px; height: 10px; }
   }
   @media (max-width: 480px) {
     .arch-container { max-width: 280px; }
     .arch-hub { width: 64px; height: 64px; }
-    .arch-node { width: 30px; height: 30px; font-size: 0.7rem; }
+    .arch-node { width: 8px; height: 8px; }
   }
 ", "dwsc-arch-styles")
 
 /// Build the hub-and-spoke nodes
 let arch_apps = [
-  { icon: "🔐", name: "Trust Layer SSO", cat: "core" },
-  { icon: "🚗", name: "LumeScan", cat: "auto" },
-  { icon: "⚖️", name: "Meridian Canon", cat: "gov" },
-  { icon: "🛡️", name: "VET Ledger", cat: "core" },
-  { icon: "🏗️", name: "EMP Core", cat: "ent" },
-  { icon: "💧", name: "Hydrocore", cat: "civic" },
-  { icon: "📊", name: "Verdara-Ultra", cat: "ent" },
-  { icon: "🔌", name: "Lume-Grid", cat: "civic" },
-  { icon: "🏥", name: "Lume-Med", cat: "med" },
-  { icon: "📝", name: "Trust Stamps", cat: "core" },
-  { icon: "🛰️", name: "Lume-Space", cat: "space" },
-  { icon: "🏦", name: "Lume-Fin", cat: "fin" },
-  { icon: "🛡️", name: "Lume-Cyber", cat: "cyber" },
-  { icon: "✈️", name: "Lume-Aero", cat: "aero" },
-  { icon: "🌱", name: "Lume-Env", cat: "env" },
-  { icon: "⚙️", name: "Lume-Ind", cat: "ind" },
-  { icon: "📦", name: "Lume-Supply", cat: "supply" },
-  { icon: "🌽", name: "Lume-Agri", cat: "agri" },
-  { icon: "🔗", name: "Hallmarks", cat: "core" },
-  { icon: "💎", name: "Lume Compiler", cat: "core" },
-  { icon: "◈", name: "TrustGen 3D", cat: "dev" }
-]
+  "TrustGen", "Trust-Layer", "Pulse", "Trust Vault", "TL-Driver-Connect", "Orby",
+  "GarageBot", "DarkWave Studios", "Trust Golf", "Orbit Staffing", "The Void", "Brew and Board",
+  "VedaSolus", "Verdara", "Lume", "Paint Pros", "Trust Layer Hub", "Lot Ops Pro",
+  "Signal Cast", "Chronicles", "DWSC", "LumeLine", "Guardian Screener", "Trust Home",
+  "Trust book", "Arbora", "TLID", "The Arcade", "Trust Shield", "Driver",
+  "Bomber Golf-3d", "Happy Eats - Lume", "Axiom", "Axiom Studio", "Lume-Cortex", "Meridian",
+  "Verdara Ultra", "HydroCore", "Lume42", "Lume Auto", "Through the Veil", "Academy"
+];
 
 let arch_container = dom.create("div", { className: "arch-container" })
 
@@ -373,39 +358,52 @@ dom.add_child(arch_container, dom.create("div", {
   className: "arch-hub",
   children: [
     dom.create("div", { className: "arch-hub-icon", text: "🛡️" }),
-    dom.create("div", { className: "arch-hub-label", text: "Trust Layer" })
+    dom.create("div", { className: "arch-hub-label", text: "Trust Layer" }),
+    dom.create("div", { className: "arch-hub-label", styles: { fontSize: "0.5rem", opacity: "0.7", marginTop: "2px" }, text: "TLL" })
   ]
 }))
 
-/// Rings
-let ring_sizes = [240, 340, 440]
-for (const size of ring_sizes) {
+/// Rings (Percentages for responsive scaling)
+let ring_pcts = [32, 60, 88];
+for (let i = 0; i < ring_pcts.length; i++) {
   dom.add_child(arch_container, dom.create("div", {
     className: "arch-ring",
-    styles: { width: size + "px", height: size + "px", animation: "orbit-pulse 4s ease infinite " + (size / 100) + "s" }
+    styles: { width: ring_pcts[i] + "%", height: ring_pcts[i] + "%", animation: "orbit-pulse 4s ease infinite " + (i * 0.5) + "s" }
   }))
 }
 
-/// Position nodes around rings
+/// Position nodes around rings (42 nodes: 6, 12, 24)
+let ring_counts = [6, 12, 24];
+let ring_index = 0;
+let idx_on_ring = 0;
+
 for (let i = 0; i < arch_apps.length; i++) {
-  let app = arch_apps[i]
-  let ring = i < 6 ? 0 : (i < 13 ? 1 : 2)
-  let ring_radius = ring_sizes[ring] / 2
-  let items_on_ring = ring === 0 ? 6 : (ring === 1 ? 7 : 7)
-  let idx_on_ring = ring === 0 ? i : (ring === 1 ? i - 6 : i - 13)
-  let angle = (idx_on_ring / items_on_ring) * 2 * 3.14159 - 1.5708
-  let cx = 50 + (ring_radius / 3.5) * Math.cos(angle)
-  let cy = 50 + (ring_radius / 3.5) * Math.sin(angle)
+  let app_name = arch_apps[i];
+  
+  if (idx_on_ring >= ring_counts[ring_index]) {
+    ring_index++;
+    idx_on_ring = 0;
+  }
+  
+  let items_on_ring = ring_counts[ring_index];
+  let radius_pct = ring_pcts[ring_index] / 2;
+  
+  // Offset angle slightly per ring for fractal appearance
+  let angle_offset = ring_index * (Math.PI / items_on_ring);
+  let angle = (idx_on_ring / items_on_ring) * 2 * Math.PI - (Math.PI / 2) + angle_offset;
+  
+  let cx = 50 + radius_pct * Math.cos(angle);
+  let cy = 50 + radius_pct * Math.sin(angle);
 
   let node = dom.create("div", {
     className: "arch-node",
     styles: { left: cx + "%", top: cy + "%", transform: "translate(-50%, -50%)" },
     children: [
-      dom.create("span", { text: app.icon }),
-      dom.create("span", { className: "arch-tooltip", text: app.name })
+      dom.create("span", { className: "arch-tooltip", text: app_name })
     ]
   })
   dom.add_child(arch_container, node)
+  idx_on_ring++;
 }
 
 let arch_section = dom.create("section", {
@@ -413,7 +411,7 @@ let arch_section = dom.create("section", {
   children: [
     dom.create("div", { className: "section-label reveal", text: "// ARCHITECTURE" }),
     dom.create("h2", { className: "section-title gradient-text reveal", text: "Ecosystem Architecture" }),
-    dom.create("p", { className: "section-desc reveal", text: "All applications connect through Trust Layer SSO — one identity, one authentication, one ecosystem." }),
+    dom.create("p", { className: "section-desc reveal", text: "The deterministic 42-node fractal engine governing the DWSC ecosystem. All applications connect through the Trust Layer and TLL — one unified deterministic governance structure." }),
     dom.create("div", { className: "reveal", children: [arch_container] })
   ]
 })
