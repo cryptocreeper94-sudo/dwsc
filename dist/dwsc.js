@@ -2438,8 +2438,8 @@ let papers_section = dom.create("section", {
   id: "papers",
   children: [
     dom.create("div", { className: "section-label reveal", text: "// PUBLICATIONS" }),
-    dom.create("h2", { className: "section-title gradient-text reveal", text: "35 Published Papers" }),
-    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 35 peer-reviewable research publications on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
+    dom.create("h2", { className: "section-title gradient-text reveal", text: "93 Published Papers & 4 Books" }),
+    dom.create("p", { className: "section-desc reveal", text: "The Lume ecosystem spans core infrastructure papers, the DAIGS vertical substrate architecture, and the Trust Layer capstone — 93 peer-reviewable research publications and 4 books on Zenodo with permanent DOIs. The world's first deterministic governance framework spanning 23 industry verticals." }),
 
     // ─── Strata Research Registry ───
     dom.create("div", {
