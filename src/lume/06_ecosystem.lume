@@ -148,13 +148,19 @@ let ecosystem_section = dom.create("section", {
           dom.create("span", { className: "eco-icon", text: "⚖️" }),
           dom.create("h3", { text: "Meridian Canon" }),
           dom.create("p", { text: "Legal and policy governance node for deterministic regulation." }),
-          dom.create("span", { className: "eco-tag", text: "GOVERNMENT" })
+          dom.create("span", { className: "eco-tag", text: "GOVERNMENT" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://meridiancanon.com", target: "_blank" } })
+          ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
           dom.create("span", { className: "eco-icon", text: "💧" }),
           dom.create("h3", { text: "Hydrocore" }),
           dom.create("p", { text: "Civic utility and hydrological infrastructure management." }),
-          dom.create("span", { className: "eco-tag", text: "UTILITIES" })
+          dom.create("span", { className: "eco-tag", text: "UTILITIES" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://hydrocore.dev", target: "_blank" } })
+          ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
           dom.create("span", { className: "eco-icon", text: "📊" }),

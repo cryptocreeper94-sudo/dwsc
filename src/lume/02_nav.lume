@@ -1,15 +1,14 @@
 /// ─── THEME TOGGLE ──────────────────────────────────────────
 
-let is_light = state.reactive(false)
+let is_light = state.reactive(true)
 
 /// Check saved preference or system preference
 if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
   let saved_theme = localStorage.getItem("dwsc-theme")
-  if (saved_theme === "light") {
-    is_light.set(true)
-    document.body.classList.add("light-mode")
-  } else if (saved_theme === null && window.matchMedia("(prefers-color-scheme: light)").matches) {
-    is_light.set(true)
+  if (saved_theme === "dark") {
+    is_light.set(false)
+  } else {
+    // Default to light
     document.body.classList.add("light-mode")
   }
 }

@@ -672,16 +672,15 @@ dom.mount(orb3)
 
 // ─── THEME TOGGLE ──────────────────────────────────────────
 
-let is_light = state.reactive(false)
+let is_light = state.reactive(true)
 
 // Check saved preference or system preference
 if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
   let saved_theme = localStorage.getItem("dwsc-theme")
-  if (saved_theme === "light") {
-    is_light.set(true)
-    document.body.classList.add("light-mode")
-  } else if (saved_theme === null && window.matchMedia("(prefers-color-scheme: light)").matches) {
-    is_light.set(true)
+  if (saved_theme === "dark") {
+    is_light.set(false)
+  } else {
+    // Default to light
     document.body.classList.add("light-mode")
   }
 }
@@ -1268,13 +1267,19 @@ let ecosystem_section = dom.create("section", {
           dom.create("span", { className: "eco-icon", text: "⚖️" }),
           dom.create("h3", { text: "Meridian Canon" }),
           dom.create("p", { text: "Legal and policy governance node for deterministic regulation." }),
-          dom.create("span", { className: "eco-tag", text: "GOVERNMENT" })
+          dom.create("span", { className: "eco-tag", text: "GOVERNMENT" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://meridiancanon.com", target: "_blank" } })
+          ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
           dom.create("span", { className: "eco-icon", text: "💧" }),
           dom.create("h3", { text: "Hydrocore" }),
           dom.create("p", { text: "Civic utility and hydrological infrastructure management." }),
-          dom.create("span", { className: "eco-tag", text: "UTILITIES" })
+          dom.create("span", { className: "eco-tag", text: "UTILITIES" }),
+          dom.create("div", { styles: { marginTop: "1rem" }, children: [
+            dom.create("a", { className: "eco-cta-link", styles: { padding: "0.4rem 1rem", fontSize: "0.75rem", width: "100%", justifyContent: "center" }, text: "View 3D Node →", attrs: { href: "https://hydrocore.dev", target: "_blank" } })
+          ]})
         ]}),
         dom.create("div", { className: "eco-flagship reveal", children: [
           dom.create("span", { className: "eco-icon", text: "📊" }),
