@@ -877,7 +877,7 @@ let stats_section = dom.create("section", {
           dom.create("div", { className: "label", text: "Industry Verticals" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
-          dom.create("div", { className: "number gradient-text", text: "38+" }),
+          dom.create("div", { className: "number gradient-text", text: "42" }),
           dom.create("div", { className: "label", text: "Production Nodes" })
         ]}),
         dom.create("div", { className: "stat-card glass reveal", children: [
