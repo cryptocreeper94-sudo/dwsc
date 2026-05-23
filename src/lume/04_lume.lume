@@ -112,15 +112,15 @@ let lume_highlight = dom.create("section", {
       dom.create("p", { text: "Voice-to-code compilation, English Mode, 7-layer tolerance, and certified-at-birth security. Explore the interactive playground, test dashboard, and vertical applications on the language site." }),
       dom.create("div", { className: "highlight-stats", children: [
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "v1.0.5" }),
+          dom.create("div", { className: "stat-val gradient-text", text: "v1.1.0" }),
           dom.create("div", { className: "stat-lbl", text: "Latest Version" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "154" }),
+          dom.create("div", { className: "stat-val gradient-text", text: "179" }),
           dom.create("div", { className: "stat-lbl", text: "Intent Patterns" })
         ]}),
         dom.create("div", { className: "highlight-stat", children: [
-          dom.create("div", { className: "stat-val gradient-text", text: "529" }),
+          dom.create("div", { className: "stat-val gradient-text", text: "2358" }),
           dom.create("div", { className: "stat-lbl", text: "Test Suites" })
         ]})
       ]}),
