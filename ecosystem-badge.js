@@ -67,7 +67,7 @@
   btn.setAttribute('aria-label', 'Ecosystem Profile');
   btn.textContent = '👤';
   Object.assign(btn.style, {
-    position: 'fixed', top: '14px', right: '16px', zIndex: '9998',
+    position: 'fixed', bottom: '24px', right: '24px', zIndex: '9998',
     width: '38px', height: '38px', borderRadius: '50%',
     border: '2px solid rgba(6,182,212,0.35)',
     background: 'linear-gradient(135deg,rgba(8,10,18,0.92),rgba(8,10,18,0.92))',
