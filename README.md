@@ -1,6 +1,6 @@
 ﻿# DWSC Portal
 
-> $([char]0x1F512) **Patent Pending:** The core deterministic governance capabilities (Lume-V) within this repository are protected under U.S. Provisional Patent Application **No. 64/032,339** (Filed April 7, 2026).
+> 🔒 **Patent Pending:** The core deterministic governance capabilities (Lume-V) within this repository are protected under U.S. Provisional Patent Application **No. 64/032,339** (Filed April 7, 2026).
 
 DarkWave Systems Collective — ecosystem coordination, partner management, and shared infrastructure portal.
 
@@ -15,20 +15,26 @@ This application is registered with **Lume Cortex** — the deterministic meta-o
 | **Cortex Bridge** | `cortex-bridge.js` |
 | **Lume-V Wrapper** | `lume-v.wrapper.lume` |
 | **Ecosystem** | trust-layer-42 (42 apps · 42 papers) |
-| **Cortex Endpoint** | lume-cortex.onrender.com |
+| **Trust Layer Portal** | [trustlayer.tlid.io](https://trustlayer.tlid.io) |
+| **Root Chain** | [chain.tlid.io](https://chain.tlid.io) |
+| **Fractal Proof Verifier** | [trustlayer.tlid.io/verify.html](https://trustlayer.tlid.io/verify.html) |
 
 ## Stack
 
 | Layer | Tech |
 |---|---|
-| React 19 + Vite 7 | | Express + TypeScript | | PostgreSQL (Drizzle ORM) | | Trust Layer SSO | | Render |
+| Frontend | React 19 + Vite 7 |
+| Backend | Express + TypeScript |
+| Database | PostgreSQL (Drizzle ORM) |
+| Auth | Trust Layer SSO |
+| Hosting | Coolify (3 Hetzner VPS servers) |
 
 ## Development
 
-``bash
+```bash
 npm install
 npm run dev
-``
+```
 
 ---
 
@@ -41,5 +47,6 @@ npm run dev
 - U.S. Pat. App. No. 64/047,496 — Lume-X
 - U.S. Pat. App. No. 64/047,536 — Synthetic Organisms
 - U.S. Pat. App. No. 64/056,378 — Meridian Wireless Energy Routing
+- U.S. Pat. App. No. 64/084,465 — DVE / LumeProof
 
 © 2026 DarkWave Studios LLC. All rights reserved.

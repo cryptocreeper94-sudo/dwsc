@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Cortex Bridge — DWSC Portal
  * Trust Layer Ecosystem · Lume-OS Connectivity Module
  * Generated: 2026-04-30 · DarkWave Studios LLC
@@ -18,7 +18,9 @@ const CORTEX_BRIDGE = {
   description: "Ecosystem portal",
 
   // ── Cortex Registration ──
-  cortexEndpoint: "https://lume-cortex.onrender.com",
+  cortexEndpoint: "https://trustlayer.tlid.io",
+  chainEndpoint: "https://chain.tlid.io",
+  verifyEndpoint: "https://trustlayer.tlid.io/verify.html",
   registryVersion: "1.0.0",
   ecosystemId: "trust-layer-42",
 
